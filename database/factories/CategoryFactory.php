@@ -21,6 +21,7 @@ class CategoryFactory extends Factory
             'name' => $this->faker->word(),
             'slug' => $this->faker->slug(),
             'description' => $this->faker->paragraph(2),
+            'thumbnail' => 'https://img-lcwaikiki1.mncdn.com/mnresize/640/-/Resource/Images/Banner/220222-erkekvision.jpg',
             'user_id' => User::factory()
         ];
     }

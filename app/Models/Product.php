@@ -14,6 +14,11 @@ class Product extends Model
         return $this->hasMany(ProductColors::class);
     }
 
+    public function price()
+    {
+        return $this->colors()->first()->price;
+    }
+
     public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Category::class);

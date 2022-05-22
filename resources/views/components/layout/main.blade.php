@@ -33,20 +33,28 @@
 
 </head>
 <body>
+    {{-- Start Navbar --}}
     <x-layout.navbar />
+    {{-- End Navbar --}}
 
+    {{-- Start Content --}}
     {{ $slot }}
-    <!-- ===============================================-->
-    <!--    JavaScripts-->
-    <!-- ===============================================-->
-    <script src="vendors/@popperjs/popper.min.js"></script>
-    <script src="vendors/bootstrap/bootstrap.min.js"></script>
-    <script src="vendors/is/is.min.js"></script>
+    {{-- End Content --}}
+
+    {{-- Start Footer --}}
+    <x-layout.footer />
+    {{-- End Footer --}}
+
+    {{-- Start Java scirpt --}}
+    <script src="js/@popperjs/popper.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/is/is.min.js"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
-    <script src="vendors/feather-icons/feather.min.js"></script>
+    <script src="js/feather-icons/feather.min.js"></script>
     <script>
         feather.replace();
     </script>
     <script src="js/theme.js"></script>
+    {{-- End Java scirpt --}}
 </body>
 </html>

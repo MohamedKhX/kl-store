@@ -11,14 +11,15 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('collections', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
             $table->string('name');
+            $table->string('title');
             $table->string('slug');
-            $table->text('description')->nullable();
+            $table->text('description');
             $table->text('thumbnail');
             $table->timestamps();
         });
@@ -29,8 +30,8 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('collections');
     }
 };
