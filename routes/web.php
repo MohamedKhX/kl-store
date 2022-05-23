@@ -1,8 +1,8 @@
 <?php
-
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductColorsController;
 use App\Http\Controllers\ProductController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,8 +16,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', [PageController::class, 'home']);
 Route::view('/product', 'products.show');
 
 Route::resource('/products', ProductController::class);
 Route::get('/products/{product}/{color}', [ProductController::class, 'show'])->name('product-color');
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';
