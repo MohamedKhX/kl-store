@@ -23,6 +23,7 @@ Route::view('/product', 'products.show');
 Route::resource('/products', ProductController::class);
 Route::get('/products/{product}/{color}', [ProductController::class, 'show'])->name('product-color');
 
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
