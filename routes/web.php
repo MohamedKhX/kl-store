@@ -17,5 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [PageController::class, 'home']);
+Route::view('/product', 'products.show');
 
 Route::resource('/products', ProductController::class);
+Route::get('/products/{product}/{color}', [ProductController::class, 'show'])->name('product-color');

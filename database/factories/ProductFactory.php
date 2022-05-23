@@ -23,6 +23,7 @@ class ProductFactory extends Factory
             'user_id'     => User::factory(),
             'name'        => $this->faker->name(),
             'thumbnail'   => 'https://img-lcwaikiki1.mncdn.com/mnresize/640/-/Resource/Images/Banner/190522-erkek.jpg',
+            'description' => $this->faker->paragraph(3)
         ];
     }
 }

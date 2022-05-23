@@ -18,7 +18,7 @@ class PageController extends Controller
         $newArrivalsCollection = $collections->where('slug', '=', 'new-arrivals')->first();
         $bestSellersCollection = $collections->where('slug', '=', 'best-sellers')->first();
         $exclusiveCollection   = $collections->where('slug', '=', 'exclusive')->first();
-        $otherCollections      = $categories->except([
+        $otherCollections      = $collections->except([
             $bestDealsCollection->id,
             $newArrivalsCollection->id,
             $bestDealsCollection->id,

@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3 d-block" data-navbar-on-scroll="data-navbar-on-scroll">
     <div class="container">
         <a class="navbar-brand d-inline-flex" href="index.html">
-            <img class="d-inline-block" src="img/gallery/logo.png" alt="logo" />
+            <img class="d-inline-block" src="{{ asset('img/gallery/logo.png') }}" alt="logo" />
             <span class="text-1000 fs-0 fw-bold ms-2">Arkan</span>
         </a>
         <div class="d-flex d-lg-none">

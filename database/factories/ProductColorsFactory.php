@@ -24,7 +24,6 @@ class ProductColorsFactory extends Factory
             'name'             => $this->faker->word(),
             'price'            => $this->faker->randomDigitNotZero() * 10,
             'color'            => 'black',
-            'description'      => $this->faker->paragraph(5),
             'sizes'            => json_encode(['S', 'L', 'XL', 'XL']),
             'images'           => json_encode([
                 'https://img-lcwaikiki.mncdn.com/mnresize/1024/-/pim/productimages/20221/5677110/v2/l_20221-s2bk63z8-cvl_a.jpg',

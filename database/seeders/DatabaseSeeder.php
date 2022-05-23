@@ -188,6 +188,22 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
+
+        //take 4 products from database and put them in these collections
+        $products = Product::all()->take(4)->toArray();
+        $collections = array_map(fn($item) => str($item)->lower()->slug(), $collectionIndex);
+        $collections = array_map(function ($item) {
+            return Collection::all()->where('slug', '=', $item);
+        }, $collections);
+
+        foreach ($products as $key => $product) {
+            foreach ($collections as $collection) {
+                $collection->first()->products()->attach($product['id']);
+            }
+
+          //  $collections[$key]->first()->products()->attach($product['id']);
+        }
+
 /*
          $categories = Category::factory(4)->create([
              'user_id' => $user
