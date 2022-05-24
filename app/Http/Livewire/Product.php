@@ -7,11 +7,15 @@ use Livewire\Component;
 class Product extends Component
 {
 
+    public bool $showProduct = false;
+
     public string $identifier;
 
     public int $colorId;
 
     public int $selectedSize = 3;
+
+    protected $listeners = ['SingleProduct', 'unShowProduct'];
 
     public function selectSize($key)
     {
@@ -21,6 +25,19 @@ class Product extends Component
     public function reRender($colorId)
     {
         $this->colorId = $colorId;
+    }
+
+    public function unShowProduct()
+    {
+        $this->showProduct = false;
+    }
+
+    public function SingleProduct(int $id)
+    {
+        $this->colorId = 1;
+        $this->identifier = $id;
+
+        $this->showProduct = true;
     }
 
     public function render($id = null)

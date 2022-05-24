@@ -28,7 +28,7 @@
     {{-- Aplaine JS --}}
     <script src="//unpkg.com/alpinejs" defer></script>
 
-
+    @livewireScripts
     <!-- ===============================================-->
     <!--    Stylesheets-->
     <!-- ===============================================-->

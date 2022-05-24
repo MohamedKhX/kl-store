@@ -25,15 +25,13 @@ class PageController extends Controller
             $exclusiveCollection->id
         ]);
 
-
-
         return view('index')->with([
             'categories'            => $categories,
             'bestDealsCollection'   => $bestDealsCollection,
             'newArrivalsCollection' => $newArrivalsCollection,
             'bestSellersCollection' => $bestSellersCollection,
             'exclusiveCollection'   => $exclusiveCollection,
-            'collections'           => $otherCollections
+            'collections'           => $otherCollections,
         ]);
     }
 

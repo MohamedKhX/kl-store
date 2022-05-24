@@ -1,38 +1,107 @@
 <x-layout.main>
-     <main class="main" id="top">
+    <x-slot name="style">
+        <style>
+            .singleProduct {
+                width: 35rem;
+                border-radius: 5px;
+            }
+
+            .sm-img-active {
+                filter: brightness(100%) !important;
+            }
+
+            .sm-img {
+                border: 2px solid rgba(25, 68, 70, 0.49);
+                width: 8rem;
+                margin-bottom: 2.5rem;
+                cursor: pointer;
+                border-radius: 5px;
+                filter: brightness(70%);
+                transition: all .2s;
+            }
+
+            .sm-img:hover {
+                filter: brightness(100%) !important;
+            }
+
+            .sm-images-box {
+                overflow: scroll;
+                max-height: 45rem;
+            }
+
+            .description {
+                font-size: 1.1rem;
+                text-align: justify;
+            }
+
+            .color-img {
+                filter: brightness(70%);
+                border: 2px solid rgba(0, 0, 0, 0.49);
+                width: 5rem;
+                cursor: pointer;
+                border-radius: 2px;
+                transition: all .2s;
+            }
+
+
+
+            .color-img:hover {
+                filter: brightness(100%) !important;
+            }
+
+
+            .size-square:before {
+                content: " ";
+                position: absolute;
+                z-index: -1;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                border: 3px solid transparent;
+            }
+
+
+            .size-square {
+                position: relative;
+                display: flex;
+                align-items: center;
+                padding: .6rem 1.2rem;
+                border: 1px solid #cacaca;
+                font-weight: bold;
+                color: black;
+                cursor: pointer;
+                transition: all .2s;
+                color: rgba(0,0,0, .9);
+            }
+
+            .size-square:not(:last-child) {
+                margin-right: 1rem;
+            }
+
+            .size-square:hover {
+                border-color: black;
+            }
+
+            .size-square-active:before {
+                color: black;
+                border-color: black;
+            }
+        </style>
+    </x-slot>
+
+    <main class="main" id="top">
 
         {{-- Start Header-Section --}}
             @include('homeLayout._header')
         {{-- End Header-Section --}}
 
 
-         <!-- Button trigger modal -->
-         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-             Launch demo modal
-         </button>
+        {{-- Start Model --}}
+        <livewire:single-product-model />
+        {{-- End Model --}}
 
-         <!-- Modal -->
-         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-             <div class="modal-dialog">
-                 <div class="modal-content">
-                     <div class="modal-header">
-                         <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                     </div>
-                     <div class="modal-body">
-                         <livewire:product :identifier="1" :color-id="1" />
-                     </div>
-                    <div class="modal-footer">
-                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                         <button type="button" class="btn btn-primary">Save changes</button>
-                     </div>
-                 </div>
-             </div>
-         </div>
-
-
-
-         {{-- Start Best-deals-section --}}
+        {{-- Start Best-deals-section --}}
         <section class="py-0">
             <div class="container">
                 <div class="row h-100">
@@ -44,14 +113,14 @@
                             <div class="carousel-inner">
                                 <x-card.careousel-product class="active" data-bs-interval="10000">
                                     @foreach($bestDealsCollection->products as $product)
-                                        <x-card.product :name="$product->name" :img="$product->thumbnail" :price="$product->price() . '$'" oldPrice="50$" />
+                                        <livewire:product-card :product="$product"/>
                                     @endforeach
                                 </x-card.careousel-product>
 
                                 @if($bestDealsCollection->products->count() >= 5)
                                 <x-card.careousel-product data-bs-interval="50300">
                                     @foreach($bestDealsCollection->products as $product)
-                                        <x-card.product :name="$product->name" :img="$product->thumbnail" :price="$product->price() . '$'" oldPrice="50$" />
+                                        <livewire:product-card :product="$product"/>
                                     @endforeach
                                 </x-card.careousel-product>
                                 @endif
@@ -59,7 +128,7 @@
                                 @if($bestDealsCollection->products->count() >= 9)
                                 <x-card.careousel-product data-bs-interval="3000">
                                     @foreach($bestDealsCollection->products as $product)
-                                        <x-card.product :name="$product->name" :img="$product->thumbnail" :price="$product->price() . '$'" oldPrice="50$" />
+                                        <livewire:product-card :product="$product"/>
                                     @endforeach
                                 </x-card.careousel-product>
                                 @endif
@@ -67,7 +136,7 @@
                                 @if($bestDealsCollection->products->count() >= 13)
                                     <x-card.careousel-product>
                                         @foreach($bestDealsCollection->products as $product)
-                                            <x-card.product :name="$product->name" :img="$product->thumbnail" :price="$product->price() . '$'" oldPrice="50$" />
+                                            <livewire:product-card :product="$product"/>
                                         @endforeach
                                     </x-card.careousel-product>
                                 @endif
@@ -82,7 +151,7 @@
                         </div>
                     </div>
                     <div class="col-12 d-flex justify-content-center mt-5">
-                        <a class="btn btn-lg btn-dark" href="#!">View All </a>
+                        <a class="btn btn-lg btn-dark" href="#">View All </a>
                     </div>
                 </div>
             </div>
@@ -129,7 +198,10 @@
                                 <div class="carousel-item active" data-bs-interval="10000">
                                     <div class="row h-100 align-items-center g-2 d-flex justify-content-center">
                                         @foreach($newArrivalsCollection->products->take(4) as $product)
+                                            <livewire:product-card :product="$product" :rectangle="true"/>
+{{--
                                             <x-card.rectangleProduct :name="$product->name" :price="$product->price()" :img="$product->thumbnail"/>
+--}}
                                         @endforeach
                                     </div>
                                 </div>
@@ -175,7 +247,7 @@
                                                  aria-labelledby="pills-{{$category->name}}-tab">
                                                 <div class="row h-100 align-items-center g-2">
                                                     @foreach($category->products->take(4) as $product)
-                                                        <x-card.product :name="$product->name" :price="$product->price()" :img="$product->thumbnail"/>
+                                                        <livewire:product-card :product="$product"/>
                                                     @endforeach
                                                 </div>
                                                 <div class="col-12 d-flex justify-content-center mt-5">
@@ -205,7 +277,7 @@
                     <div class="col-12">
                         <div class="row">
                             @foreach($bestSellersCollection->products->take(4) as $product)
-                                <x-card.product :name="$product->name" :price="$product->price()" :img="$product->thumbnail" old-price="150"/>
+                                <livewire:product-card :product="$product"/>
                             @endforeach
                         </div>
                     </div>
@@ -214,7 +286,7 @@
         </section>
         {{-- End Best sellers Section --}}
 
-         {{-- Start Categories section --}}
+        {{-- Start Categories section --}}
         <section class="py-0" id="outlet">
             <div class="container">
                 <div class="row h-100 g-0">
@@ -241,5 +313,58 @@
         </section>
         {{-- End Categories section --}}
     </main>
+
+    <script>
+
+        const singleProductModel = document.getElementById('singleProduct')
+
+        let thumbnail   = null;
+        let smallImages = null;
+        let sizeBoxes   = null;
+
+
+        singleProductModel.addEventListener('shown.bs.modal', function () {
+
+        })
+
+        singleProductModel.addEventListener('hidden.bs.modal', function () {
+            const model = window.livewire.find(singleProductModel.getAttribute("wire:id"))
+            model.unShowProduct();
+        })
+
+        function load() {
+            thumbnail   = document.querySelector('#thumbnail');
+            smallImages = document.querySelectorAll('.sm-img');
+            sizeBoxes   = document.querySelectorAll('.size-square');
+        }
+
+        const colorSelected = '';
+        const sizeSelected = '';
+        const quantity = '';
+
+        function changeSize(key, box) {
+            for (const box of sizeBoxes) {
+                box.classList.remove('size-square-active');
+            }
+            for (let i = 0; i < sizeBoxes.length; i++) {
+                if(i === key) {
+                    box.classList.add('size-square-active');
+                }
+            }
+        }
+
+        function changeImg(img, el) {
+            unActiveElements();
+            el.classList.add('sm-img-active')
+            thumbnail.src = img;
+        }
+
+        function unActiveElements() {
+            for (const img of smallImages) {
+                img.classList.remove('sm-img-active');
+            }
+        }
+
+    </script>
 </x-layout.main>
 

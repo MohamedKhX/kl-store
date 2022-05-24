@@ -12,8 +12,6 @@
                 <span class="text-primary">{{ $price }}</span>
             </div>
         </div>
-        <a class="stretched-link" href="#"></a>
-        <a class="btn btn-lg btn-dark" href="#!">Add to cart</a>
-
+        {{ isset($link) ? $link : '' }}
     </div>
 </div>

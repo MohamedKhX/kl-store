@@ -5,6 +5,7 @@
         <div class="card-img-overlay bg-dark-gradient d-flex flex-column-reverse">
             <h6 class="text-primary fs-1">${{ $price }}</h6>
             <h4 class="text-light fs-3">{{ $name }}</h4>
-        </div><a class="stretched-link" href="#"></a>
+        </div>
+        {{ isset($link) ? $link : '' }}
     </div>
 </div>
