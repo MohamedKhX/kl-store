@@ -6,11 +6,31 @@ use Livewire\Component;
 
 class Collection extends Component
 {
+    public bool $showCollection = false;
+
+    public int $identifier = 5;
+
+
+    protected $listeners = ['showCollection'];
+
+    public function showCollection(int $id)
+    {
+        $this->identifier = $id;
+    }
+
+    public function unShowCollection()
+    {
+        $this->showCollection = false;
+    }
+
     public function render()
     {
-        $collection = \App\Models\Collection::all()->where('slug', '=', 'best-sellers')->first();
+/*        $collection = \App\Models\Collection::all()->where('slug', '=', 'best-sellers')->first();*/
+        $collection = \App\Models\Collection::all()->find($this->identifier);
+        $products = $collection->products;
         return view('livewire.collection')->with([
-            'products' => $collection->products
+            'collection' => $collection,
+            'products' => $products
         ]);
     }
 }

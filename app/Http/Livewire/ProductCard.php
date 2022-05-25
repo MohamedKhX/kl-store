@@ -9,6 +9,7 @@ class ProductCard extends Component
     public \App\Models\Product $product;
     public bool $rectangle = false;
 
+
     public function showProduct(int $id)
     {
         $this->emit('SingleProduct', $id);

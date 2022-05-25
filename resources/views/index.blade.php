@@ -98,7 +98,12 @@
 
 
         {{-- Start Model --}}
-        <livewire:single-product-model />
+        <div class="modal fade" id="singleProduct" tabindex="-1" aria-labelledby="singleProductLabel" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen">
+                <livewire:single-product-model />
+            </div>
+        </div>
+        <livewire:collection-model />
         {{-- End Model --}}
 
         {{-- Start Best-deals-section --}}
@@ -151,7 +156,7 @@
                         </div>
                     </div>
                     <div class="col-12 d-flex justify-content-center mt-5">
-                        <a class="btn btn-lg btn-dark" href="#">View All </a>
+                        <a class="btn btn-lg btn-dark" href="#" data-bs-toggle="modal" data-bs-target="#CollectionModel">View All</a>
                     </div>
                 </div>
             </div>
@@ -167,17 +172,17 @@
                             <h4 class="text-800">{{ $exclusiveCollection->name }}</h4>
                             <h1 class="fw-semi-bold lh-sm fs-4 fs-lg-5 fs-xl-6">{{ $exclusiveCollection->title }}</h1>
                             <p class="mb-5 fs-1">{{ $exclusiveCollection->description }}</p>
-                            <div class="d-grid gap-2 d-md-block"><a class="btn btn-lg btn-dark" href="#" role="button">Explore</a></div>
+                            <div class="d-grid gap-2 d-md-block"><a class="btn btn-lg btn-dark" href="#"  data-bs-toggle="modal" data-bs-target="#CollectionModel" role="button">Explore</a></div>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <x-card.collection :name="$exclusiveCollection->name" :img="$exclusiveCollection->thumbnail"/>
+                        <livewire:collection-card :collection="$exclusiveCollection" />
                     </div>
                 </div>
                 <div class="row h-100 g-2 py-1 d-flex justify-content-center">
                     @foreach($collections->take(3) as $collection)
                         <div class="col-md-4">
-                            <x-card.collection :name="$collection->name" :img="$collection->thumbnail" />
+                            <livewire:collection-card :collection="$collection" />
                         </div>
                     @endforeach
                 </div>
@@ -199,9 +204,6 @@
                                     <div class="row h-100 align-items-center g-2 d-flex justify-content-center">
                                         @foreach($newArrivalsCollection->products->take(4) as $product)
                                             <livewire:product-card :product="$product" :rectangle="true"/>
-{{--
-                                            <x-card.rectangleProduct :name="$product->name" :price="$product->price()" :img="$product->thumbnail"/>
---}}
                                         @endforeach
                                     </div>
                                 </div>
@@ -324,11 +326,13 @@
 
 
         singleProductModel.addEventListener('shown.bs.modal', function () {
-
+            const model = window.livewire.find(singleProductModel.getAttribute("wire:testx"))
+            console.log(model)
         })
 
         singleProductModel.addEventListener('hidden.bs.modal', function () {
-            const model = window.livewire.find(singleProductModel.getAttribute("wire:id"))
+            const model = window.livewire.find(singleProductModel.getAttribute("wire:testx"))
+            console.log(model)
             model.unShowProduct();
         })
 
@@ -364,7 +368,6 @@
                 img.classList.remove('sm-img-active');
             }
         }
-
     </script>
 </x-layout.main>
 

@@ -7,6 +7,7 @@ use Livewire\Component;
 class SingleProductModel extends Component
 {
     public ?int $identifier = null;
+    public string $collectionModel = 'false';
 
     public function unShowProduct()
     {

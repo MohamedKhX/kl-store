@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3 d-block" data-navbar-on-scroll="data-navbar-on-scroll">
     <div class="container">
-        <a class="navbar-brand d-inline-flex" href="index.html">
+        <a class="navbar-brand d-inline-flex" href="{{ route('home') }}">
             <img class="d-inline-block" src="{{ asset('img/gallery/logo.png') }}" alt="logo" />
             <span class="text-1000 fs-0 fw-bold ms-2">Arkan</span>
         </a>
@@ -13,23 +13,13 @@
         <div class="collapse navbar-collapse border-top border-lg-0 mt-4 mt-lg-0" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item px-2">
-                    <a class="nav-link fw-medium active" aria-current="page" href="#categoryWomen">
+                    <a class="nav-link fw-medium active" aria-current="page" href="{{ route('home') }}">
                         Home
                     </a>
                 </li>
                 <li class="nav-item px-2">
-                    <a class="nav-link fw-medium" href="">
-                        Categories
-                    </a>
-                </li>
-                <li class="nav-item px-2">
-                    <a class="nav-link fw-medium" href="">
+                    <a class="nav-link fw-medium" href="{{ route('faqs') }}">
                         FAQS
-                    </a>
-                </li>
-                <li class="nav-item px-2">
-                    <a class="nav-link fw-medium" href="">
-                        About
                     </a>
                 </li>
             </ul>

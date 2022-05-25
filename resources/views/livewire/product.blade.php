@@ -1,6 +1,7 @@
-<div class="container">
-    @if($showProduct)
-        <div class="row animate__animated animate__fadeIn" x-data x-init="load()">
+<div>
+    <div class="container">
+        @if($showProduct)
+            <div class="row animate__animated animate__fadeIn" x-data x-init="load()">
                 <div class="col-12 col-lg-6">
                     <div class="row">
                         <div class="col-2 d-none d-sm-block">
@@ -57,10 +58,9 @@
                         </div>
                         <div class="mt-3 d-flex justify-content-center d-sm-block color-images-box">
                             @foreach($product->colors as $key => $color)
-                                {{-- href="{{ route('product-color', ['product' => $product, 'color' => $key + 1]) }}" --}}
-                                <a class="{{ $loop->last ? '' : 'me-3' }}" wire:click="reRender({{ $key + 1 }})">
-                                    <img class="img-fluid color-img {{ $key +1 === $colorId ? 'sm-img-active' : '' }}" src="https://img-lcwaikiki.mncdn.com/mnresize/1024/-/pim/productimages/20211/4944599/l_20211-s1ct83z8-j2y_a.jpg" alt="">
-                                </a>
+                                 <a type="button" class="{{ $loop->last ? '' : 'me-3' }}" wire:click="reRender({{ $key + 1 }})">
+                                     <img class="img-fluid color-img {{ $key +1 === $colorId ? 'sm-img-active' : '' }}" src="https://img-lcwaikiki.mncdn.com/mnresize/1024/-/pim/productimages/20211/4944599/l_20211-s1ct83z8-j2y_a.jpg" alt="">
+                                 </a>
                             @endforeach
                         </div>
                     </div>
@@ -81,7 +81,8 @@
                         <button class="btn btn-lg btn-dark w-100 w-md-50">Add to cart</button>
                     </div>
                 </div>
-        </div>
-    @endif
-</div>
+            </div>
+        @endif
+    </div>
 
+</div>

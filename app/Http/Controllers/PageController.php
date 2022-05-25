@@ -37,7 +37,7 @@ class PageController extends Controller
 
     public function faqs()
     {
-
+        return view('faqs');
     }
 
     public function contact()

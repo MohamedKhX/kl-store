@@ -28,7 +28,7 @@
     {{-- Aplaine JS --}}
     <script src="//unpkg.com/alpinejs" defer></script>
 
-    @livewireScripts
+
     <!-- ===============================================-->
     <!--    Stylesheets-->
     <!-- ===============================================-->
@@ -51,15 +51,8 @@
     {{-- End Footer --}}
 
     {{-- Start Java scirpt --}}
-    <script src="{{ asset('js/@popperjs/popper.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('js/is/is.min.js') }}"></script>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
-    <script src="{{ asset('js/feather-icons/feather.min.js') }}"></script>
-    <script>
-        feather.replace();
-    </script>
     <script src="{{ asset('js/theme.js') }}"></script>
-    {{-- End Java scirpt --}}
+    @livewireScripts
 </body>
 </html>
