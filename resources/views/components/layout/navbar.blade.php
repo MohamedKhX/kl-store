@@ -2,7 +2,7 @@
     <div class="container">
         <a class="navbar-brand d-inline-flex" href="{{ route('home') }}">
             <img class="d-inline-block" src="{{ asset('img/gallery/logo.png') }}" alt="logo" />
-            <span class="text-1000 fs-0 fw-bold ms-2">Arkan</span>
+            <span class="text-1000 fs-0 fw-bold ms-2">{{ getSiteName() }}</span>
         </a>
         <div class="d-flex d-lg-none">
             <div class="d-flex me-1" style="margin-top: 6px">

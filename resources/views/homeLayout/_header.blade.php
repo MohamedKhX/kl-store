@@ -7,8 +7,8 @@
         <div class="row flex-center">
             <div class="col-12 mb-9">
                 <div class="d-flex align-items-center flex-column text-center">
-                    <h1 class="mt-11 fw-bold">Arkan Store</h1>
-                    <h1 class="fs-4 fs-lg-8 fs-md-6 fw-normal ">High Quality at cheep price</h1>
+                    <h1 class="mt-11 fw-bold">{{ getStoreTitle() }}</h1>
+                    <h1 class="fs-4 fs-lg-8 fs-md-6 fw-normal ">{{ getStoreDescription() }}</h1>
                 </div>
             </div>
         </div>

@@ -2,6 +2,10 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\CanUserLogin;
+use App\Http\Middleware\CanUserRegister;
+use App\Http\Middleware\IsSiteActive;
+use App\Http\Middleware\MustBeAdmin;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -59,6 +63,10 @@ class Kernel extends HttpKernel
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'admin' => MustBeAdmin::class,
+        'webActive' => IsSiteActive::class,
+        'userRegister' => CanUserRegister::class,
+        'userLogin' => CanUserLogin::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,

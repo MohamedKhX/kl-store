@@ -11,7 +11,7 @@ class PageController extends Controller
 {
     public function home()
     {
-        $categories = Category::all();
+        $categories = Category::all()->where('status', '=', '1');
 
         $collections           = Collection::all();
         $bestDealsCollection   = $collections->where('slug', '=', 'best-deals')->first();
@@ -25,7 +25,7 @@ class PageController extends Controller
             $exclusiveCollection->id
         ]);
 
-        return view('index')->with([
+        return view('home')->with([
             'categories'            => $categories,
             'bestDealsCollection'   => $bestDealsCollection,
             'newArrivalsCollection' => $newArrivalsCollection,

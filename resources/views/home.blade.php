@@ -1,38 +1,373 @@
 <x-layout.main>
-    @foreach($products as $product)
-        <x-panel :title="$product->name">
-            <h2 style="font-weight: bold">Category: <span>{{ $product->category->name }}</span></h2>
-            <div class="d-flex justify-content-center">
-                <img src="{{ $product->thumbnail }}" alt="">
+    <x-slot name="style">
+        <style>
+            .singleProduct {
+                width: 35rem;
+                border-radius: 5px;
+            }
+
+            .sm-img-active {
+                filter: brightness(100%) !important;
+            }
+
+            .sm-img {
+                border: 2px solid rgba(25, 68, 70, 0.49);
+                width: 8rem;
+                margin-bottom: 2.5rem;
+                cursor: pointer;
+                border-radius: 5px;
+                filter: brightness(70%);
+                transition: all .2s;
+            }
+
+            .sm-img:hover {
+                filter: brightness(100%) !important;
+            }
+
+            .sm-images-box {
+                overflow: scroll;
+                max-height: 45rem;
+            }
+
+            .description {
+                font-size: 1.1rem;
+                text-align: justify;
+            }
+
+            .color-img {
+                filter: brightness(70%);
+                border: 2px solid rgba(0, 0, 0, 0.49);
+                width: 5rem;
+                cursor: pointer;
+                border-radius: 2px;
+                transition: all .2s;
+            }
+
+
+
+            .color-img:hover {
+                filter: brightness(100%) !important;
+            }
+
+
+            .size-square:before {
+                content: " ";
+                position: absolute;
+                z-index: -1;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                border: 3px solid transparent;
+            }
+
+
+            .size-square {
+                position: relative;
+                display: flex;
+                align-items: center;
+                padding: .6rem 1.2rem;
+                border: 1px solid #cacaca;
+                font-weight: bold;
+                color: black;
+                cursor: pointer;
+                transition: all .2s;
+                color: rgba(0,0,0, .9);
+            }
+
+            .size-square:not(:last-child) {
+                margin-right: 1rem;
+            }
+
+            .size-square:hover {
+                border-color: black;
+            }
+
+            .size-square-active:before {
+                color: black;
+                border-color: black;
+            }
+        </style>
+    </x-slot>
+
+    <main class="main" id="top">
+
+        {{-- Start Header-Section --}}
+        @include('homeLayout._header')
+        {{-- End Header-Section --}}
+
+
+        {{-- Start Model --}}
+        <div class="modal fade" id="singleProduct" tabindex="-1" aria-labelledby="singleProductLabel" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen">
+                <livewire:single-product-model />
             </div>
+        </div>
+        <livewire:collection-model />
+        {{-- End Model --}}
 
-            <h4 style="font-weight: bold">Colors:</h4>
-            <ul>
-                @foreach($product->colors as $color)
-                    <x-panel :title="$color->color">
-                        <h3 style="font-weight: bold">{{ $color->name }}</h3>
-                        <div>
-                            <h4 style="font-weight: bold">Description</h4>
-                            <p>{{ $color->description }}</p>
-                        </div>
-                        <h4>Price: <span>{{ $color->price }}</span></h4>
-                        <div>
-                            <h4>Sizes: </h4>
-                            <ul>
-                                @foreach($color->sizes as $size)
-                                    <li>{{ $size }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
+        {{-- Start Best-deals-section --}}
+        <section class="py-0">
+            <div class="container">
+                <div class="row h-100">
+                    <div class="col-lg-7 mx-auto text-center mt-7 mb-5">
+                        <h5 class="fw-bold fs-3 fs-lg-5 lh-sm">Best Deals</h5>
+                    </div>
+                    <div class="col-12">
+                        <div class="carousel slide" id="carouselBestDeals" data-bs-touch="false" data-bs-interval="false">
+                            <div class="carousel-inner">
+                                <x-card.careousel-product class="active" data-bs-interval="10000">
+                                    @foreach($bestDealsCollection->products as $product)
+                                        <livewire:product-card :product="$product"/>
+                                    @endforeach
+                                </x-card.careousel-product>
 
-                        <div>
-                            @foreach($color->images as $img)
-                                <img width="200" src="{{ $img }}" alt="">
+                                @if($bestDealsCollection->products->count() >= 5)
+                                    <x-card.careousel-product data-bs-interval="50300">
+                                        @foreach($bestDealsCollection->products as $product)
+                                            <livewire:product-card :product="$product"/>
+                                        @endforeach
+                                    </x-card.careousel-product>
+                                @endif
+
+                                @if($bestDealsCollection->products->count() >= 9)
+                                    <x-card.careousel-product data-bs-interval="3000">
+                                        @foreach($bestDealsCollection->products as $product)
+                                            <livewire:product-card :product="$product"/>
+                                        @endforeach
+                                    </x-card.careousel-product>
+                                @endif
+
+                                @if($bestDealsCollection->products->count() >= 13)
+                                    <x-card.careousel-product>
+                                        @foreach($bestDealsCollection->products as $product)
+                                            <livewire:product-card :product="$product"/>
+                                        @endforeach
+                                    </x-card.careousel-product>
+                                @endif
+
+                                @if($bestDealsCollection->products->count() >= 5)
+                                    <div class="row d-none d-sm-block">
+                                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselBestDeals" data-bs-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="visually-hidden">Previous</span></button>
+                                        <button class="carousel-control-next" type="button" data-bs-target="#carouselBestDeals" data-bs-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="visually-hidden">Next </span></button>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex justify-content-center mt-5">
+                        <a class="btn btn-lg btn-dark" href="#" data-bs-toggle="modal" data-bs-target="#CollectionModel">View All</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {{-- End Best-deals-section --}}
+
+        {{-- Strat Exclusive collection Section --}}
+        <section>
+            <div class="container">
+                <div class="row h-100 g-0">
+                    <div class="col-md-6">
+                        <div class="bg-300 p-4 h-100 d-flex flex-column justify-content-center">
+                            <h4 class="text-800">{{ $exclusiveCollection->name }}</h4>
+                            <h1 class="fw-semi-bold lh-sm fs-4 fs-lg-5 fs-xl-6">{{ $exclusiveCollection->title }}</h1>
+                            <p class="mb-5 fs-1">{{ $exclusiveCollection->description }}</p>
+                            <div class="d-grid gap-2 d-md-block"><a class="btn btn-lg btn-dark" href="#"  data-bs-toggle="modal" data-bs-target="#CollectionModel" role="button">Explore</a></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <livewire:collection-card :collection="$exclusiveCollection" />
+                    </div>
+                </div>
+                <div class="row h-100 g-2 py-1 d-flex justify-content-center">
+                    @foreach($collections->take(3) as $collection)
+                        <div class="col-md-4">
+                            <livewire:collection-card :collection="$collection" />
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+        {{-- End Exclusive collection Section --}}
+
+        {{-- Strat New Arraivels Section --}}
+        <section class="py-0">
+            <div class="container">
+                <div class="row h-100">
+                    <div class="col-lg-7 mx-auto text-center mb-6">
+                        <h5 class="fs-3 fs-lg-5 lh-sm mb-3">Checkout New Arrivals</h5>
+                    </div>
+                    <div class="col-12">
+                        <div class="carousel slide" id="carouselNewArrivals" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active" data-bs-interval="10000">
+                                    <div class="row h-100 align-items-center g-2 d-flex justify-content-center">
+                                        @foreach($newArrivalsCollection->products->take(4) as $product)
+                                            <livewire:product-card :product="$product" :rectangle="true"/>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {{-- End New Arraivels Section --}}
+
+        {{-- Strat Shop by category Section --}}
+        <section>
+            <div class="container">
+                <div class="row h-100">
+                    <div class="col-lg-7 mx-auto text-center mb-6">
+                        <h5 class="fw-bold fs-3 fs-lg-5 lh-sm mb-3">Shop By Category</h5>
+                    </div>
+                    <div class="col-12">
+                        <nav>
+                            <div class="tab-content" id="nav-tabContent">
+                                <div class="tab-pane fade show active" id="nav-men" role="tabpanel" aria-labelledby="nav-men-tab">
+                                    <ul class="nav nav-pills mb-5 justify-content-center" id="pills-tab-men" role="tablist">
+                                        @foreach($categories as $category)
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link {{$loop->first ? 'active' : ''}}"
+                                                        id="pills-{{$category->name}}-tab"
+                                                        data-bs-toggle="pill"
+                                                        data-bs-target="#pills-{{$category->name}}"
+                                                        type="button" role="tab"
+                                                        aria-controls="pills-{{$category->name}}"
+                                                        aria-selected="true">
+                                                    {{ $category->name }}
+                                                </button>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                    <div class="tab-content" id="pills-tabContentMen">
+                                        @foreach($categories as $category)
+                                            <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}"
+                                                 id="pills-{{$category->name}}"
+                                                 role="tabpanel"
+                                                 aria-labelledby="pills-{{$category->name}}-tab">
+                                                <div class="row h-100 align-items-center g-2">
+                                                    @foreach($category->products->take(4) as $product)
+                                                        <livewire:product-card :product="$product"/>
+                                                    @endforeach
+                                                </div>
+                                                <div class="col-12 d-flex justify-content-center mt-5">
+                                                    <a class="btn btn-lg btn-dark" href="#">
+                                                        View All
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {{-- End Shop by category Section --}}
+
+        {{-- Strat Best sellers Section --}}
+        <section>
+            <div class="container">
+                <div class="row h-100">
+                    <div class="col-lg-7 mx-auto text-center mb-6">
+                        <h5 class="fw-bold fs-3 fs-lg-5 lh-sm mb-3">Best Sellers</h5>
+                    </div>
+                    <div class="col-12">
+                        <div class="row">
+                            @foreach($bestSellersCollection->products->take(4) as $product)
+                                <livewire:product-card :product="$product"/>
                             @endforeach
                         </div>
-                    </x-panel>
-                @endforeach
-            </ul>
-        </x-panel>
-    @endforeach
+                    </div>
+                </div>
+            </div>
+        </section>
+        {{-- End Best sellers Section --}}
+
+        {{-- Start Categories section --}}
+        <section class="py-0" id="outlet">
+            <div class="container">
+                <div class="row h-100 g-0">
+                    <div class="col-md-6">
+                        <div class="card card-span h-100 text-white"><img class="card-img h-100" src="img/gallery/summer.png" alt="..." />
+                            <div class="card-img-overlay bg-dark-gradient rounded-0">
+                                <div class="p-5 p-md-2 p-xl-5 d-flex flex-column flex-end-center align-items-baseline h-100">
+                                    <h1 class="fs-md-4 fs-lg-7 text-light">Summer of '21 </h1>
+                                </div>
+                            </div><a class="stretched-link" href="#!"></a>
+                        </div>
+                    </div>
+                    <div class="col-md-6 h-100">
+                        <div class="row h-100 g-0">
+                            @foreach($categories as $category)
+                                <x-card.category :name="$category->name" :img="$category->thumbnail"/>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end of .container-->
+
+        </section>
+        {{-- End Categories section --}}
+    </main>
+
+    <script>
+
+        const singleProductModel = document.getElementById('singleProduct')
+
+        let thumbnail   = null;
+        let smallImages = null;
+        let sizeBoxes   = null;
+
+
+        singleProductModel.addEventListener('shown.bs.modal', function () {
+            const model = window.livewire.find(singleProductModel.getAttribute("wire:testx"))
+            console.log(model)
+        })
+
+        singleProductModel.addEventListener('hidden.bs.modal', function () {
+            const model = window.livewire.find(singleProductModel.getAttribute("wire:testx"))
+            console.log(model)
+            model.unShowProduct();
+        })
+
+        function load() {
+            thumbnail   = document.querySelector('#thumbnail');
+            smallImages = document.querySelectorAll('.sm-img');
+            sizeBoxes   = document.querySelectorAll('.size-square');
+        }
+
+        const colorSelected = '';
+        const sizeSelected = '';
+        const quantity = '';
+
+        function changeSize(key, box) {
+            for (const box of sizeBoxes) {
+                box.classList.remove('size-square-active');
+            }
+            for (let i = 0; i < sizeBoxes.length; i++) {
+                if(i === key) {
+                    box.classList.add('size-square-active');
+                }
+            }
+        }
+
+        function changeImg(img, el) {
+            unActiveElements();
+            el.classList.add('sm-img-active')
+            thumbnail.src = img;
+        }
+
+        function unActiveElements() {
+            for (const img of smallImages) {
+                img.classList.remove('sm-img-active');
+            }
+        }
+    </script>
 </x-layout.main>
+
