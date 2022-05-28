@@ -24,7 +24,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white {{ request()->routeIs('dashboard-products') ? 'active bg-gradient-primary' : '' }}" href="{{ route('dashboard-products') }}">
+                <a class="nav-link text-white {{ request()->routeIs('admin.products.index') ? 'active bg-gradient-primary' : '' }}" href="{{ route('admin.products.index') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">table_view</i>
                     </div>
@@ -32,7 +32,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white {{ request()->routeIs('dashboard-collections') ? 'active bg-gradient-primary' : '' }}" href="{{ route('dashboard-collections') }}">
+                <a class="nav-link text-white {{ request()->routeIs('admin.collections.index') ? 'active bg-gradient-primary' : '' }}" href="{{ route('admin.collections.index') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">collections</i>
                     </div>
@@ -83,7 +83,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white " onclick="logout()">
+                <a style="cursor: pointer" class="nav-link text-white"  onclick="logout()">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">logout</i>
                     </div>

@@ -130,7 +130,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
-                    <form id="deleteForm" method="POST" action="{{ route('categories.destroy', 1) }}">
+                    <form id="deleteForm" method="POST" action="{{ route('admin.categories.destroy', 1) }}">
                         @csrf
                         @method('DELETE')
                         <input type="submit" value="Delete" hidden>

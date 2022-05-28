@@ -21,16 +21,44 @@ Route::middleware('admin')->group(function () {
     Route::post('/dashboard/settings',     [DashboardController::class, 'saveSettings']);
 
     Route::resource('/dashboard/categories', App\Http\Controllers\Admin\CategoryController::class)->names([
-        'index'  => 'admin.categories.index',
-        'create' => 'admin.categories.create',
-        'store'  => 'admin.categories.store',
-        'show'   => 'admin.categories.show',
-        'edit'   => 'admin.categories.edit',
-        'update' => 'admin.categories.update',
+        'index'   => 'admin.categories.index',
+        'create'  => 'admin.categories.create',
+        'store'   => 'admin.categories.store',
+        'show'    => 'admin.categories.show',
+        'edit'    => 'admin.categories.edit',
+        'update'  => 'admin.categories.update',
+        'destroy' => 'admin.categories.destroy'
+    ]);
+    Route::patch('/dashboard/categories/{product}/delete', [App\Http\Controllers\Admin\CategoryController::class, 'deleteProductFromCategory'])
+        ->name('admin.categories.product.delete');
+
+    Route::resource('/dashboard/collections', App\Http\Controllers\Admin\CollectionController::class)->names([
+        'index'   => 'admin.collections.index',
+        'create'  => 'admin.collections.create',
+        'store'   => 'admin.collections.store',
+        'show'    => 'admin.collections.show',
+        'edit'    => 'admin.collections.edit',
+        'update'  => 'admin.collections.update',
+        'destroy' => 'admin.collections.destroy'
+    ]);
+    Route::patch('/dashboard/collections/{collection}/{product}/delete', [App\Http\Controllers\Admin\CollectionController::class, 'deleteProductFromCollection'])
+        ->name('admin.collections.product.delete');
+
+    Route::resource('/dashboard/products', App\Http\Controllers\Admin\ProductController::class)->names([
+        'index'   => 'admin.products.index',
+        'create'  => 'admin.products.create',
+        'store'   => 'admin.products.store',
+        'show'    => 'admin.products.show',
+        'edit'    => 'admin.products.edit',
+        'update'  => 'admin.products.update',
+        'destroy' => 'admin.products.destroy'
     ]);
 
-    Route::get('/dashboard/products',      [DashboardController::class, 'products'])     ->name('dashboard-products');
-    Route::get('/dashboard/collections',   [DashboardController::class, 'collections'])  ->name('dashboard-collections');
+    Route::get('/dashboard/products/{product}/color', [\App\Http\Controllers\Admin\ProductColorController::class, 'create'])
+        ->name('admin.products.color.create');
+    Route::post('/dashboard/products/{product}/color', [\App\Http\Controllers\Admin\ProductColorController::class, 'store'])
+        ->name('admin.products.color.store');
+
     Route::get('/dashboard/orders',        [DashboardController::class, 'orders'])       ->name('dashboard-orders');
     Route::get('/dashboard/notifications', [DashboardController::class, 'notifications'])->name('dashboard-notifications');
     Route::get('/dashboard/profile',       [DashboardController::class, 'profile'])      ->name('dashboard-profile');

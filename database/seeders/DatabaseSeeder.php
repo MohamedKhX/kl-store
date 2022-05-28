@@ -67,6 +67,7 @@ class DatabaseSeeder extends Seeder
         foreach ($collectionIndex as $collection) {
             Collection::factory()->create([
                 'user_id'     => $user,
+                'special'     => true,
                 'name'        => $collection,
                 'title'       => $collection . 'test',
                 'slug'        => str($collection)->lower()->slug(),

@@ -2,7 +2,7 @@
     <div class="container-fluid px-2 px-md-4 mt-5 pt-5">
         <div class="card card-body mx-3 mx-md-4 mt-n6 mt-5">
             @if($errors->any())
-                <div class="alert alert-success text-white pb-1" role="alert">
+                <div class="alert alert-danger text-white pb-1" role="alert">
                     <ul>
                         @foreach($errors->all() as $error)
                             <li> {{ $error }}</li>

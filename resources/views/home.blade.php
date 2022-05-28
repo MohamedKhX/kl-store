@@ -89,7 +89,6 @@
             }
         </style>
     </x-slot>
-
     <main class="main" id="top">
 
         {{-- Start Header-Section --}}

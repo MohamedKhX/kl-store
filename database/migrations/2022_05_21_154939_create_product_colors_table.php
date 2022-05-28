@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('price');
             $table->string('color')->nullable();
+            $table->string('thumbnail');
             $table->json('images')->nullable();
             $table->json('sizes')->nullable();
             $table->timestamps();

@@ -16,7 +16,7 @@ class Product extends Model
 
     public function price()
     {
-        return $this->colors()->first()->price;
+        return $this->colors()->first()->price ?? '0';
     }
 
     public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo

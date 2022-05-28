@@ -17,11 +17,11 @@ class MustBeAdmin
     public function handle(Request $request, Closure $next)
     {
         if(!auth()->user()) {
-            return redirect()->back();
+            return redirect(route('home'));
         }
 
         if(!auth()->user()->role === 'admin') {
-            return redirect()->back();
+            return redirect(route('home'));
         }
 
         return $next($request);

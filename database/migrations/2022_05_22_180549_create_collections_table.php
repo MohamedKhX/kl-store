@@ -16,11 +16,13 @@ return new class extends Migration
         Schema::create('collections', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->string('name');
-            $table->string('title');
+            $table->string('name')->unique();
+            $table->string('title')->nullable();
             $table->string('slug');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->text('thumbnail');
+            $table->boolean('status')->default(true);
+            $table->boolean('special')->default(false);
             $table->timestamps();
         });
     }

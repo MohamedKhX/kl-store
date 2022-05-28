@@ -7,7 +7,7 @@ use Livewire\Component;
 class Product extends Component
 {
 
-    public bool $showProduct = true;
+    public bool $showProduct = false;
 
     public string $identifier;
 

@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class CategoryController extends Controller
 {
@@ -72,7 +74,7 @@ class CategoryController extends Controller
 
         $status = (bool) $request->input('category_status');
 
-        $category              = Category::find($category)->first();
+        $category              = Category::find($category->id);
         $category->user_id     = auth()->user()->id;
         $category->slug        = str($request->input('category_name'))->slug();
         $category->name        = $request->input('category_name');
@@ -80,6 +82,14 @@ class CategoryController extends Controller
         $category->status      = $status;
 
         if($request->file('category_thumbnail')) {
+
+            //Delete old image
+            $oldPath = public_path('storage/' . $category->thumbnail);
+            if(File::exists($oldPath)) {
+                File::delete($oldPath);
+            }
+
+            //store the new one
             $imgPath = $request->file('category_thumbnail')->store('category_thumbnails', 'public');
             $category->thumbnail = $imgPath;
         }
@@ -92,8 +102,21 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
+        $imgPath = public_path('storage/' . $category->thumbnail);
+
+        if(File::exists($imgPath)) {
+            File::delete($imgPath);
+        }
+
         $category->delete();
 
-        return redirect()->back()->with('success', 'Category deleted successfully');
+        return redirect(route('admin.categories.index'))->with('success', 'Category deleted successfully');
+    }
+    public function deleteProductFromCategory(Product $product)
+    {
+        $product->category_id = null;
+        $product->save();
+
+        return redirect()->back()->with('success', 'Product deleted form category successfully');
     }
 }

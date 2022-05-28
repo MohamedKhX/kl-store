@@ -17,13 +17,14 @@ return new class extends Migration
             $table->id();
             $table->foreignId('category_id')->nullable();
             $table->foreignId('user_id');
-            $table->string('website')->nullable();
+            $table->string('websiteScraper')->nullable();
             $table->string('url')->nullable();
             $table->string('name');
             $table->text('thumbnail')->nullable();
             $table->integer('views')->default(0);
             $table->text('description')->nullable();
             $table->integer('unique_views')->default(0);
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }
