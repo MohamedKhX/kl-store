@@ -71,6 +71,7 @@
                         </div>
 
                     </form>
+                    <a href="{{ route('admin.products.index') }}" class="btn btn-primary">That's Enough</a>
                 </div>
             </div>
         </div>

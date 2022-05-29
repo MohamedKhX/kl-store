@@ -288,7 +288,7 @@
         {{-- End Best sellers Section --}}
 
         {{-- Start Categories section --}}
-        <section class="py-0" id="outlet">
+        <section class="py-0" id="categories">
             <div class="container">
                 <div class="row h-100 g-0">
                     <div class="col-md-6">
@@ -322,18 +322,6 @@
         let thumbnail   = null;
         let smallImages = null;
         let sizeBoxes   = null;
-
-
-        singleProductModel.addEventListener('shown.bs.modal', function () {
-            const model = window.livewire.find(singleProductModel.getAttribute("wire:testx"))
-            console.log(model)
-        })
-
-        singleProductModel.addEventListener('hidden.bs.modal', function () {
-            const model = window.livewire.find(singleProductModel.getAttribute("wire:testx"))
-            console.log(model)
-            model.unShowProduct();
-        })
 
         function load() {
             thumbnail   = document.querySelector('#thumbnail');

@@ -6,11 +6,13 @@ use App\Models\Category;
 use App\Models\Collection;
 use App\Models\ProductColors;
 use App\Models\Product;
+use App\WebScrapers\LcwikiScraper;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
+
     /**
      * Seed the application's database.
      *
@@ -18,21 +20,149 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-         $user = \App\Models\User::factory()->create([
-             'name'  => 'Mohamed Elhadi',
-             'email' => 'mohamedElhadi@gmail.com',
-             'password' => bcrypt('adminadmin'),
-             'role'  => 'admin'
-         ]);
+        $user = \App\Models\User::factory()->create([
+            'name'  => 'Mohamed Elhadi',
+            'email' => 'mohamedElhadi@gmail.com',
+            'password' => bcrypt('adminadmin'),
+            'role'  => 'admin'
+        ]);
 
 
-         $categoryClothes = Category::factory()->create([
-             'user_id'   => $user,
-             'name'      => 'Clothes',
-             'thumbnail' => 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170',
-             'slug'      => 'clothes'
-         ]);
+        $categoryClothes = Category::factory()->create([
+            'user_id'   => $user,
+            'name'      => 'Clothes',
+            'thumbnail' => 'storage/category_thumbnails/' . 'clothes.jpg',
+            'slug'      => 'clothes'
+        ]);
+        $categoryPants   = Category::factory()->create([
+            'user_id'   => $user,
+            'name'      => 'Pants',
+            'thumbnail' => 'storage/category_thumbnails/' . 'pants.jpg',
+            'slug'      => 'pants'
+        ]);
+        $categoryShoes   = Category::factory()->create([
+            'user_id'   => $user,
+            'name'      => 'Shoes',
+            'thumbnail' => 'storage/category_thumbnails/' . 'shoes.jpg',
+            'slug'      => 'shoes'
+        ]);
 
+        $collectionSeasons = ['winter', 'summer', 'spring', 'autumn'];
+
+        foreach ($collectionSeasons as $key => $season) {
+            Collection::factory()->create([
+                'user_id'     => $user,
+                'name'        => $season,
+                'title'       => $season . ' season is amazing',
+                'slug'        => $season,
+                'description' => $season . 'is very great! you are not sure about that!',
+                'thumbnail'   => 'storage/collection_thumbnails/' . $key . '.jpg'
+            ]);
+        }
+
+
+
+        $specialCollections = ['Best deals', 'Best Sellers', 'New Arrivals'];
+
+        foreach ($specialCollections as $collection) {
+            Collection::factory()->create([
+                'user_id'     => $user,
+                'special'     => true,
+                'name'        => $collection,
+                'title'       => $collection . 'test',
+                'slug'        => str($collection)->lower()->slug(),
+                'description' => $collection . 'is very great! you are not sure about that!',
+                'thumbnail'   => 'storage/collection_thumbnails/' . 'Ex.jpg',
+            ]);
+        }
+
+
+        Collection::factory()->create([
+            'user_id'     => $user,
+            'special'     => true,
+            'name'        => 'Exclusive Collection',
+            'title'       => 'Exclusive Collection',
+            'slug'        => str('Exclusive')->lower()->slug(),
+            'description' => 'Exclusive',
+            'thumbnail'   => public_path('storage/collection_thumbnails/' . 'Ex.jpg'),
+        ]);
+
+
+        $clothes = [
+            'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Tisort/5642651/2300495',
+            'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Gomlek/5677110/2379584',
+            'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Gomlek/5840056/2372280',
+            'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Pantolon/5889619/2385446',
+            'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Gomlek/5152739/1677974',
+            'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Gomlek/4966620/1570095',
+            'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Gomlek/4966623/1572076',
+            'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Gomlek/5387674/2381092',
+            'https://www.lcwaikiki.com/tr-TR/TR/urun/outlet/LC-WAIKIKI/erkek/Gomlek/5175428/1657014',
+            'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Gomlek/5840074/2390467',
+            'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Gomlek/4960717/1575237',
+            'https://www.lcwaikiki.com/tr-TR/TR/urun/outlet/LC-WAIKIKI/erkek/Pantolon/5103498/1680990',
+            'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Sort/5665796/2374427',
+            'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Gomlek/5840074/2376966',
+            'https://www.lcwaikiki.com/tr-TR/TR/urun/XSIDE/erkek/Gomlek/5786224/2368106',
+            'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Gomlek/5731208/2414786',
+            'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Gomlek/5708750/2328983'
+        ];
+
+        foreach ($clothes as $clothe) {
+            $product = new Product();
+            $product->websiteScraper = 'LC';
+            $product->url            = $clothe;
+            $product->user_id        = $user->id;
+            $product->category_id    = $categoryClothes->id;
+            $product->name           = 'TShirt';
+            $product->description    = 'lorem ispum';
+            $product->save();
+
+            $this->scrapColors(
+                productId: $product->id,
+                uri: $product->url
+            );
+        }
+    }
+
+    public function scrapColors($productId, $uri)
+    {
+        $scraper = new LcwikiScraper();
+        $colors = $scraper->colors($uri);
+
+        foreach ($colors as $color) {
+            $this->createProductColor($color, $productId);
+        }
+    }
+
+    public function createProductColor(array $colorInfo, $productId)
+    {
+        $productColor             = new ProductColors();
+        $productColor->product_id = $productId;
+        $productColor->thumbnail  = $colorInfo['thumbnail'];
+        $productColor->price      = $colorInfo['price'];
+        $productColor->url        = $colorInfo['url'];
+        $productColor->images     = json_encode($colorInfo['images']);
+        $productColor->sizes      = json_encode($colorInfo['sizes']);
+
+        $productColor->save();
+    }
+
+    public function old() {
+        $user = \App\Models\User::factory()->create([
+            'name'  => 'Mohamed Elhadi',
+            'email' => 'mohamedElhadi@gmail.com',
+            'password' => bcrypt('adminadmin'),
+            'role'  => 'admin'
+        ]);
+
+
+        $categoryClothes = Category::factory()->create([
+            'user_id'   => $user,
+            'name'      => 'Clothes',
+            'thumbnail' => 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170',
+            'slug'      => 'clothes'
+        ]);
         $categoryPants = Category::factory()->create([
             'user_id'   => $user,
             'name'      => 'Pants',
@@ -90,8 +220,8 @@ class DatabaseSeeder extends Seeder
         $productShirt = Product::factory()->create([
             'user_id'     => $user,
             'category_id' => $categoryClothes,
-           'name'        => 'Shirt',
-           'thumbnail'   => 'https://img-lcwaikiki.mncdn.com/mnresize/1024/-/pim/productimages/20211/5432595/l_20211-s1ls95z8-kck_a.jpg'
+            'name'        => 'Shirt',
+            'thumbnail'   => 'https://img-lcwaikiki.mncdn.com/mnresize/1024/-/pim/productimages/20211/5432595/l_20211-s1ls95z8-kck_a.jpg'
         ]);
 
         $shirtColors = ['white', 'red', 'blue', 'cyan'];
@@ -203,24 +333,7 @@ class DatabaseSeeder extends Seeder
                 $collection->first()->products()->attach($product['id']);
             }
 
-          //  $collections[$key]->first()->products()->attach($product['id']);
+            //  $collections[$key]->first()->products()->attach($product['id']);
         }
-
-/*
-         $categories = Category::factory(4)->create([
-             'user_id' => $user
-         ]);
-
-         $products = Product::factory(5)->create([
-             'user_id' => $user,
-             'category_id' => $categories[0]
-         ]);
-
-        foreach ($products as $key => $value) {
-            ProductColors::factory(3)->create([
-                'product_id' => $products[$key],
-                'name'       => 'Shirt',
-            ]);
-        }*/
     }
 }

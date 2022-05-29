@@ -17,10 +17,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('product_id');
             $table->string('url')->nullable();
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->string('price');
             $table->string('color')->nullable();
-            $table->string('thumbnail');
+            $table->string('thumbnail')->nullable(); //TODO delete nullable
             $table->json('images')->nullable();
             $table->json('sizes')->nullable();
             $table->timestamps();

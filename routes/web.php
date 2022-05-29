@@ -8,6 +8,8 @@ use App\Http\Controllers\ProductController;
 
 use Illuminate\Support\Facades\Route;
 
+Route::get('/test', [App\Http\Controllers\Admin\ProductController::class, 'scrapColors']);
+
 
 Route::controller(PageController::class)->middleware('webActive')->group(function () {
     Route::get('/', 'home')->name('home');
@@ -53,6 +55,11 @@ Route::middleware('admin')->group(function () {
         'update'  => 'admin.products.update',
         'destroy' => 'admin.products.destroy'
     ]);
+
+    Route::get('/dashboard/product/scrap', [App\Http\Controllers\Admin\ProductController::class, 'scrap'])
+    ->name('admin.products.scrap');
+    Route::post('/dashboard/product/scrap', [App\Http\Controllers\Admin\ProductController::class, 'scrapStore'])
+    ->name('admin.products.scrapStore');
 
     Route::get('/dashboard/products/{product}/color', [\App\Http\Controllers\Admin\ProductColorController::class, 'create'])
         ->name('admin.products.color.create');

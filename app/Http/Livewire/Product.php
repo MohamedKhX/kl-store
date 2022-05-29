@@ -43,11 +43,11 @@ class Product extends Component
     public function render($id = null)
     {
         if(!isset($this->product)) {
-           $product = \App\Models\Product::all()->find($this->identifier);
+           $product = \App\Models\Product::find($this->identifier);
         }
 
-        if(isset($product->colors[+$this->colorId - 1])) {
-            $color  = $product->colors[+$this->colorId - 1];
+        if(isset($product->colors[$this->colorId - 1])) {
+            $color = $product->colors[$this->colorId - 1];
         } else {
             abort(404);
         }

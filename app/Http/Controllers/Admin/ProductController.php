@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductColors;
+use App\WebScrapers\LcwikiScraper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -108,12 +110,67 @@ class ProductController extends Controller
         return redirect(route('admin.products.index'))->with('success', 'Product deleted successfully');
     }
 
-
-    public function deleteProductFromCategory(Product $product)
+    public function scrap()
     {
-        $product->category_id = null;
+        return view('Dashboard.products.scrap')
+            ->with(['categories' => Category::all()]);
+    }
+
+    public function scrapStore(Request $request)
+    {
+        $request->validate([
+            'product_name'       => 'required|max:32',
+            'product_thumbnail'  => 'required|image',
+            'product_website'    => 'required',
+            'product_url'        => 'required'
+        ]);
+
+        $imgPath = $request->file('product_thumbnail')->store('product_thumbnails', 'public');
+        $status = (bool) $request->input('product_status');
+
+        $product = new Product();
+        $product->websiteScraper = $request->input('product_website');
+        $product->url            = $request->input('product_url');
+        $product->user_id        = $request->user()->id;
+        $product->category_id    = $request->input('product_category');
+        $product->name           = $request->input('product_name');
+        $product->description    = $request->input('product_description');
+        $product->status         = $status;
+        $product->thumbnail      = $imgPath;
+
         $product->save();
 
-        return redirect()->back()->with('success', 'Product deleted form category successfully');
+        $this->scrapColors(
+            productId: $product->id,
+            uri: $product->url
+        );
+
+        return redirect(route('admin.products.index'))->with('success', 'Product created successfully');
+    }
+
+    public function scrapColors($productId, $uri)
+    {
+        //'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Gomlek/5677110/2379584'
+
+
+        $scraper = new LcwikiScraper();
+        $colors = $scraper->colors($uri);
+
+        foreach ($colors as $color) {
+            $this->createProductColor($color, $productId);
+        }
+    }
+
+    public function createProductColor(array $colorInfo, $productId)
+    {
+        $productColor             = new ProductColors();
+        $productColor->product_id = $productId;
+        $productColor->thumbnail  = $colorInfo['thumbnail'];
+        $productColor->price      = $colorInfo['price'];
+        $productColor->url        = $colorInfo['url'];
+        $productColor->images     = json_encode($colorInfo['images']);
+        $productColor->sizes      = json_encode($colorInfo['sizes']);
+
+        $productColor->save();
     }
 }

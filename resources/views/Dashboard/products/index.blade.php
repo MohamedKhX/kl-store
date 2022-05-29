@@ -15,7 +15,7 @@
                 </div>
                 <div class="modal-footer">
                     <a href="{{ route('admin.products.create') }}" type="button" class="btn bg-gradient-primary">Custom</a>
-                    <a type="button" class="btn bg-gradient-info">Scrap product</a>
+                    <a href="{{ route('admin.products.scrap') }}" type="button" class="btn bg-gradient-info">Scrap product</a>
                 </div>
             </div>
         </div>
@@ -35,7 +35,7 @@
                     <div class="card">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <a class="d-block blur-shadow-image">
-                                <img src="{{ $product->thumbnail }}" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
+                                <img src="{{ $product->thumbnail() }}" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
                             </a>
                             <div class="colored-shadow" style="background-image: url(&quot;https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg&quot;);"></div>
                         </div>
