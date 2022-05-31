@@ -16,7 +16,7 @@ class ProductController extends Controller
     public function index()
     {
         return view('dashboard.products.index')->with([
-            'products' => Product::paginate(15),
+            'products' => Product::orderBy('created_at', 'desc')->paginate(15),
         ]);
     }
 
@@ -120,12 +120,13 @@ class ProductController extends Controller
     {
         $request->validate([
             'product_name'       => 'required|max:32',
-            'product_thumbnail'  => 'required|image',
+            'product_thumbnail'  => 'image',
             'product_website'    => 'required',
             'product_url'        => 'required'
         ]);
 
-        $imgPath = $request->file('product_thumbnail')->store('product_thumbnails', 'public');
+
+
         $status = (bool) $request->input('product_status');
 
         $product = new Product();
@@ -136,7 +137,11 @@ class ProductController extends Controller
         $product->name           = $request->input('product_name');
         $product->description    = $request->input('product_description');
         $product->status         = $status;
-        $product->thumbnail      = $imgPath;
+
+        if($request->file('product_thumbnail')) {
+            $imgPath = $request->file('product_thumbnail')->store('product_thumbnails', 'public');
+            $product->thumbnail      = $imgPath;
+        }
 
         $product->save();
 

@@ -23,7 +23,7 @@ class Product extends Model
     public function thumbnail()
     {
         if(is_null($this->thumbnail)) {
-            return $this->colors()->first()->images[0];
+            return $this->colors()->first()->images[0] ?? '';
         }
 
         return url('storage/' . $this->thumbnail());

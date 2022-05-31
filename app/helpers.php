@@ -41,3 +41,12 @@ function getAbilityToOrder()
 {
     return app(GeneralSettings::class)->ability_to_order;
 }
+
+
+function getPhoneNumber() {
+    return app(GeneralSettings::class)->store_phone_number;
+}
+
+function getStoreEmail() {
+    return app(GeneralSettings::class)->store_email;
+}

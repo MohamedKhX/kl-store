@@ -28,7 +28,7 @@
                             <div class="card my-5">
                                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                                     <a class="d-block blur-shadow-image" href="">
-                                        <img src="{{ $product->thumbnail }}" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
+                                        <img src="{{ $product->thumbnail() }}" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
                                     </a>
                                     <div class="colored-shadow" style="background-image: url(&quot;https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg&quot;);"></div>
                                 </div>
@@ -61,7 +61,7 @@
                                     <a href=""
                                        onclick="document.getElementById('deleteProductFromCategory').submit();"
                                        class="btn btn-danger font-weight-normal my-auto">
-                                        Delete From Category
+                                        Delete
                                     </a>
                                     <form method="POST"
                                           id="deleteProductFromCategory"

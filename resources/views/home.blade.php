@@ -116,46 +116,15 @@
                         <div class="carousel slide" id="carouselBestDeals" data-bs-touch="false" data-bs-interval="false">
                             <div class="carousel-inner">
                                 <x-card.careousel-product class="active" data-bs-interval="10000">
-                                    @foreach($bestDealsCollection->products as $product)
+                                    @foreach($bestDealsCollection->products->take(4) as $product)
                                         <livewire:product-card :product="$product"/>
                                     @endforeach
                                 </x-card.careousel-product>
-
-                                @if($bestDealsCollection->products->count() >= 5)
-                                    <x-card.careousel-product data-bs-interval="50300">
-                                        @foreach($bestDealsCollection->products as $product)
-                                            <livewire:product-card :product="$product"/>
-                                        @endforeach
-                                    </x-card.careousel-product>
-                                @endif
-
-                                @if($bestDealsCollection->products->count() >= 9)
-                                    <x-card.careousel-product data-bs-interval="3000">
-                                        @foreach($bestDealsCollection->products as $product)
-                                            <livewire:product-card :product="$product"/>
-                                        @endforeach
-                                    </x-card.careousel-product>
-                                @endif
-
-                                @if($bestDealsCollection->products->count() >= 13)
-                                    <x-card.careousel-product>
-                                        @foreach($bestDealsCollection->products as $product)
-                                            <livewire:product-card :product="$product"/>
-                                        @endforeach
-                                    </x-card.careousel-product>
-                                @endif
-
-                                @if($bestDealsCollection->products->count() >= 5)
-                                    <div class="row d-none d-sm-block">
-                                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselBestDeals" data-bs-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="visually-hidden">Previous</span></button>
-                                        <button class="carousel-control-next" type="button" data-bs-target="#carouselBestDeals" data-bs-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="visually-hidden">Next </span></button>
-                                    </div>
-                                @endif
                             </div>
                         </div>
                     </div>
                     <div class="col-12 d-flex justify-content-center mt-5">
-                        <a class="btn btn-lg btn-dark" href="#" data-bs-toggle="modal" data-bs-target="#CollectionModel">View All</a>
+                        <a class="btn btn-lg btn-dark" onclick="changeCollection({{ $bestDealsCollection->id }})" href="" data-bs-toggle="modal" data-bs-target="#CollectionModel">View All</a>
                     </div>
                 </div>
             </div>
@@ -171,7 +140,16 @@
                             <h4 class="text-800">{{ $exclusiveCollection->name }}</h4>
                             <h1 class="fw-semi-bold lh-sm fs-4 fs-lg-5 fs-xl-6">{{ $exclusiveCollection->title }}</h1>
                             <p class="mb-5 fs-1">{{ $exclusiveCollection->description }}</p>
-                            <div class="d-grid gap-2 d-md-block"><a class="btn btn-lg btn-dark" href="#"  data-bs-toggle="modal" data-bs-target="#CollectionModel" role="button">Explore</a></div>
+                            <div class="d-grid gap-2 d-md-block">
+                                <a class="btn btn-lg btn-dark"
+                                   onclick="changeCollection({{ $exclusiveCollection->id }})"
+                                   href=""
+                                   data-bs-toggle="modal"
+                                   data-bs-target="#CollectionModel"
+                                   role="button"
+                                >
+                                    Explore
+                                </a></div>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -292,17 +270,18 @@
             <div class="container">
                 <div class="row h-100 g-0">
                     <div class="col-md-6">
-                        <div class="card card-span h-100 text-white"><img class="card-img h-100" src="img/gallery/summer.png" alt="..." />
+                        <div class="card card-span h-100 text-white">
+                            <img class="card-img h-100" src="{{ url('storage/' . $categories->first()->thumbnail) }}" alt="..." />
                             <div class="card-img-overlay bg-dark-gradient rounded-0">
                                 <div class="p-5 p-md-2 p-xl-5 d-flex flex-column flex-end-center align-items-baseline h-100">
-                                    <h1 class="fs-md-4 fs-lg-7 text-light">Summer of '21 </h1>
+                                    <h1 class="fs-md-4 fs-lg-7 text-light">{{ $categories->first()->name }}</h1>
                                 </div>
                             </div><a class="stretched-link" href="#!"></a>
                         </div>
                     </div>
                     <div class="col-md-6 h-100">
                         <div class="row h-100 g-0">
-                            @foreach($categories as $category)
+                            @foreach($categories->except([1]) as $category)
                                 <x-card.category :name="$category->name" :img="$category->thumbnail"/>
                             @endforeach
                         </div>
@@ -329,18 +308,17 @@
             sizeBoxes   = document.querySelectorAll('.size-square');
         }
 
+        function changeCollection($id) {
+            Livewire.emit('changeCollection', $id);
+        }
+
         const colorSelected = '';
         const sizeSelected = '';
         const quantity = '';
 
-        function changeSize(key, box) {
+        function changeSize(box) {
             for (const box of sizeBoxes) {
                 box.classList.remove('size-square-active');
-            }
-            for (let i = 0; i < sizeBoxes.length; i++) {
-                if(i === key) {
-                    box.classList.add('size-square-active');
-                }
             }
         }
 

@@ -15,5 +15,7 @@ class CreateGeneralSettings extends SettingsMigration
         $this->migrator->add('general.site_name', 'Arkan');
         $this->migrator->add('general.store_title', 'Arkan Store');
         $this->migrator->add('general.store_description', 'High Quality at cheap price');
+        $this->migrator->add('general.store_phone_number', '0910000000');
+        $this->migrator->add('general.store_email', 'arkan@gmail.com');
     }
 }

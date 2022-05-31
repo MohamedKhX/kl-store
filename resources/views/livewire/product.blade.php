@@ -1,8 +1,6 @@
 <div>
     <div class="container">
         @if($showProduct)
-
-
             <div class="row animate__animated animate__fadeIn" x-data x-init="load()">
                 <div class="col-12 col-lg-6">
                     <div class="row">
@@ -40,7 +38,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="col-12 col-lg-6 p-xxl-5 pt-4">
                     <div class="pt-xxl-4">
                         <div class="d-flex align-items-center justify-content-between">
@@ -53,22 +50,58 @@
                         </div>
                     </div>
                     <hr>
-
                     <div class="pt-4">
                         <div class="d-flex align-items-center justify-content-between">
                             <h3>
                                 Color
                             </h3>
                         </div>
-
-                        <div class="d-flex justify-content-center d-sm-block color-images-box">
+                        <div class="d-flex d-sm-none justify-content-center color-images-box">
+                            <div class="row d-flex ">
+                                @if(count($product->colors) === 1)
+                                        @foreach($product->colors as $key => $colorItem)
+                                            <div class="col-12">
+                                                <a type="button" class="{{ $loop->last ? '' : 'me-3' }}" wire:click="reRender({{ $key + 1 }})">
+                                                    <img class="mt-3 img-fluid color-img {{ $key +1 === $colorId ? 'sm-img-active' : '' }}"
+                                                         src="{{ $colorItem->thumbnail }}"
+                                                         alt="">
+                                                </a>
+                                            </div>
+                                        @endforeach
+                                    @endif
+                                @if(count($product->colors) === 2)
+                                    @foreach($product->colors as $key => $colorItem)
+                                        <div class="col-6">
+                                            <a type="button" class="{{ $loop->last ? '' : 'me-3' }}" wire:click="reRender({{ $key + 1 }})">
+                                                <img class="mt-3 img-fluid color-img {{ $key +1 === $colorId ? 'sm-img-active' : '' }}"
+                                                     src="{{ $colorItem->thumbnail }}"
+                                                     alt="">
+                                            </a>
+                                        </div>
+                                    @endforeach
+                                    @endif
+                                @if(count($product->colors) >=  3)
+                                    @foreach($product->colors as $key => $colorItem)
+                                        <div class="col-4">
+                                            <a type="button" class="{{ $loop->last ? '' : 'me-3' }}" wire:click="reRender({{ $key + 1 }})">
+                                                <img class="mt-3 img-fluid color-img {{ $key +1 === $colorId ? 'sm-img-active' : '' }}"
+                                                     src="{{ $colorItem->thumbnail }}"
+                                                     alt="">
+                                            </a>
+                                        </div>
+                                    @endforeach
+                                 @endif
+                            </div>
+                        </div>
+                        <div class="d-none d-sm-flex">
                             @foreach($product->colors as $key => $colorItem)
-                                 <a type="button" class="{{ $loop->last ? '' : 'me-3' }}" wire:click="reRender({{ $key + 1 }})">
-                                     <img class="mt-3  img-fluid color-img {{ $key +1 === $colorId ? 'sm-img-active' : '' }}" src="{{ $colorItem->thumbnail ?? 'https://img-lcwaikiki.mncdn.com/mnresize/1024/-/pim/productimages/20211/4944599/l_20211-s1ct83z8-j2y_a.jpg' }}" alt="">
-                                 </a>
+                                <a type="button" class="{{ $loop->last ? '' : 'me-3' }}" wire:click="reRender({{ $key + 1 }})">
+                                    <img class="mt-3 img-fluid color-img {{ $key +1 === $colorId ? 'sm-img-active' : '' }}"
+                                         src="{{ $colorItem->thumbnail }}"
+                                         alt="">
+                                </a>
                             @endforeach
                         </div>
-
                     </div>
                     <div class="pt-5">
                         <div class="d-flex align-items-center justify-content-between">
@@ -76,40 +109,43 @@
                                 Size
                             </h3>
                         </div>
-                        <div class="row mt-3 d-flex d-md-none justify-content-center justify-content-md-start">
-                            @foreach($color->sizes as $size => $quantity)
-                                @if($quantity <= 0)
-                                    <div class="col-2 me-2 mt-2 d-flex justify-content-center align-items-center">
-                                        <div class="size-square">
-                                            <span class="text-danger">{{ $size }}</span>
-                                        </div>
-                                    </div>
-                                @else
-                                    <div class="col-2 me-2 mt-2 d-flex justify-content-center align-items-center">
-                                        <div class="size-square">
-                                            {{ $size }}
-                                        </div>
-                                    </div>
-                                @endif
-                            @endforeach
-                        </div>
-                        <div x-data="{active: ''}" class="mt-3 d-md-flex d-none justify-content-center justify-content-md-start">
-                            @foreach($color->sizes as $size => $quantity)
+                        @php
+                            $sizes = collect($color->sizes);
+                            $sizes1 = $sizes->take(4);
+                            $sizes2 = $sizes->except(array_keys($sizes1->toArray()));
+                        @endphp
+
+                        <div class="mt-3 d-flex justify-content-center justify-content-md-start">
+                            @foreach($sizes1 as $size => $quantity)
                                 @if($quantity <= 0)
                                     <div class="size-square"
+                                         onclick="changeSize(this)"
                                     >
                                         <span class="text-danger">{{ $size }}</span>
                                     </div>
                                 @else
-                                    <div class="size-square">
+                                    <div class="size-square"
+                                         onclick="changeSize(this)">
                                         {{ $size }}
                                     </div>
                                 @endif
                             @endforeach
                         </div>
-                                {{--
-                                                                <div onclick="changeSize({{ $key }}, this)" class="size-square {{ $key === $selectedSize ? 'size-square-active' : '' }}">{{ $size }}</div>
-                                --}}
+                        <div class="mt-3 d-flex justify-content-center justify-content-md-start">
+                            @foreach($sizes2 as $size => $quantity)
+                                @if($quantity <= 0)
+                                    <div class="size-square"
+                                         onclick="changeSize(this)"
+                                    >
+                                        <span class="text-danger">{{ $size }}</span>
+                                    </div>
+                                @else
+                                    <div class="size-square"
+                                         onclick="changeSize(this)">
+                                        {{ $size }}
+                                    </div>
+                                @endif
+                            @endforeach
                         </div>
                     </div>
                     <div class="pt-5 mt-2 p-lg-4 d-flex justify-content-center">
@@ -119,5 +155,4 @@
             </div>
         @endif
     </div>
-
 </div>

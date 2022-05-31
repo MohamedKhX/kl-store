@@ -13,8 +13,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="row d-flex justify-content-center align-items-center">
+            <div class="row d-flex justify-content-center align-items-center">
                     <div class="col-12 col-xl-8">
                         @if(session()->has('success'))
                             <div class="alert alert-success text-white mb-0" role="alert">
@@ -69,6 +68,23 @@
                                                 <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="app_active">App Active</label>
                                             </div>
                                         </li>
+
+                                        <li class="list-group-item border-0 px-0">
+                                            <label class="form-label">Phone Number</label>
+                                            <div class="input-group input-group-outline my-2">
+                                                <label for="phone_number" class="form-label"></label>
+                                                <input name="phone_number" id="phone_number" type="text" class="form-control" value="{{ $phone_number }}">
+                                            </div>
+                                        </li>
+
+                                        <li class="list-group-item border-0 px-0">
+                                            <label class="form-label">Site Email</label>
+                                            <div class="input-group input-group-outline my-2">
+                                                <label for="site_email" class="form-label"></label>
+                                                <input name="site_email" id="site_email" type="text" class="form-control" value="{{ $site_email }}">
+                                            </div>
+                                        </li>
+
                                         <li class="list-group-item border-0 px-0">
                                             <label class="form-label">Site Name</label>
                                             <div class="input-group input-group-outline my-2">
@@ -98,7 +114,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 </x-layout.Dashboard.main>

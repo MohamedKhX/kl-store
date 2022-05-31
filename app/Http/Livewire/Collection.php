@@ -11,7 +11,12 @@ class Collection extends Component
     public int $identifier = 5;
 
 
-    protected $listeners = ['showCollection'];
+    protected $listeners = ['showCollection', 'changeCollection'];
+
+    public function changeCollection($id)
+    {
+        $this->identifier = $id;
+    }
 
     public function showCollection(int $id)
     {

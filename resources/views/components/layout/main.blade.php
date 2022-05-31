@@ -27,6 +27,7 @@
 
     {{-- Aplaine JS --}}
     <script src="//unpkg.com/alpinejs" defer></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
 
 
     <!-- ===============================================-->
@@ -53,6 +54,10 @@
     {{-- Start Java scirpt --}}
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('js/theme.js') }}"></script>
+    <script>
+        const observer = lozad(); // lazy loads elements with default selector as '.lozad'
+        observer.observe();
+    </script>
     @livewireScripts
 </body>
 </html>

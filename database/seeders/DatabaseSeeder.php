@@ -31,19 +31,19 @@ class DatabaseSeeder extends Seeder
         $categoryClothes = Category::factory()->create([
             'user_id'   => $user,
             'name'      => 'Clothes',
-            'thumbnail' => 'storage/category_thumbnails/' . 'clothes.jpg',
+            'thumbnail' => 'category_thumbnails/' . 'clothes.jpg',
             'slug'      => 'clothes'
         ]);
         $categoryPants   = Category::factory()->create([
             'user_id'   => $user,
             'name'      => 'Pants',
-            'thumbnail' => 'storage/category_thumbnails/' . 'pants.jpg',
+            'thumbnail' => 'category_thumbnails/' . 'pants.jpg',
             'slug'      => 'pants'
         ]);
         $categoryShoes   = Category::factory()->create([
             'user_id'   => $user,
             'name'      => 'Shoes',
-            'thumbnail' => 'storage/category_thumbnails/' . 'shoes.jpg',
+            'thumbnail' => 'category_thumbnails/' . 'shoes.jpg',
             'slug'      => 'shoes'
         ]);
 
@@ -56,23 +56,7 @@ class DatabaseSeeder extends Seeder
                 'title'       => $season . ' season is amazing',
                 'slug'        => $season,
                 'description' => $season . 'is very great! you are not sure about that!',
-                'thumbnail'   => 'storage/collection_thumbnails/' . $key . '.jpg'
-            ]);
-        }
-
-
-
-        $specialCollections = ['Best deals', 'Best Sellers', 'New Arrivals'];
-
-        foreach ($specialCollections as $collection) {
-            Collection::factory()->create([
-                'user_id'     => $user,
-                'special'     => true,
-                'name'        => $collection,
-                'title'       => $collection . 'test',
-                'slug'        => str($collection)->lower()->slug(),
-                'description' => $collection . 'is very great! you are not sure about that!',
-                'thumbnail'   => 'storage/collection_thumbnails/' . 'Ex.jpg',
+                'thumbnail'   => 'collection_thumbnails/' . $key . '.jpg'
             ]);
         }
 
@@ -84,9 +68,23 @@ class DatabaseSeeder extends Seeder
             'title'       => 'Exclusive Collection',
             'slug'        => str('Exclusive')->lower()->slug(),
             'description' => 'Exclusive',
-            'thumbnail'   => public_path('storage/collection_thumbnails/' . 'Ex.jpg'),
+            'thumbnail'   => 'collection_thumbnails/' . 'Ex.jpg',
         ]);
+        $specialCollections = ['Best deals', 'Best Sellers', 'New Arrivals'];
 
+        foreach ($specialCollections as $collection) {
+            $collectionToCreate = Collection::factory()->create([
+                'user_id'     => $user,
+                'special'     => true,
+                'name'        => $collection,
+                'title'       => $collection . 'test',
+                'slug'        => str($collection)->lower()->slug(),
+                'description' => $collection . 'is very great! you are not sure about that!',
+                'thumbnail'   => 'collection_thumbnails/' . 'Ex.jpg',
+            ]);
+
+            $collectionToCreate->products()->attach([rand(1, 15), rand(1, 15), rand(1, 15), rand(1, 15), rand(1, 15)]);
+        }
 
         $clothes = [
             'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Tisort/5642651/2300495',
@@ -123,6 +121,7 @@ class DatabaseSeeder extends Seeder
                 uri: $product->url
             );
         }
+
     }
 
     public function scrapColors($productId, $uri)
