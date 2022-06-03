@@ -1,196 +1,37 @@
 <x-layout.main>
-    <x-slot name="style">
-        <style>
-            .singleProduct {
-                width: 35rem;
-                border-radius: 5px;
-            }
-
-            .sm-img-active {
-                filter: brightness(100%) !important;
-            }
-
-            .sm-img {
-                border: 2px solid rgba(25, 68, 70, 0.49);
-                width: 8rem;
-                margin-bottom: 2.5rem;
-                cursor: pointer;
-                border-radius: 5px;
-                filter: brightness(70%);
-                transition: all .2s;
-            }
-
-            .sm-img:hover {
-                filter: brightness(100%) !important;
-            }
-
-            .sm-images-box {
-                overflow: scroll;
-                max-height: 45rem;
-            }
-
-            .description {
-                font-size: 1.1rem;
-                text-align: justify;
-            }
-
-            .color-img {
-                filter: brightness(70%);
-                border: 2px solid rgba(0, 0, 0, 0.49);
-                width: 5rem;
-                cursor: pointer;
-                border-radius: 2px;
-                transition: all .2s;
-            }
-
-
-
-            .color-img:hover {
-                filter: brightness(100%) !important;
-            }
-
-
-            .size-square:before {
-                content: " ";
-                position: absolute;
-                z-index: -1;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                border: 3px solid transparent;
-            }
-
-
-            .size-square {
-                position: relative;
-                display: flex;
-                align-items: center;
-                padding: .6rem 1.2rem;
-                border: 1px solid #cacaca;
-                font-weight: bold;
-                color: black;
-                cursor: pointer;
-                transition: all .2s;
-                color: rgba(0,0,0, .9);
-            }
-
-            .size-square:not(:last-child) {
-                margin-right: 1rem;
-            }
-
-            .size-square:hover {
-                border-color: black;
-            }
-
-            .size-square-active:before {
-                color: black;
-                border-color: black;
-            }
-        </style>
-    </x-slot>
     <main class="main" id="top">
 
         {{-- Start Header-Section --}}
         @include('homeLayout._header')
         {{-- End Header-Section --}}
 
+        {{-- Cart Model --}}
+        <div class="modal fade" id="CartModel" tabindex="-1" aria-labelledby="CartModelLabel" aria-hidden="true">
+                <div class="modal-dialog modal-fullscreen">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="CartModelLabel">Cart</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <livewire:cart />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close window</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{-- End Cart Model --}}
 
-        {{-- Start Model --}}
+        {{-- Start Models --}}
         <div class="modal fade" id="singleProduct" tabindex="-1" aria-labelledby="singleProductLabel" aria-hidden="true">
             <div class="modal-dialog modal-fullscreen">
                 <livewire:single-product-model />
             </div>
         </div>
         <livewire:collection-model />
-        {{-- End Model --}}
-
-        {{-- Start Best-deals-section --}}
-        <section class="py-0">
-            <div class="container">
-                <div class="row h-100">
-                    <div class="col-lg-7 mx-auto text-center mt-7 mb-5">
-                        <h5 class="fw-bold fs-3 fs-lg-5 lh-sm">Best Deals</h5>
-                    </div>
-                    <div class="col-12">
-                        <div class="carousel slide" id="carouselBestDeals" data-bs-touch="false" data-bs-interval="false">
-                            <div class="carousel-inner">
-                                <x-card.careousel-product class="active" data-bs-interval="10000">
-                                    @foreach($bestDealsCollection->products->take(4) as $product)
-                                        <livewire:product-card :product="$product"/>
-                                    @endforeach
-                                </x-card.careousel-product>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 d-flex justify-content-center mt-5">
-                        <a class="btn btn-lg btn-dark" onclick="changeCollection({{ $bestDealsCollection->id }})" href="" data-bs-toggle="modal" data-bs-target="#CollectionModel">View All</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-        {{-- End Best-deals-section --}}
-
-        {{-- Strat Exclusive collection Section --}}
-        <section>
-            <div class="container">
-                <div class="row h-100 g-0">
-                    <div class="col-md-6">
-                        <div class="bg-300 p-4 h-100 d-flex flex-column justify-content-center">
-                            <h4 class="text-800">{{ $exclusiveCollection->name }}</h4>
-                            <h1 class="fw-semi-bold lh-sm fs-4 fs-lg-5 fs-xl-6">{{ $exclusiveCollection->title }}</h1>
-                            <p class="mb-5 fs-1">{{ $exclusiveCollection->description }}</p>
-                            <div class="d-grid gap-2 d-md-block">
-                                <a class="btn btn-lg btn-dark"
-                                   onclick="changeCollection({{ $exclusiveCollection->id }})"
-                                   href=""
-                                   data-bs-toggle="modal"
-                                   data-bs-target="#CollectionModel"
-                                   role="button"
-                                >
-                                    Explore
-                                </a></div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <livewire:collection-card :collection="$exclusiveCollection" />
-                    </div>
-                </div>
-                <div class="row h-100 g-2 py-1 d-flex justify-content-center">
-                    @foreach($collections->take(3) as $collection)
-                        <div class="col-md-4">
-                            <livewire:collection-card :collection="$collection" />
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </section>
-        {{-- End Exclusive collection Section --}}
-
-        {{-- Strat New Arraivels Section --}}
-        <section class="py-0">
-            <div class="container">
-                <div class="row h-100">
-                    <div class="col-lg-7 mx-auto text-center mb-6">
-                        <h5 class="fs-3 fs-lg-5 lh-sm mb-3">Checkout New Arrivals</h5>
-                    </div>
-                    <div class="col-12">
-                        <div class="carousel slide" id="carouselNewArrivals" data-bs-ride="carousel">
-                            <div class="carousel-inner">
-                                <div class="carousel-item active" data-bs-interval="10000">
-                                    <div class="row h-100 align-items-center g-2 d-flex justify-content-center">
-                                        @foreach($newArrivalsCollection->products->take(4) as $product)
-                                            <livewire:product-card :product="$product" :rectangle="true"/>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        {{-- End New Arraivels Section --}}
+        {{-- End Models --}}
 
         {{-- Strat Shop by category Section --}}
         <section>
@@ -246,6 +87,72 @@
         </section>
         {{-- End Shop by category Section --}}
 
+        {{-- Start Best-deals-section --}}
+        <section class="py-0">
+            <div class="container">
+                <div class="row h-100">
+                    <div class="col-lg-7 mx-auto text-center mt-7 mb-5">
+                        <h5 class="fw-bold fs-3 fs-lg-5 lh-sm">Best Deals</h5>
+                    </div>
+                    <div class="col-12">
+                        <div class="carousel slide" id="carouselBestDeals" data-bs-touch="false" data-bs-interval="false">
+                            <div class="carousel-inner">
+                                <x-card.careousel-product class="active" data-bs-interval="10000">
+                                    @foreach($bestDealsCollection->products->take(4) as $product)
+                                        <livewire:product-card :product="$product"/>
+                                    @endforeach
+                                </x-card.careousel-product>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex justify-content-center mt-5">
+                        <a class="btn btn-lg btn-dark" onclick="changeCollection({{ $bestDealsCollection->id }})" href="" data-bs-toggle="modal" data-bs-target="#CollectionModel">View All</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {{-- End Best-deals-section --}}
+
+        {{-- Strat collections Section --}}
+        <section>
+            <div class="container">
+                <h3 class="pb-3">Collections: </h3>
+                <div class="row h-100 g-2 py-1 d-flex justify-content-center">
+                    @foreach($collections->take(3) as $collection)
+                        <div class="col-md-4">
+                            <livewire:collection-card :collection="$collection" />
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+        {{-- End collections Section --}}
+
+        {{-- Strat New Arraivels Section --}}
+        <section class="py-0">
+            <div class="container">
+                <div class="row h-100">
+                    <div class="col-lg-7 mx-auto text-center mb-6">
+                        <h5 class="fs-3 fs-lg-5 lh-sm mb-3">Checkout New Arrivals</h5>
+                    </div>
+                    <div class="col-12">
+                        <div class="carousel slide" id="carouselNewArrivals" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active" data-bs-interval="10000">
+                                    <div class="row h-100 align-items-center g-2 d-flex justify-content-center">
+                                        @foreach($newArrivalsCollection->products->take(4) as $product)
+                                            <livewire:product-card :product="$product" :rectangle="true"/>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {{-- End New Arraivels Section --}}
+
         {{-- Strat Best sellers Section --}}
         <section>
             <div class="container">
@@ -268,6 +175,7 @@
         {{-- Start Categories section --}}
         <section class="py-0" id="categories">
             <div class="container">
+                <h3 class="pb-3">Categories: </h3>
                 <div class="row h-100 g-0">
                     <div class="col-md-6">
                         <div class="card card-span h-100 text-white">
@@ -293,9 +201,7 @@
         </section>
         {{-- End Categories section --}}
     </main>
-
     <script>
-
         const singleProductModel = document.getElementById('singleProduct')
 
         let thumbnail   = null;
@@ -312,14 +218,11 @@
             Livewire.emit('changeCollection', $id);
         }
 
-        const colorSelected = '';
-        const sizeSelected = '';
-        const quantity = '';
-
-        function changeSize(box) {
+        function changeSize(currentBox) {
             for (const box of sizeBoxes) {
                 box.classList.remove('size-square-active');
             }
+            currentBox.classList.add('size-square-active')
         }
 
         function changeImg(img, el) {

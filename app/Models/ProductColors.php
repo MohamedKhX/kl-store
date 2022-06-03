@@ -22,6 +22,13 @@ class ProductColors extends Model
         );
     }
 
+    public function price(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => (round(((int) $value * 0.29) / 5) * 5) . ' LYD',
+        );
+    }
+
     public function images(): Attribute
     {
         return Attribute::make(

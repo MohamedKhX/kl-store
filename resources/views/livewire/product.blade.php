@@ -1,7 +1,7 @@
 <div>
     <div class="container">
         @if($showProduct)
-            <div class="row animate__animated animate__fadeIn" x-data x-init="load()">
+            <div class="row animate__animated animate__fadeIn" x-data="{currentSize: @entangle('sizeSelected')}" x-init="load()">
                 <div class="col-12 col-lg-6">
                     <div class="row">
                         <div class="col-2 d-none d-sm-block">
@@ -43,7 +43,7 @@
                         <div class="d-flex align-items-center justify-content-between">
                             <h2>{{ $product->name }}</h2>
 
-                            <h5>{{ $color->price }}$</h5>
+                            <h5>{{ $color->price }}</h5>
                         </div>
                         <div>
                             <p class="description">{{ $product->description }}</p>
@@ -119,13 +119,15 @@
                             @foreach($sizes1 as $size => $quantity)
                                 @if($quantity <= 0)
                                     <div class="size-square"
-                                         onclick="changeSize(this)"
+                                         x-init="currentSize == '{{ $size }}' ? currentSize = null : null"
                                     >
                                         <span class="text-danger">{{ $size }}</span>
                                     </div>
                                 @else
-                                    <div class="size-square"
-                                         onclick="changeSize(this)">
+                                    <div class="size-square {{ $sizeSelected == $size ? 'size-square-active' : null }}"
+                                         @click="currentSize = '{{ $size }}'"
+                                         onclick="changeSize(this)"
+                                    >
                                         {{ $size }}
                                     </div>
                                 @endif
@@ -135,21 +137,30 @@
                             @foreach($sizes2 as $size => $quantity)
                                 @if($quantity <= 0)
                                     <div class="size-square"
-                                         onclick="changeSize(this)"
+                                         x-init="currentSize == '{{ $size }}' ? currentSize = null : null"
                                     >
                                         <span class="text-danger">{{ $size }}</span>
                                     </div>
                                 @else
-                                    <div class="size-square"
-                                         onclick="changeSize(this)">
+                                    <div class="size-square {{ $sizeSelected == $size ? 'size-square-active' : null }}"
+                                         @click="currentSize = '{{ $size }}'"
+                                         onclick="changeSize(this)"
+                                    >
                                         {{ $size }}
                                     </div>
                                 @endif
                             @endforeach
                         </div>
                     </div>
-                    <div class="pt-5 mt-2 p-lg-4 d-flex justify-content-center">
-                        <button class="btn btn-lg btn-dark w-100 w-md-50">Add to cart</button>
+                    @if($showAlert === true)
+                        <div class="pt-4">
+                            <div class="alert alert-{{ $alertType }} d-flex flex-column flex-sm-row justify-content-between" role="alert">
+                                {!! $alertMessage !!}
+                            </div>
+                        </div>
+                    @endif
+                    <div class="pt-4 mt-2 p-lg-4 d-flex justify-content-center">
+                        <button wire:click="addToCart({{$product}})" class="btn btn-lg btn-dark w-100 w-md-50">Add to cart</button>
                     </div>
                 </div>
             </div>

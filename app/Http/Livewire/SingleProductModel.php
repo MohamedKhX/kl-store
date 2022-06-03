@@ -3,7 +3,7 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
-
+use \Gloudemans\Shoppingcart\Facades\Cart;
 class SingleProductModel extends Component
 {
     public ?int $identifier = null;
@@ -18,4 +18,6 @@ class SingleProductModel extends Component
     {
         return view('livewire.single-product-model');
     }
+
+
 }

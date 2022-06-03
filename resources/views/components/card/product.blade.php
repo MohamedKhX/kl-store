@@ -8,9 +8,9 @@
             <h5 class="fw-bold text-1000 text-truncate">{{ $name }}</h5>
             <div class="fw-bold">
                 @if($oldPrice)
-                    <span class="text-600 me-2 text-decoration-line-through">{{ $oldPrice }}</span>
+                    <span class="me-2 text-danger text-decoration-line-through">{{ $oldPrice }}</span>
                 @endif
-                <span class="text-primary">{{ $price }}</span>
+                <span class="text-800">{{ $price }}</span>
             </div>
         </div>
         {{ isset($link) ? $link : '' }}

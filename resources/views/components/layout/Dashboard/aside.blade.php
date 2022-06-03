@@ -48,19 +48,11 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white {{ request()->routeIs('dashboard-orders') ? 'active bg-gradient-primary' : '' }}" href="{{ route('dashboard-orders') }}">
+                <a class="nav-link text-white {{ request()->routeIs('admin.orders.index') ? 'active bg-gradient-primary' : '' }}" href="{{ route('admin.orders.index') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">receipt_long</i>
                     </div>
                     <span class="nav-link-text ms-1">Orders</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white {{ request()->routeIs('dashboard-notifications') ? 'active bg-gradient-primary' : '' }}" href="{{ route('dashboard-notifications') }}">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">notifications</i>
-                    </div>
-                    <span class="nav-link-text ms-1">Notifications</span>
                 </a>
             </li>
             <li class="nav-item mt-3">

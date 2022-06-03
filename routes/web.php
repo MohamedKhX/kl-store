@@ -6,9 +6,8 @@ use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
 
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Route;
-
-Route::get('/test', [App\Http\Controllers\Admin\ProductController::class, 'scrapColors']);
 
 
 Route::controller(PageController::class)->middleware('webActive')->group(function () {
@@ -66,8 +65,16 @@ Route::middleware('admin')->group(function () {
     Route::post('/dashboard/products/{product}/color', [\App\Http\Controllers\Admin\ProductColorController::class, 'store'])
         ->name('admin.products.color.store');
 
-    Route::get('/dashboard/orders',        [DashboardController::class, 'orders'])       ->name('dashboard-orders');
-    Route::get('/dashboard/notifications', [DashboardController::class, 'notifications'])->name('dashboard-notifications');
+    Route::resource('/dashboard/orders', \App\Http\Controllers\Admin\OrderController::class)->names([
+       'index'   => 'admin.orders.index',
+       'show'    => 'admin.orders.show',
+       'create'  => 'admin.orders.create',
+       'store'   => 'admin.orders.store',
+       'edit'    => 'admin.orders.edit',
+       'update'  => 'admin.orders.update',
+       'destroy' => 'admin.orders.destroy',
+    ]);
+
     Route::get('/dashboard/profile',       [DashboardController::class, 'profile'])      ->name('dashboard-profile');
     Route::get('/dashboard/accounts',      [DashboardController::class, 'accounts'])     ->name('dashboard-accounts');
 });
