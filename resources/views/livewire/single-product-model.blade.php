@@ -5,7 +5,7 @@
     </div>
     <div class="modal-body">
         <div>
-            <livewire:product :identifier="1" :color-id="1" />
+            <livewire:product />
         </div>
     </div>
     <div class="modal-footer">

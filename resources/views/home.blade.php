@@ -24,14 +24,29 @@
             </div>
         {{-- End Cart Model --}}
 
-        {{-- Start Models --}}
+        {{-- Single Product Model --}}
         <div class="modal fade" id="singleProduct" tabindex="-1" aria-labelledby="singleProductLabel" aria-hidden="true">
             <div class="modal-dialog modal-fullscreen">
                 <livewire:single-product-model />
             </div>
         </div>
-        <livewire:collection-model />
-        {{-- End Models --}}
+        {{-- End Single Product Model --}}
+
+        {{-- Start Collection Model --}}
+        <div class="modal fade" id="CollectionModel" tabindex="-1" aria-labelledby="CollectionModelLabel" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen">
+               <livewire:collection-model />
+            </div>
+        </div>
+        {{-- End Collection Model --}}
+
+        {{-- Start Category Model --}}
+        <div class="modal fade" id="CategoryModel" tabindex="-1" aria-labelledby="CategoryModelLabel" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen">
+                <livewire:category-model />
+            </div>
+        </div>
+        {{-- End Category Model --}}
 
         {{-- Strat Shop by category Section --}}
         <section>
@@ -65,13 +80,15 @@
                                                  id="pills-{{$category->name}}"
                                                  role="tabpanel"
                                                  aria-labelledby="pills-{{$category->name}}-tab">
-                                                <div class="row h-100 align-items-center g-2">
+                                                <div class="row h-100 align-items-center g-2 d-flex justify-content-center">
                                                     @foreach($category->products->take(4) as $product)
                                                         <livewire:product-card :product="$product"/>
                                                     @endforeach
                                                 </div>
                                                 <div class="col-12 d-flex justify-content-center mt-5">
-                                                    <a class="btn btn-lg btn-dark" href="#">
+                                                    <a class="btn btn-lg btn-dark" href="#"
+                                                       onclick="showCategory({{ $category->id }})"
+                                                       data-bs-toggle="modal" data-bs-target="#CategoryModel">
                                                         View All
                                                     </a>
                                                 </div>
@@ -106,7 +123,7 @@
                         </div>
                     </div>
                     <div class="col-12 d-flex justify-content-center mt-5">
-                        <a class="btn btn-lg btn-dark" onclick="changeCollection({{ $bestDealsCollection->id }})" href="" data-bs-toggle="modal" data-bs-target="#CollectionModel">View All</a>
+                        <a class="btn btn-lg btn-dark" onclick="showCollection({{ $bestDealsCollection->id }})" href="" data-bs-toggle="modal" data-bs-target="#CollectionModel">View All</a>
                     </div>
                 </div>
             </div>
@@ -176,26 +193,17 @@
         <section class="py-0" id="categories">
             <div class="container">
                 <h3 class="pb-3">Categories: </h3>
-                <div class="row h-100 g-0">
-                    <div class="col-md-6">
-                        <div class="card card-span h-100 text-white">
-                            <img class="card-img h-100" src="{{ url('storage/' . $categories->first()->thumbnail) }}" alt="..." />
-                            <div class="card-img-overlay bg-dark-gradient rounded-0">
-                                <div class="p-5 p-md-2 p-xl-5 d-flex flex-column flex-end-center align-items-baseline h-100">
-                                    <h1 class="fs-md-4 fs-lg-7 text-light">{{ $categories->first()->name }}</h1>
-                                </div>
-                            </div><a class="stretched-link" href="#!"></a>
-                        </div>
-                    </div>
-                    <div class="col-md-6 h-100">
-                        <div class="row h-100 g-0">
-                            @foreach($categories->except([1]) as $category)
-                                <x-card.category :name="$category->name" :img="$category->thumbnail"/>
+                <div class="row h-100 g-0 d-flex justify-content-center">
+                    <div class="col-md-12 h-100">
+                        <div class="row h-100 g-0 d-flex justify-content-center">
+                            @foreach($categories as $category)
+                                <livewire:category-card :category="$category" />
                             @endforeach
                         </div>
                     </div>
                 </div>
             </div>
+
             <!-- end of .container-->
 
         </section>
@@ -214,8 +222,12 @@
             sizeBoxes   = document.querySelectorAll('.size-square');
         }
 
-        function changeCollection($id) {
-            Livewire.emit('changeCollection', $id);
+        function showCollection($id) {
+            Livewire.emit('showCollection', $id);
+        }
+
+        function showCategory($id) {
+            Livewire.emit('showCategory', $id);
         }
 
         function changeSize(currentBox) {

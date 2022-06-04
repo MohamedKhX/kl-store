@@ -22598,7 +22598,7 @@ ul {
   background: rgba(0, 0, 0, 0.4);
 }
 .bg-holder.overlay-light:before {
-  background: rgba(255, 255, 255, 0.61);
+  background: rgba(255, 255, 255, 0.75);
 }
 .bg-holder .bg-video {
   position: absolute;

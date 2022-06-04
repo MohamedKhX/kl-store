@@ -7,20 +7,17 @@ use Livewire\Component;
 class Collection extends Component
 {
     public bool $showCollection = false;
+    public int  $identifier     = 5;
+    protected   $listeners      = ['showCollection', 'unShowCollection'];
 
-    public int $identifier = 5;
-
-
-    protected $listeners = ['showCollection', 'changeCollection'];
-
-    public function changeCollection($id)
-    {
-        $this->identifier = $id;
-    }
+    public $collection;
 
     public function showCollection(int $id)
     {
         $this->identifier = $id;
+        $this->collection = \App\Models\Collection::all()->find($this->identifier);
+
+        $this->showCollection = true;
     }
 
     public function unShowCollection()
@@ -30,12 +27,8 @@ class Collection extends Component
 
     public function render()
     {
-/*        $collection = \App\Models\Collection::all()->where('slug', '=', 'best-sellers')->first();*/
-        $collection = \App\Models\Collection::all()->find($this->identifier);
-        $products = $collection->products;
-        return view('livewire.collection')->with([
-            'collection' => $collection,
-            'products' => $products
-        ]);
+        $this->collection = \App\Models\Collection::all()->find($this->identifier);
+
+        return view('livewire.collection');
     }
 }

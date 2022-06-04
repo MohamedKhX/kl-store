@@ -212,7 +212,7 @@
         </div>
     </div>
 
-    <!-- Delete Model -->
+    {{-- Start Delete Model --}}
     <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -242,6 +242,7 @@
             </div>
         </div>
     </div>
+    {{-- End Delete Model --}}
 
     @push('scripts')
         <script>

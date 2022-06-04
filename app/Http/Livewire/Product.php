@@ -25,8 +25,23 @@ class Product extends Component
     public int     $colorId;
     public ?string $sizeSelected = null;
 
-    protected $listeners = ['SingleProduct', 'unShowProduct'];
+    protected $listeners = ['SingleProduct', 'unShowProduct', 'showProductFromCategory'];
 
+    public function mount()
+    {
+        $this->identifier = \App\Models\Product::first()->id;
+        $this->colorId = 1;
+    }
+
+    public function showProductFromCategory($id)
+    {
+        $this->colorId = 1;
+        $this->identifier = $id;
+        $this->sizeSelected = null;
+        $this->unShowAlert();
+
+        $this->showProduct = true;
+    }
 
     protected function showAlert(string $message, string $alertType = 'danger')
     {

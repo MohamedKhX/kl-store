@@ -17,6 +17,11 @@ class CartItem extends Component
        $this->emit('updateCart');
     }
 
+    public function deleteItemFromCart($rowId)
+    {
+        $this->emit('deleteItemFromCart', $rowId);
+    }
+
     public function render()
     {
         $item       = \Gloudemans\Shoppingcart\Facades\Cart::get($this->rowId);

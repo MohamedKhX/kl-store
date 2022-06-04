@@ -29,7 +29,7 @@
                 <div class="col-12">
                     <div class="d-flex justify-content-between">
                         <div class="input-group align-items-center">
-                            <input type="number" step="1" min="1" max="5" wire:model="qty" name="quantity" class="quantity-field border-0 text-center w-25">
+                            <input onKeyDown="return false" type="number" step="1" min="1" max="5" wire:model="qty" name="quantity" class="quantity-field border-0 text-center w-25">
                         </div>
                     </div>
                 </div>
@@ -52,16 +52,20 @@
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item d-flex justify-content-between">
-                <div><strong>Price :</strong> </div>
+                <div>
+                    <strong>Price :</strong>
+                </div>
                 <span>
-                                    <strong>{{ $item->price }} LYD</strong>
-                                </span>
+                    <strong>{{ $item->price }} LYD</strong>
+                </span>
             </li>
             <li class="list-group-item d-flex justify-content-between">
-                <div><strong>Size :</strong> </div>
+                <div>
+                    <strong>Size :</strong>
+                </div>
                 <span>
-                                    <strong>{{ $item->options->size }}</strong>
-                                </span>
+                    <strong>{{ $item->options->size }}</strong>
+                </span>
             </li>
             <li class="list-group-item d-flex justify-content-between">
                 <div>

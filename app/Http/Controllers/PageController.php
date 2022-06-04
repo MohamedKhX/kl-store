@@ -17,12 +17,10 @@ class PageController extends Controller
         $bestDealsCollection   = $collections->where('slug', '=', 'best-deals')->first();
         $newArrivalsCollection = $collections->where('slug', '=', 'new-arrivals')->first();
         $bestSellersCollection = $collections->where('slug', '=', 'best-sellers')->first();
-        $exclusiveCollection   = $collections->where('slug', '=', 'exclusive')->first();
         $otherCollections      = $collections->except([
             $bestDealsCollection->id,
             $newArrivalsCollection->id,
             $bestDealsCollection->id,
-            $exclusiveCollection->id
         ]);
 
         return view('home')->with([
@@ -30,7 +28,6 @@ class PageController extends Controller
             'bestDealsCollection'   => $bestDealsCollection,
             'newArrivalsCollection' => $newArrivalsCollection,
             'bestSellersCollection' => $bestSellersCollection,
-            'exclusiveCollection'   => $exclusiveCollection,
             'collections'           => $otherCollections,
         ]);
     }
