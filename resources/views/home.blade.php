@@ -81,7 +81,7 @@
                                                  role="tabpanel"
                                                  aria-labelledby="pills-{{$category->slug}}-tab">
                                                 <div class="d-flex justify-content-center">
-                                                    <p class="text-center">
+                                                    <p class="text-center fs-1">
                                                         {{ $category->description }}
                                                     </p>
                                                 </div>
