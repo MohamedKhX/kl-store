@@ -63,11 +63,11 @@
                                         @foreach($categories as $category)
                                             <li class="nav-item" role="presentation">
                                                 <button class="nav-link {{$loop->first ? 'active' : ''}}"
-                                                        id="pills-{{$category->name}}-tab"
+                                                        id="pills-{{$category->slug}}-tab"
                                                         data-bs-toggle="pill"
-                                                        data-bs-target="#pills-{{$category->name}}"
+                                                        data-bs-target="#pills-{{$category->slug}}"
                                                         type="button" role="tab"
-                                                        aria-controls="pills-{{$category->name}}"
+                                                        aria-controls="pills-{{$category->slug}}"
                                                         aria-selected="true">
                                                     {{ $category->name }}
                                                 </button>
@@ -77,9 +77,14 @@
                                     <div class="tab-content" id="pills-tabContentMen">
                                         @foreach($categories as $category)
                                             <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}"
-                                                 id="pills-{{$category->name}}"
+                                                 id="pills-{{$category->slug}}"
                                                  role="tabpanel"
-                                                 aria-labelledby="pills-{{$category->name}}-tab">
+                                                 aria-labelledby="pills-{{$category->slug}}-tab">
+                                                <div class="d-flex justify-content-center">
+                                                    <p class="text-center">
+                                                        {{ $category->description }}
+                                                    </p>
+                                                </div>
                                                 <div class="row h-100 align-items-center g-2 d-flex justify-content-center">
                                                     @foreach($category->products->take(4) as $product)
                                                         <livewire:product-card :product="$product"/>
