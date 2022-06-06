@@ -67,4 +67,25 @@ class Cart extends Component
     {
         $this->emit('SingleProduct', $id);
     }
+
+    public function increment($rowId)
+    {
+        if($this->qtys[$rowId] >= 5) {
+           return;
+        }
+        $this->qtys[$rowId]  += 1;
+        $this->updatedQtys();
+    }
+
+
+    public function decrement($rowId)
+    {
+        if ($this->qtys[$rowId] <= 1) {
+            return;
+        }
+        $this->qtys[$rowId] -= 1;
+        $this->updatedQtys();
+
+    }
+
 }

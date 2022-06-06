@@ -34,9 +34,7 @@
     <!--    Stylesheets-->
     <!-- ===============================================-->
     <link href="{{ asset('/css/theme.css') }}" rel="stylesheet" />
-    @if(isset($style))
-        {{ $style }}
-    @endif
+    @stack('styles')
 </head>
 <body>
     {{-- Start Navbar --}}

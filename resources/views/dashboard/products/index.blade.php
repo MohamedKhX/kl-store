@@ -74,9 +74,9 @@
                                 >
                                     <i class="material-icons text-lg">delete</i>
                                 </a>
-                                <button class="btn btn-link text-info me-auto border-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Edit">
+                                <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-link text-info me-auto border-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Edit">
                                     <i class="material-icons text-lg">edit</i>
-                                </button>
+                                </a>
                             </div>
                             <h5 class="font-weight-normal mt-0">
                                 <a href="javascript:;">{{ $product->name }}</a>

@@ -26,7 +26,7 @@ class Product extends Model
             return $this->colors()->first()->images[0] ?? '';
         }
 
-        return url('storage/' . $this->thumbnail());
+        return url('storage/' . $this->thumbnail);
     }
 
     public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo

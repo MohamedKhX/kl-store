@@ -50,3 +50,8 @@ function getPhoneNumber() {
 function getStoreEmail() {
     return app(GeneralSettings::class)->store_email;
 }
+
+
+function getStoreThumbnail() {
+    return app(GeneralSettings::class)->store_thumbnail;
+}

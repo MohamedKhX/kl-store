@@ -100,6 +100,13 @@
                                             </div>
                                         </li>
                                         <li class="list-group-item border-0 px-0">
+                                            <label class="form-label">Store Thumbnail</label>
+                                            <div class="input-group input-group-outline my-2">
+                                                <label for="store_thumbnail" class="form-label"></label>
+                                                <input name="store_thumbnail" id="store_thumbnail" type="text" class="form-control" value="{{ $store_thumbnail }}">
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item border-0 px-0">
                                             <label for="store_description" class="form-label">Store Description</label>
                                             <div class="input-group input-group-outline my-2">
                                                 <textarea name="store_description" id="store_description" cols="30" rows="4" class="form-control">{{ $store_description }}</textarea>

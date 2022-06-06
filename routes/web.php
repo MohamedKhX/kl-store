@@ -65,6 +65,11 @@ Route::middleware('admin')->group(function () {
     Route::post('/dashboard/products/{product}/color', [\App\Http\Controllers\Admin\ProductColorController::class, 'store'])
         ->name('admin.products.color.store');
 
+    Route::get('/dashboard/products/{product}/{colorId}', [\App\Http\Controllers\Admin\ProductColorController::class, 'edit'])
+        ->name('admin.products.color.edit');
+    Route::post('/dashboard/products/{product}/{colorId}', [\App\Http\Controllers\Admin\ProductColorController::class, 'update'])
+        ->name('admin.products.color.update');
+
     Route::resource('/dashboard/orders', \App\Http\Controllers\Admin\OrderController::class)->names([
        'index'   => 'admin.orders.index',
        'show'    => 'admin.orders.show',

@@ -4,6 +4,7 @@ namespace App\WebScrapers;
 
 use App\WebScrapers\Contracts\ScraperInterface;
 use Goutte\Client;
+use function PHPUnit\Framework\stringContains;
 
 class LcwikiScraper
 {
@@ -14,6 +15,10 @@ class LcwikiScraper
 
 
         $colors = $crawler->filter('.color-option')->each(function ($node) use($uri) {
+            if(str_contains($node->attr('class'), 'disabled')) {
+                return null;
+            }
+
             $nodeUrl = $node->attr('href');
 
             if(str_contains($nodeUrl, 'javascript')) {
@@ -26,6 +31,9 @@ class LcwikiScraper
                 'url'       => $nodeUrl,
                 'thumbnail' => $node->children()->first()->children()->attr('data-bg')
             ];
+        });
+        $colors = array_filter($colors, function($item) {
+           return $item !== null;
         });
 
         $colors = array_filter(
@@ -48,7 +56,6 @@ class LcwikiScraper
         );
 
         $colors = array_values($colors);
-
 
         $results = [];
 

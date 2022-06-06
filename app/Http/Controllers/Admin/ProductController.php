@@ -68,7 +68,7 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $request->validate([
-            'product_name'      => 'min:2|max32',
+            'product_name'      => 'min:2|max:32',
             'product_thumbnail' => 'image',
         ]);
 
@@ -112,7 +112,7 @@ class ProductController extends Controller
 
     public function scrap()
     {
-        return view('Dashboard.products.scrap')
+        return view('dashboard.products.scrap')
             ->with(['categories' => Category::all()]);
     }
 

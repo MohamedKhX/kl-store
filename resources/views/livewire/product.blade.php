@@ -82,8 +82,8 @@
                                     @endif
                                 @if(count($product->colors) >=  3)
                                     @foreach($product->colors as $key => $colorItem)
-                                        <div class="col-4">
-                                            <a type="button" class="{{ $loop->last ? '' : 'me-3' }}" wire:click="reRender({{ $key + 1 }})">
+                                        <div class="col-4 d-flex justify-content-center">
+                                            <a type="button" wire:click="reRender({{ $key + 1 }})">
                                                 <img class="mt-3 img-fluid color-img {{ $key +1 === $colorId ? 'sm-img-active' : '' }}"
                                                      src="{{ $colorItem->thumbnail }}"
                                                      alt="">
@@ -116,37 +116,37 @@
                         @endphp
 
                         <div class="mt-3 d-flex justify-content-center justify-content-md-start">
-                            @foreach($sizes1 as $size => $quantity)
-                                @if($quantity <= 0)
+                            @foreach($sizes1 as $size)
+                                @if($size->qty <= 0)
                                     <div class="size-square"
-                                         x-init="currentSize == '{{ $size }}' ? currentSize = null : null"
+                                         x-init="currentSize == '{{ $size->size }}' ? currentSize = null : null"
                                     >
-                                        <span class="text-danger">{{ $size }}</span>
+                                        <span class="text-danger">{{ $size->size }}</span>
                                     </div>
                                 @else
-                                    <div class="size-square {{ $sizeSelected == $size ? 'size-square-active' : null }}"
-                                         @click="currentSize = '{{ $size }}'"
+                                    <div class="size-square {{ $sizeSelected == $size->size ? 'size-square-active' : null }}"
+                                         @click="currentSize = '{{ $size->size }}'"
                                          onclick="changeSize(this)"
                                     >
-                                        {{ $size }}
+                                        {{ $size->size }}
                                     </div>
                                 @endif
                             @endforeach
                         </div>
                         <div class="mt-3 d-flex justify-content-center justify-content-md-start">
-                            @foreach($sizes2 as $size => $quantity)
-                                @if($quantity <= 0)
+                            @foreach($sizes2 as $size)
+                                @if($size->qty <= 0)
                                     <div class="size-square"
-                                         x-init="currentSize == '{{ $size }}' ? currentSize = null : null"
+                                         x-init="currentSize == '{{ $size->size }}' ? currentSize = null : null"
                                     >
-                                        <span class="text-danger">{{ $size }}</span>
+                                        <span class="text-danger">{{ $size->size }}</span>
                                     </div>
                                 @else
-                                    <div class="size-square {{ $sizeSelected == $size ? 'size-square-active' : null }}"
-                                         @click="currentSize = '{{ $size }}'"
+                                    <div class="size-square {{ $sizeSelected == $size->size ? 'size-square-active' : null }}"
+                                         @click="currentSize = '{{ $size->size }}'"
                                          onclick="changeSize(this)"
                                     >
-                                        {{ $size }}
+                                        {{ $size->size }}
                                     </div>
                                 @endif
                             @endforeach

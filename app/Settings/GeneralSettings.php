@@ -15,6 +15,7 @@ class GeneralSettings extends Settings
     public string $site_name         = 'Arkan';
     public string $store_title       = 'Arkan Store';
     public string $store_description = 'High Quality at cheap price';
+    public string $store_thumbnail   = '';
     public string $store_phone_number = '';
     public string $store_email = '';
 

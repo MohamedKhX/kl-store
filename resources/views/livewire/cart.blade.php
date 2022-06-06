@@ -1,7 +1,7 @@
 <div>
-    <div class="container mt-5">
+    <div class="container-fluid container-lg mt-5">
         <div class="row">
-            <div class="d-none d-lg-block col-8">
+            <div class="d-none d-xl-block col-8">
                 @if(count($cartItems) <= 0)
                     <h3 class="p-7 text-center">No Products in the cart!</h3>
                 @else
@@ -48,23 +48,15 @@
                                     <div class="d-flex">
                                         <div class="col-12">
                                             <div class="d-flex justify-content-between">
-                                                <div class="input-group align-items-center">
-                                                    <button style="padding: .3rem .8rem; border-radius: 50%"
-                                                            class="btn btn-sm btn-dark d-flex justify-content-center"
-                                                    >
-                                                        <strong>-</strong>
-                                                    </button>
-                                                    <input onKeyDown="return false" type="number"
-                                                           step="1" min="1" max="5"
+                                                <div class="quantity buttons_added">
+                                                    <input wire:click="decrement('{{ $item->rowId }}')" type="button" value="-" class="minus">
+                                                    <input type="text"
+                                                           onKeyDown="return false"
+                                                           name="quantity" title="Qty"
+                                                           class="input-text qty text"
                                                            wire:model="qtys.{{$item->rowId}}"
-                                                           name="quantity"
-                                                           class="quantity-field border-0 text-center w-25"
                                                     >
-                                                    <button style="padding: .3rem .8rem; border-radius: 50%"
-                                                            class="btn btn-sm btn-dark d-flex justify-content-center"
-                                                    >
-                                                        <strong>+</strong>
-                                                    </button>
+                                                    <input wire:click="increment('{{ $item->rowId }}')" type="button" value="+" class="plus">
                                                 </div>
                                             </div>
                                         </div>
@@ -88,7 +80,7 @@
                 @endif
             </div>
 
-            <div class="col-12 my-3 d-lg-none">
+            <div class="col-12 my-3 d-xl-none">
                 <div class="d-flex flex-column justify-content-center">
                     @if(count($cartItems) <= 0)
                         <h3 class="p-3 text-center">No Products in the cart!</h3>
@@ -119,18 +111,20 @@
                                               <strong>{{ $item->options->size }}</strong>
                                         </span>
                                     </li>
-                                    <li class="list-group-item d-flex justify-content-between">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <div>
                                             <strong>Quantity :</strong>
                                         </div>
                                         <div>
-                                            <div class="input-group d-flex justify-content-end align-items-end">
-                                                <input onKeyDown="return false" type="number"
-                                                       step="1" min="1" max="5"
+                                            <div class="quantity buttons_added">
+                                                <input wire:click="decrement('{{ $item->rowId }}')" type="button" value="-" class="minus">
+                                                <input type="text"
+                                                       onKeyDown="return false"
+                                                       name="quantity" title="Qty"
+                                                       class="input-text qty text"
                                                        wire:model="qtys.{{$item->rowId}}"
-                                                       name="quantity"
-                                                       class="quantity-field border-0 text-center w-25"
                                                 >
+                                                <input wire:click="increment('{{ $item->rowId }}')" type="button" value="+" class="plus">
                                             </div>
                                         </div>
                                     </li>
@@ -153,7 +147,7 @@
                 </div>
             </div>
 
-            <div class="col-12 d-lg-none">
+            <div class="col-12 d-xl-none">
                 @if(count($cartItems) === 0)
                 @else
                     <form action="">
@@ -169,7 +163,7 @@
                 @endif
             </div>
 
-            <div class="col-12 col-lg-4">
+            <div class="col-12 col-xl-4">
                 <div class="mt-7">
                     <h4>Cart Totals</h4>
                     <hr>
@@ -194,7 +188,7 @@
                 </div>
             </div>
 
-            <div class="col-4 d-none d-lg-block">
+            <div class="col-4 d-none d-xl-block">
                 <h4>Have a coupon?</h4>
                 <form action="">
                     <div class="input-group mb-3">

@@ -11,7 +11,7 @@ class ProductColorController extends Controller
 {
     public function create(Product $product)
     {
-        return view('Dashboard.products.create-color')->with(['product' => $product]);
+        return view('dashboard.products.create-color')->with(['product' => $product]);
     }
 
     public function store(Request $request, Product $product)
@@ -36,5 +36,15 @@ class ProductColorController extends Controller
         $productColor->save();
 
         return redirect(route('admin.products.color.create', $product))->with('success', 'Color created successfully');
+    }
+
+    public function edit(Product $product, $colorId)
+    {
+        $color = $product->colors->find($colorId);
+
+        return view('dashboard.products.edit-color')->with([
+            'product' => $product,
+            'color'   => $color
+        ]);
     }
 }

@@ -1,4 +1,62 @@
 <x-layout.main>
+    @push('styles')
+        <style>
+
+            .quantity {
+                display: inline-block; }
+
+            .quantity .input-text.qty {
+                width: 35px;
+                height: 39px;
+                padding: 0 5px;
+                text-align: center;
+                background-color: transparent;
+                border: 1px solid #efefef;
+            }
+
+            .quantity.buttons_added {
+                text-align: left;
+                position: relative;
+                white-space: nowrap;
+                vertical-align: top; }
+
+            .quantity.buttons_added input {
+                display: inline-block;
+                margin: 0;
+                vertical-align: top;
+                box-shadow: none;
+            }
+
+            .quantity.buttons_added .minus,
+            .quantity.buttons_added .plus {
+                padding: 7px 10px 8px;
+                height: 41px;
+                background-color: #ffffff;
+                border: 1px solid #efefef;
+                cursor:pointer;}
+
+            .quantity.buttons_added .minus {
+                border-right: 0; }
+
+            .quantity.buttons_added .plus {
+                border-left: 0; }
+
+            .quantity.buttons_added .minus:hover,
+            .quantity.buttons_added .plus:hover {
+                background: #eeeeee; }
+
+            .quantity input::-webkit-outer-spin-button,
+            .quantity input::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                margin: 0; }
+
+            .quantity.buttons_added .minus:focus,
+            .quantity.buttons_added .plus:focus {
+                outline: none; }
+
+        </style>
+    @endpush
     <main class="main" id="top">
 
         {{-- Start Header-Section --}}
@@ -170,6 +228,9 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-12 d-flex justify-content-center mt-5">
+                        <a class="btn btn-lg btn-dark" onclick="showCollection({{ $newArrivalsCollection->id }})" href="" data-bs-toggle="modal" data-bs-target="#CollectionModel">View All</a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -188,6 +249,9 @@
                                 <livewire:product-card :product="$product"/>
                             @endforeach
                         </div>
+                    </div>
+                    <div class="col-12 d-flex justify-content-center mt-5">
+                        <a class="btn btn-lg btn-dark" onclick="showCollection({{ $bestSellersCollection->id }})" href="" data-bs-toggle="modal" data-bs-target="#CollectionModel">View All</a>
                     </div>
                 </div>
             </div>

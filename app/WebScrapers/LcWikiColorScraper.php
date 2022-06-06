@@ -53,8 +53,18 @@ class LcWikiColorScraper
             return isset($arr);
         }))[0];
 
-        //Scrap Price price-regular
-/*        dd($crawler->filter('.price')->count());*/
+
+       $newSizes = [];
+
+        foreach ($sizes as $size => $qty) {
+            $newSizes[] = [
+                'size' => $size,
+                'qty'  => $qty
+            ];
+        }
+
+        $sizes = $newSizes;
+
         if($crawler->filter('.price')->count() >= 1) {
             $price = $crawler->filter('.price')->text();
         } else {
