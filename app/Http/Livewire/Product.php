@@ -129,7 +129,7 @@ class Product extends Component
                 'id' => $color->id,
                 'name' => $product->name,
                 'qty' => 1,
-                'price' => (int) $color->price,
+                'price' => (int) $color->priceWithOutCurrency(),
                 'options' => [
                     'size'       => $this->sizeSelected,
                     'thumbnail'  => $color->images[0],

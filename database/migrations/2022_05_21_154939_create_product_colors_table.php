@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('url')->nullable();
             $table->string('name')->nullable();
             $table->string('price');
+            $table->string('website_price')->nullable();
             $table->string('old_price')->nullable();
             $table->string('color')->nullable();
             $table->string('thumbnail')->nullable(); //TODO delete nullable

@@ -1,6 +1,6 @@
 <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3  bg-gradient-dark" id="sidenav-main">
     <div class="sidenav-header d-flex text-center justify-content-center align-items-center">
-        <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard " target="_blank">
+        <a class="navbar-brand m-0" href="{{ route('home') }}" target="_blank">
             <h5 class="ms-1 font-weight-bold text-white">Arkan Dashboard</h5>
         </a>
     </div>

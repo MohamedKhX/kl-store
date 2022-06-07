@@ -41,6 +41,10 @@
     <x-layout.navbar />
     {{-- End Navbar --}}
 
+    {{-- Cart Model --}}
+    <x-cart />
+    {{-- End Cart Model --}}
+
     {{-- Start Content --}}
     {{ $slot }}
     {{-- End Content --}}

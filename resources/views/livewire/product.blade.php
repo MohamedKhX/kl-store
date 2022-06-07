@@ -43,7 +43,7 @@
                         <div class="d-flex align-items-center justify-content-between">
                             <h2>{{ $product->name }}</h2>
 
-                            <h5>{{ $color->price }}</h5>
+                            <h5>{{ $color->priceWithCurrency() }}</h5>
                         </div>
                         <div>
                             <p class="description">{{ $product->description }}</p>

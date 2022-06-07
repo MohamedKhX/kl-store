@@ -8,7 +8,11 @@
     @endpush
 
     <div class="container-fluid px-2 px-md-4 mt-5 pt-5">
+
         <div class="card card-body mx-3 mx-md-4 mt-n6 mt-5 mb-2">
+            <div>
+                <a class="btn btn-primary" href="{{ route('admin.products.edit', $product) }}">back to product</a>
+            </div>
             @if(session()->has('success'))
                 <div class="alert alert-success text-white" role="alert">
                     <strong>Success!</strong> {{ session()->get('success') }}
@@ -40,41 +44,76 @@
                             <input id="color_name" name="color_name" type="text" class="form-control" value="{{ old('color_name') ?? $color->name }}">
                         </div>
 
-                        <div class="input-group input-group-outline my-3 {{ $color->price ? 'is-focused' : null }}">
+                        <div class="input-group input-group-outline my-3 {{ $color->priceWithCurrency() ? 'is-focused' : null }}">
                             <label for="color_price" class="form-label">Color Price</label>
-                            <input id="color_price" name="color_price" type="text" class="form-control" value="{{ old('color_price') ?? $color->price }}">
+                            <input id="color_price" name="color_price" type="text" class="form-control" value="{{ old('color_price') ?? $color->priceWithOutCurrency() }}">
                         </div>
 
-
-                        @foreach($color->images as $image)
-                            <div id="imgFields">
-                                <div class="input-group input-group-outline my-3 {{ $image ? 'is-focused' : null }}">
-                                    <label for="color_img_url" class="form-label">Color image</label>
-                                    <input id="color_img_url" name="color_images[]" type="text" class="form-control" value="{{ old('color_img_url') ?? $image }}">
-                                    <a onclick="createUrlField()" class="btn btn-primary h-100 mb-0">+</a>
-                                </div>
-                            </div>
-                        @endforeach
+                        <div id="imgFields">
+                            @foreach($color->images as $image)
+                                    <div class="input-group input-group-outline my-3 {{ $image ? 'is-focused' : null }}">
+                                        <label for="color_img_url" class="form-label">Color image</label>
+                                        <input id="color_img_url" name="color_images[]" type="text" class="form-control" value="{{ old('color_img_url') ?? $image }}">
+                                        <a onclick="createUrlField()" class="btn btn-primary h-100 mb-0">+</a>
+                                    </div>
+                                    <div class="row d-flex justify-content-center">
+                                        <div class="col-6 col-md-3">
+                                            <img src="{{ $image }}" class="img-fluid" alt="">
+                                        </div>
+                                    </div>
+                            @endforeach
+                        </div>
 
                         <div class="my-3">
-                            <label for="color_thumbnail" class="form-label">Product Thumbnail</label>
-                            <div class="input-group input-group-outline">
-                                <input id="color_thumbnail" name="color_thumbnail" type="file" class="form-control" value="{{ old('product_thumbnail') }}">
+                            <div>
+                                <br>
+                                <span class="">
+                                    <strong class="text-danger">Note:</strong> Thumbnail only by url,
+                                    so please if you want to update the thumbnail,
+                                    take any color thumbnail url from any website and put that here
+                                </span>
+                                <div class="input-group input-group-outline my-3 {{ $color->priceWithCurrency() ? 'is-focused' : null }}">
+                                    <label for="color_thumbnail" class="form-label">Color thumbnail</label>
+                                    <input id="color_thumbnail" name="color_thumbnail" type="text" class="form-control" value="{{ old('color_thumbnail') ?? $color->thumbnail }}">
+                                </div>
+                            </div>
+                            <div class="row justify-content-center mt-2">
+                                <div class="col-4 d-flex justify-content-center">
+                                    <img src="{{ $color->thumbnail }}" class="img-fluid" alt="">
+                                </div>
                             </div>
                         </div>
-
-                        <div>
-                            <p>Write size after that write comma ,</p>
-                            <div class="input-group input-group-outline my-3 {{ old('color_price') ? 'is-focused' : null }}">
-                                <label for="color_sizes" class="form-label">Color Sizes</label>
-                                <input id="color_sizes" name="color_sizes" type="text" class="form-control" value="">
-                            </div>
+                        <div class="d-flex justify-content-center">
+                            <a onclick="addSizeField()" class="btn btn-secondary">Add a size</a>
                         </div>
-
+                        <div id="sizeFields">
+                            @foreach($color->sizes as $size)
+                                <div class="row d-flex justify-content-center">
+                                    <div class="col-4">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="input-group input-group-outline my-3 is-focused">
+                                                    <label for="color_sizes" class="form-label">Size</label>
+                                                    <input id="color_sizes" name="color_sizes[]" type="text"
+                                                           class="form-control" value="{{ $size->size }}"
+                                                    >
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="input-group input-group-outline my-3 {{ isset($size->qty) ? 'is-focused' : null }}">
+                                                    <label for="color_qty" class="form-label">Qty</label>
+                                                    <input id="color_qty" name="color_size_qty[]" type="text"
+                                                           class="form-control" value="{{ $size->qty }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
                         <div class="input-group input-group-outline my-4 d-flex">
                             <input type="submit" class="btn btn-info w-100 p-1 fs-6" value="Save">
                         </div>
-
                     </form>
                 </div>
             </div>
@@ -96,6 +135,39 @@
                                 <a onclick="createUrlField()" class="btn btn-primary h-100 mb-0">+</a>`;
 
                 imgFields.append(node);
+            }
+
+
+            function addSizeField() {
+
+                const sizeFields = document.getElementById('sizeFields');
+                console.log(sizeFields);
+
+                const node = document.createElement('div');
+                node.classList.add('row', 'd-flex', 'justify-content-center');
+                node.innerHTML = `
+                           <div class="col-4">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="input-group input-group-outline my-3 is-focused">
+                                                    <label for="color_sizes" class="form-label">Size</label>
+                                                    <input id="color_sizes" name="color_sizes[]" type="text"
+                                                           class="form-control" value=""
+                                                    >
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="input-group input-group-outline my-3 is-focused">
+                                                    <label for="color_qty" class="form-label">Qty</label>
+                                                    <input id="color_qty" name="color_size_qty[]" type="text"
+                                                           class="form-control" value="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                `
+
+                sizeFields.append(node)
             }
 
         </script>

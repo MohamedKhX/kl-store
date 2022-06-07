@@ -1,86 +1,9 @@
 <x-layout.main>
-    @push('styles')
-        <style>
-
-            .quantity {
-                display: inline-block; }
-
-            .quantity .input-text.qty {
-                width: 35px;
-                height: 39px;
-                padding: 0 5px;
-                text-align: center;
-                background-color: transparent;
-                border: 1px solid #efefef;
-            }
-
-            .quantity.buttons_added {
-                text-align: left;
-                position: relative;
-                white-space: nowrap;
-                vertical-align: top; }
-
-            .quantity.buttons_added input {
-                display: inline-block;
-                margin: 0;
-                vertical-align: top;
-                box-shadow: none;
-            }
-
-            .quantity.buttons_added .minus,
-            .quantity.buttons_added .plus {
-                padding: 7px 10px 8px;
-                height: 41px;
-                background-color: #ffffff;
-                border: 1px solid #efefef;
-                cursor:pointer;}
-
-            .quantity.buttons_added .minus {
-                border-right: 0; }
-
-            .quantity.buttons_added .plus {
-                border-left: 0; }
-
-            .quantity.buttons_added .minus:hover,
-            .quantity.buttons_added .plus:hover {
-                background: #eeeeee; }
-
-            .quantity input::-webkit-outer-spin-button,
-            .quantity input::-webkit-inner-spin-button {
-                -webkit-appearance: none;
-                -moz-appearance: none;
-                margin: 0; }
-
-            .quantity.buttons_added .minus:focus,
-            .quantity.buttons_added .plus:focus {
-                outline: none; }
-
-        </style>
-    @endpush
     <main class="main" id="top">
 
         {{-- Start Header-Section --}}
         @include('homeLayout._header')
         {{-- End Header-Section --}}
-
-        {{-- Cart Model --}}
-        <div class="modal fade" id="CartModel" tabindex="-1" aria-labelledby="CartModelLabel" aria-hidden="true">
-                <div class="modal-dialog modal-fullscreen">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="CartModelLabel">Cart</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <livewire:cart />
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close window</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        {{-- End Cart Model --}}
 
         {{-- Single Product Model --}}
         <div class="modal fade" id="singleProduct" tabindex="-1" aria-labelledby="singleProductLabel" aria-hidden="true">
@@ -244,7 +167,7 @@
                         <h5 class="fw-bold fs-3 fs-lg-5 lh-sm mb-3">Best Sellers</h5>
                     </div>
                     <div class="col-12">
-                        <div class="row">
+                        <div class="row d-flex justify-content-center">
                             @foreach($bestSellersCollection->products->take(4) as $product)
                                 <livewire:product-card :product="$product"/>
                             @endforeach

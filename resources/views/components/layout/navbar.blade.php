@@ -16,11 +16,14 @@
                     <a class="nav-link fw-medium active" aria-current="page" href="{{ route('home') }}">
                         Home
                     </a>
-                </li>  <li class="nav-item px-2">
-                    <a class="nav-link fw-medium" aria-current="page" href="#categories">
-                        Categories
-                    </a>
                 </li>
+                @if(request()->routeIs('home'))
+                    <li class="nav-item px-2">
+                        <a class="nav-link fw-medium" aria-current="page" href="#categories">
+                            Categories
+                        </a>
+                    </li>
+                @endif
                 <li class="nav-item px-2">
                     <a class="nav-link fw-medium" href="{{ route('faqs') }}">
                         FAQS

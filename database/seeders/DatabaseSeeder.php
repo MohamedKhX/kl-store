@@ -136,10 +136,14 @@ class DatabaseSeeder extends Seeder
 
     public function createProductColor(array $colorInfo, $productId)
     {
+        //Take the price from the website convert it to LYD
+        //Then round it
+        $price = round(transformCurrency((int) $colorInfo['price']) / 5) * 5;
+
         $productColor             = new ProductColors();
         $productColor->product_id = $productId;
         $productColor->thumbnail  = $colorInfo['thumbnail'];
-        $productColor->price      = $colorInfo['price'];
+        $productColor->price      = $price;
         $productColor->url        = $colorInfo['url'];
         $productColor->images     = json_encode($colorInfo['images']);
         $productColor->sizes      = json_encode($colorInfo['sizes']);

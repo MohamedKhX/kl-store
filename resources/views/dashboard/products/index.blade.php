@@ -50,6 +50,11 @@
     {{-- End Delete Model --}}
 
     <div class="container mt-6">
+        @if(session()->has('success'))
+            <div class="alert alert-success text-white" role="alert">
+                <strong>Success!</strong> {{ session()->get('success') }}
+            </div>
+        @endif
         <div class="d-flex justify-content-center justify-content-lg-end">
             <button class="btn btn-success w-75 w-lg-25"  data-bs-toggle="modal" data-bs-target="#product">Create a Product</button>
         </div>
@@ -87,7 +92,7 @@
                         </div>
                         <hr class="dark horizontal my-0">
                         <div class="card-footer d-flex justify-content-between">
-                            <p class="font-weight-normal my-auto">{{ $product->price() }} LYD</p>
+                            <p class="font-weight-normal my-auto">{{ $product->price() }}</p>
                             <p class="font-weight-normal my-auto">{{ $product->views }} views</p>
                         </div>
                     </div>

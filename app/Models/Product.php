@@ -10,14 +10,19 @@ class Product extends Model
 {
     use HasFactory;
 
-    public function colors()
+    public function colors(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(ProductColors::class);
     }
 
-    public function price()
+    public function price(): string
     {
-        return $this->colors()->first()->price ?? '0';
+        return $this->colors()->first()->priceWithCurrency() ?? '0';
+    }
+
+    public function oldPrice()
+    {
+        return $this->colors()->first()->old_price;
     }
 
     public function thumbnail()
@@ -34,7 +39,7 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function collections()
+    public function collections(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Collection::class);
     }

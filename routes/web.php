@@ -60,14 +60,17 @@ Route::middleware('admin')->group(function () {
     Route::post('/dashboard/product/scrap', [App\Http\Controllers\Admin\ProductController::class, 'scrapStore'])
     ->name('admin.products.scrapStore');
 
+    Route::patch('/dashboard/product/{product}/scrap', [App\Http\Controllers\Admin\ProductController::class, 'scrapUpdate'])
+    ->name('admin.products.scrap-update');
+
     Route::get('/dashboard/products/{product}/color', [\App\Http\Controllers\Admin\ProductColorController::class, 'create'])
         ->name('admin.products.color.create');
     Route::post('/dashboard/products/{product}/color', [\App\Http\Controllers\Admin\ProductColorController::class, 'store'])
         ->name('admin.products.color.store');
 
-    Route::get('/dashboard/products/{product}/{colorId}', [\App\Http\Controllers\Admin\ProductColorController::class, 'edit'])
+    Route::get('/dashboard/products/{product}/{colorIdF}', [\App\Http\Controllers\Admin\ProductColorController::class, 'edit'])
         ->name('admin.products.color.edit');
-    Route::post('/dashboard/products/{product}/{colorId}', [\App\Http\Controllers\Admin\ProductColorController::class, 'update'])
+    Route::patch('/dashboard/products/{product}/{colorId}', [\App\Http\Controllers\Admin\ProductColorController::class, 'update'])
         ->name('admin.products.color.update');
 
     Route::resource('/dashboard/orders', \App\Http\Controllers\Admin\OrderController::class)->names([
@@ -92,5 +95,8 @@ Route::resource('/collections', CollectionController::class);
 Route::get('/collections/{collection:slug}', [CollectionController::class, 'show'])->name('products-show');
 
 
+Route::get('test', function () {
+    dd(\App\Models\ProductColors::transformCurrency(200));
+});
 
 require __DIR__.'/auth.php';

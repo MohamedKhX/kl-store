@@ -2,6 +2,7 @@
 
 
 use App\Settings\GeneralSettings;
+use Illuminate\Support\Facades\Http;
 
 function getSiteName()
 {
@@ -54,4 +55,14 @@ function getStoreEmail() {
 
 function getStoreThumbnail() {
     return app(GeneralSettings::class)->store_thumbnail;
+}
+
+function transformCurrency($price, $from = 'TRY', $to = 'LYD')
+{
+    $response = Http::withOptions(['verify' => false])->withHeaders([
+        'X-Api-Key' => 'DekERxC2A9lMEikr7KaZVw==K4AxfPvmpWuYppVZ',
+    ])->get("https://api.api-ninjas.com/v1/convertcurrency?want={$to}&have={$from}&amount={$price}")
+        ->json();
+
+    return $response['new_amount'];
 }

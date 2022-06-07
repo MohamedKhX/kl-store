@@ -23,7 +23,9 @@ class ProductController extends Controller
 
     public function create()
     {
-        return view('dashboard.products.create');
+        return view('dashboard.products.create')->with([
+            'categories' => Category::all()
+        ]);
     }
 
 
@@ -62,7 +64,10 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
-        return view('dashboard.products.edit')->with(['product' => $product]);
+        return view('dashboard.products.edit')->with([
+            'product'  => $product,
+            'categories' => Category::all()
+        ]);
     }
 
     public function update(Request $request, Product $product)
@@ -87,13 +92,13 @@ class ProductController extends Controller
                 File::delete($oldPath);
             }
             //store the new one
-            $imgPath = $request->file('category_thumbnail')->store('category_thumbnails', 'public');
+            $imgPath = $request->file('product_thumbnail')->store('product_thumbnails', 'public');
             $product->thumbnail = $imgPath;
         }
 
         $product->save();
 
-        return redirect(route('admin.products.index'))->with('success', 'Product updated successfully');
+        return redirect(route('admin.products.edit', $product))->with('success', 'Product updated successfully');
     }
 
 
@@ -153,11 +158,39 @@ class ProductController extends Controller
         return redirect(route('admin.products.index'))->with('success', 'Product created successfully');
     }
 
+
+    public function scrapUpdate(Product $product)
+    {
+        $oldColorsData = [];
+        foreach ($product->colors as $color) {
+            $oldColorsData[] = [
+                'url'         => $color->url,
+                'customPrice' => $color->price,
+                'CustomThumbnail' => $color->thumbnail
+            ];
+            $color->delete();
+        }
+
+        $this->scrapColors(
+            productId: $product->id,
+            uri: $product->url
+        );
+
+       /* foreach ($product->colors as $color) {
+            foreach ($oldColorsData as $datum) {
+                if($color->url === $datum['url']) {
+                    $color->update([
+                        'price' => 22
+                    ]);
+                }
+            }
+        }*/
+
+        return redirect()->back()->with('success', 'Re fetched data successfully');
+    }
+
     public function scrapColors($productId, $uri)
     {
-        //'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Gomlek/5677110/2379584'
-
-
         $scraper = new LcwikiScraper();
         $colors = $scraper->colors($uri);
 
@@ -168,10 +201,12 @@ class ProductController extends Controller
 
     public function createProductColor(array $colorInfo, $productId)
     {
+        $price = round(transformCurrency((int) $colorInfo['price']) / 5) * 5;
+
         $productColor             = new ProductColors();
         $productColor->product_id = $productId;
         $productColor->thumbnail  = $colorInfo['thumbnail'];
-        $productColor->price      = $colorInfo['price'];
+        $productColor->price      = $price;
         $productColor->url        = $colorInfo['url'];
         $productColor->images     = json_encode($colorInfo['images']);
         $productColor->sizes      = json_encode($colorInfo['sizes']);
