@@ -107,7 +107,7 @@
                         <div id="sizeFields">
                             @foreach($color->sizes as $size)
                                 <div class="row d-flex justify-content-center">
-                                    <div class="col-4">
+                                    <div class="col-8 col-xl-4">
                                         <div class="row">
                                             <div class="col-6">
                                                 <div class="input-group input-group-outline my-3 is-focused">
