@@ -17,7 +17,10 @@ class Product extends Model
 
     public function price(): string
     {
-        return $this->colors()->first()->priceWithCurrency() ?? '0';
+        if($this->colors->first()) {
+            return $this->colors()->first()->priceWithCurrency() ?? '0';
+        }
+        return 'No Colors Yet';
     }
 
     public function oldPrice()
