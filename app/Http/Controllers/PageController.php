@@ -20,7 +20,7 @@ class PageController extends Controller
         $otherCollections      = $collections->except([
             $bestDealsCollection->id,
             $newArrivalsCollection->id,
-            $bestDealsCollection->id,
+            $bestSellersCollection->id,
         ]);
 
         return view('home')->with([
