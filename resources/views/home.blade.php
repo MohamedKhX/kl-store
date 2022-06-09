@@ -121,7 +121,7 @@
             <div class="container">
                 <h3 class="pb-3">Collections: </h3>
                 <div class="row h-100 g-2 py-1 d-flex justify-content-center">
-                    @foreach($otherCollections as $collection)
+                    @foreach($collections as $collection)
                         <div class="col-md-4">
                             <livewire:collection-card :collection="$collection" />
                         </div>
