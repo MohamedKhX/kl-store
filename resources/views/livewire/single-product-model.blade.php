@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        @if($fromWhereItOpened === 'model')
+      {{--  @if($fromWhereItOpened === 'model')
             <button wire:click="unShowProduct"
                     class="btn btn-primary"
                     data-bs-target="#CollectionModel"
@@ -18,14 +18,12 @@
                 Back to first
             </button>
         @endif
-
-        @if($fromWhereItOpened === 'home')
-            <button wire:click="unShowProduct"
-                    type="button"
-                    class="btn btn-secondary"
-                    data-bs-dismiss="modal">
-                Close window
-            </button>
-        @endif
+--}}
+        <button wire:click="unShowProduct"
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal">
+            Close window
+        </button>
     </div>
 </div>
