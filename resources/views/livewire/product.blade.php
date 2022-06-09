@@ -72,7 +72,7 @@
                                 @if(count($product->colors) === 2)
                                     @foreach($product->colors as $key => $colorItem)
                                         <div class="col-6">
-                                            <a type="button" class="{{ $loop->last ? '' : 'me-3' }}" wire:click="reRender({{ $key + 1 }})">
+                                            <a type="button" class="" wire:click="reRender({{ $key + 1 }})">
                                                 <img class="mt-3 img-fluid color-img {{ $key +1 === $colorId ? 'sm-img-active' : '' }}"
                                                      src="{{ $colorItem->thumbnail }}"
                                                      alt="">
