@@ -38,6 +38,11 @@
                                 <input id="product_thumbnail" name="product_thumbnail" type="file" class="form-control" value="{{ old('product_thumbnail') }}">
                             </div>
                         </div>
+                        <div class="row d-flex justify-content-center my-3">
+                            <div class="col-8 col-md-6 col-lg-4">
+                                <img class="img-fluid" src="{{ $product->thumbnail() }}" alt="">
+                            </div>
+                        </div>
                         <div class="input-group input-group-static mb-4">
                             <label for="categorySelector" class="ms-0">Category: </label>
                             <select name="product_category_id" class="form-control" id="categorySelector">
@@ -50,6 +55,26 @@
                                     </option>
                                 @endforeach
                             </select>
+                        </div>
+                        <div class="row">
+                            <div>
+                                <strong class="text-danger">Note:</strong>
+                                <span>
+                                    If you will change price the whole colors price will change as well
+                                </span>
+                            </div>
+                            <div class="col-6">
+                                <div class="input-group input-group-outline my-3 is-focused">
+                                    <label for="product_price" class="form-label">Price: </label>
+                                    <input id="product_price" name="product_price" type="text" class="form-control" value="{{ old('product_price') ?? $product->price }}">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="input-group input-group-outline my-3 is-focused">
+                                    <label for="product_old_price" class="form-label">Old Price: </label>
+                                    <input id="product_old_price" name="product_old_price" type="text" class="form-control" value="{{ old('product_old_price') ?? $product->old_price }}">
+                                </div>
+                            </div>
                         </div>
                         <div class="form-check form-switch d-flex align-content-center">
                             <input class="form-check-input me-2" name="product_status" type="checkbox" id="product_status"
@@ -68,7 +93,7 @@
                             @method('PATCH')
 
                             <div class="input-group input-group-outline my-3 d-flex">
-                                <input type="submit" class="btn btn-primary w-25 p-1 fs-6 " value="Re Fetch data">
+                                <input type="submit" class="btn btn-primary w-50  p-1 fs-6 " value="Re Fetch data">
                             </div>
                         </form>
                     @endif
@@ -79,7 +104,7 @@
                         @csrf
                         @method('DELETE')
 
-                        <input type="submit" class="btn btn-danger w-25 p-1 fs-6" value="DELETE THE PRODUCT">
+                        <input type="submit" class="btn btn-danger w-50 p-1 fs-6" value="DELETE THE PRODUCT">
                     </form>
 
                     <div>

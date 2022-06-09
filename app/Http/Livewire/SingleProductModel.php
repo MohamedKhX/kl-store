@@ -7,7 +7,7 @@ use \Gloudemans\Shoppingcart\Facades\Cart;
 class SingleProductModel extends Component
 {
     public ?int $identifier = null;
-    public string $collectionModel = 'false';
+    public string $fromWhereItOpened = 'model';
 
     public function unShowProduct()
     {
@@ -18,6 +18,4 @@ class SingleProductModel extends Component
     {
         return view('livewire.single-product-model');
     }
-
-
 }

@@ -25,6 +25,8 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->integer('unique_views')->default(0);
             $table->boolean('status')->default(true);
+            $table->string('price')->nullable();
+            $table->string('old_price')->nullable();
             $table->timestamps();
         });
     }

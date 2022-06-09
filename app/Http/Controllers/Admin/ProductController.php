@@ -96,11 +96,27 @@ class ProductController extends Controller
             $product->thumbnail = $imgPath;
         }
 
+        $price    = $request->input('product_price');
+        $oldPrice = $request->input('product_old_price');
+
+        if($price) {
+            $product->price = $price;
+            $this->updatePrice($product, $price);
+        } else {
+            $product->price = null;
+        }
+
+        if($oldPrice) {
+            $product->old_price = $oldPrice;
+            $this->updatePrice($product, $oldPrice, true);
+        } else {
+            $product->old_price = null;
+        }
+
         $product->save();
 
         return redirect(route('admin.products.edit', $product))->with('success', 'Product updated successfully');
     }
-
 
     public function destroy(Product $product)
     {
@@ -108,6 +124,10 @@ class ProductController extends Controller
 
         if(File::exists($imgPath)) {
             File::delete($imgPath);
+        }
+
+        foreach ($product->colors as $color) {
+            $color->delete();
         }
 
         $product->delete();
@@ -130,8 +150,6 @@ class ProductController extends Controller
             'product_url'        => 'required'
         ]);
 
-
-
         $status = (bool) $request->input('product_status');
 
         $product = new Product();
@@ -145,7 +163,7 @@ class ProductController extends Controller
 
         if($request->file('product_thumbnail')) {
             $imgPath = $request->file('product_thumbnail')->store('product_thumbnails', 'public');
-            $product->thumbnail      = $imgPath;
+            $product->thumbnail  = $imgPath;
         }
 
         $product->save();
@@ -158,16 +176,36 @@ class ProductController extends Controller
         return redirect(route('admin.products.index'))->with('success', 'Product created successfully');
     }
 
+    protected function updatePrice($product ,$price, $oldPrice = false)
+    {
+        foreach ($product->colors as $color) {
+            if($oldPrice) {
+                $color->old_price = $price;
+                $color->save();
+            } else {
+                $color->price = $price;
+                $color->save();
+            }
+        }
+    }
 
     public function scrapUpdate(Product $product)
     {
-        $oldColorsData = [];
+        /*
+         * Create an array of custom prices
+         * ReUpdate the new custom prices and the prices
+         * */
+
+        $oldPrices = [];
+
         foreach ($product->colors as $color) {
-            $oldColorsData[] = [
+
+            $oldPrices[] = [
                 'url'         => $color->url,
-                'customPrice' => $color->price,
-                'CustomThumbnail' => $color->thumbnail
+                'oldPrice'    => $color->old_price,
+                'customPrice' => $color->custom_price,
             ];
+
             $color->delete();
         }
 
@@ -176,17 +214,40 @@ class ProductController extends Controller
             uri: $product->url
         );
 
-       /* foreach ($product->colors as $color) {
-            foreach ($oldColorsData as $datum) {
-                if($color->url === $datum['url']) {
-                    $color->update([
-                        'price' => 22
-                    ]);
+        return redirect(route('admin.products.update-price', $product))
+            ->with('oldPrices', $oldPrices);
+    }
+
+    public function updatePriceAfterScrap(Product $product)
+    {
+        $oldPrices = session('oldPrices');
+
+        if($product->price) {
+            $this->updatePrice($product, $product->price);
+        }
+
+        if($product->old_price) {
+            $this->updatePrice($product, $product->old_price, true);
+        }
+
+        foreach ($product->colors as $color) {
+            foreach ($oldPrices as $oldPrice) {
+                if(! $color->url === $oldPrice['url']) continue;
+
+                if(isset($oldPrice['oldPrice'])) {
+                    $color->old_price = $oldPrice['oldPrice'];
+                    $color->save();
+                }
+
+                if(isset($oldPrice['customPrice'])) {
+                    $color->custom_price = $oldPrice['customPrice'];
+                    $color->price        = $oldPrice['customPrice'];
+                    $color->save();
                 }
             }
-        }*/
+        }
 
-        return redirect()->back()->with('success', 'Re fetched data successfully');
+        return redirect(route('admin.products.edit', $product->id))->with('success', 'Re fetched data successfully');
     }
 
     public function scrapColors($productId, $uri)

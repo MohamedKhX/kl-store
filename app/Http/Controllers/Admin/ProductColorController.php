@@ -83,15 +83,21 @@ class ProductColorController extends Controller
             $images[] = $image;
         }
 
-        $price = (int) $request->input('color_price');
+        if($request->input('color_custom_price')) {
+            $price = $request->input('color_custom_price');
+        } else {
+            $price = $request->input('color_price');
+        }
 
-        $productColor         = $product->colors->find($colorId);
-        $productColor->name   = $request->input('color_name');
-        $productColor->color  = $request->input('color');
-        $productColor->price  = $request->input('color_price');
-        $productColor->images = json_encode($images);
-        $productColor->sizes  = json_encode($colorSizes);
-        $productColor->thumbnail = $request->input('color_thumbnail');
+        $productColor               = $product->colors->find($colorId);
+        $productColor->name         = $request->input('color_name');
+        $productColor->color        = $request->input('color');
+        $productColor->price        = $price;
+        $productColor->images       = json_encode($images);
+        $productColor->sizes        = json_encode($colorSizes);
+        $productColor->thumbnail    = $request->input('color_thumbnail');
+        $productColor->old_price    = $request->input('color_old_price');
+        $productColor->custom_price = $request->input('color_custom_price');
         $productColor->save();
 
         return redirect()->back()->with('success', 'Color Updated Successfully');

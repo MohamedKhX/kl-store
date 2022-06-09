@@ -54,7 +54,7 @@ function getStoreEmail() {
 
 
 function getStoreThumbnail() {
-    return app(GeneralSettings::class)->store_thumbnail;
+    return 'storage/' . app(GeneralSettings::class)->store_thumbnail;
 }
 
 function transformCurrency($price, $from = 'TRY', $to = 'LYD')

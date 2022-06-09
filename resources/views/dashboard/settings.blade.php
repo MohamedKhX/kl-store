@@ -37,7 +37,7 @@
                                 <h6 class="mb-0">Platform Settings</h6>
                             </div>
                             <div class="card-body p-3">
-                                <form method="POST" action="">
+                                <form method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <h6 class="text-uppercase text-body text-xs font-weight-bolder">Users</h6>
                                     <ul class="list-group">
@@ -103,7 +103,7 @@
                                             <label class="form-label">Store Thumbnail</label>
                                             <div class="input-group input-group-outline my-2">
                                                 <label for="store_thumbnail" class="form-label"></label>
-                                                <input name="store_thumbnail" id="store_thumbnail" type="text" class="form-control" value="{{ $store_thumbnail }}">
+                                                <input name="store_thumbnail" id="store_thumbnail" type="file" class="form-control" value="{{ $store_thumbnail }}">
                                             </div>
                                         </li>
                                         <li class="list-group-item border-0 px-0">

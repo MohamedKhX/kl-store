@@ -1,7 +1,7 @@
 <footer class="py-0 pt-7">
     <div class="container ">
-        <div class="row d-flex justify-content-center">
-            <div class="col-6 col-lg-2 mb-3 text-center">
+        <div class="row d-flex justify-content-center justify-content-md-start">
+            <div class="col-6 col-lg-2 mb-3 text-center text-sm-start">
                 <h5 class="lh-lg fw-bold text-1000">Customer Care</h5>
                 <ul class="list-unstyled mb-md-4 mb-lg-0">
                     <li class="lh-lg"><a class="text-800 text-decoration-none" href="#!">Contact Us</a></li>

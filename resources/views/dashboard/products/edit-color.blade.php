@@ -44,6 +44,24 @@
                             <input id="color_name" name="color_name" type="text" class="form-control" value="{{ old('color_name') ?? $color->name }}">
                         </div>
 
+
+                        <div class="input-group input-group-outline my-3 {{ $color->priceWithCurrency() ? 'is-focused' : null }}">
+                            <label for="color_old_price" class="form-label">Color Old Price</label>
+                            <input id="color_old_price" name="color_old_price" type="text" class="form-control" value="{{ old('color_old_price') ?? $color->old_price }}">
+                        </div>
+
+                        <div>
+                            <div>
+                                <strong class="text-danger">Note: </strong>
+                                <span>Use (Custom Price) this when you don't want update the price after fetching</span>
+                            </div>
+                            <div class="input-group input-group-outline my-3 {{ $color->priceWithCurrency() ? 'is-focused' : null }}">
+                                <label for="color_custom_price" class="form-label">Color Custom Price</label>
+                                <input id="color_custom_price" name="color_custom_price" type="text" class="form-control" value="{{ old('color_custom_price') ?? $color->custom_price }}">
+                            </div>
+                        </div>
+
+
                         <div class="input-group input-group-outline my-3 {{ $color->priceWithCurrency() ? 'is-focused' : null }}">
                             <label for="color_price" class="form-label">Color Price</label>
                             <input id="color_price" name="color_price" type="text" class="form-control" value="{{ old('color_price') ?? $color->priceWithOutCurrency() }}">

@@ -55,6 +55,9 @@ Route::middleware('admin')->group(function () {
         'destroy' => 'admin.products.destroy'
     ]);
 
+    Route::get('/dashboard/products/{product}/update-price', [App\Http\Controllers\Admin\ProductController::class, 'updatePriceAfterScrap'])
+    ->name('admin.products.update-price');
+
     Route::get('/dashboard/product/scrap', [App\Http\Controllers\Admin\ProductController::class, 'scrap'])
     ->name('admin.products.scrap');
     Route::post('/dashboard/product/scrap', [App\Http\Controllers\Admin\ProductController::class, 'scrapStore'])

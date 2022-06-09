@@ -15,12 +15,13 @@ return new class extends Migration
     {
         Schema::create('product_colors', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id');
+            $table->foreignId('product_id')->references('id')->on('products');
             $table->string('url')->nullable();
             $table->string('name')->nullable();
             $table->string('price');
             $table->string('website_price')->nullable();
             $table->string('old_price')->nullable();
+            $table->string('custom_price')->nullable();
             $table->string('color')->nullable();
             $table->string('thumbnail')->nullable(); //TODO delete nullable
             $table->json('images')->nullable();

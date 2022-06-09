@@ -46,6 +46,7 @@ class DashboardController extends Controller
         $ability_to_create_accounts = $this->convertCheckBoxValueToBool($request->ability_to_create_accounts);
         $ability_to_login           = $this->convertCheckBoxValueToBool($request->ability_to_login);
         $ability_to_order           = $this->convertCheckBoxValueToBool($request->ability_to_order);
+        $store_thumbnail            = $request->file('store_thumbnail')->store('header_thumbnail', 'public');
 
         $settings->app_active                 = $app_active;
         $settings->ability_to_create_accounts = $ability_to_create_accounts;
@@ -54,7 +55,7 @@ class DashboardController extends Controller
         $settings->site_name          = $request->input('site_name');
         $settings->store_title        = $request->input('store_title');
         $settings->store_description  = $request->input('store_description');
-        $settings->store_thumbnail    = $request->input('store_thumbnail');
+        $settings->store_thumbnail    = $store_thumbnail;
         $settings->store_phone_number = $request->input('phone_number');
         $settings->store_email        = $request->input('site_email');
 
