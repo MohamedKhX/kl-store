@@ -83,7 +83,7 @@
                         </div>
 
                         <div class="my-3">
-                            <div>
+                            {{--<div>
                                 <br>
                                 <span class="">
                                     <strong class="text-danger">Note:</strong> Thumbnail only by url,
@@ -94,10 +94,18 @@
                                     <label for="color_thumbnail" class="form-label">Color thumbnail</label>
                                     <input id="color_thumbnail" name="color_thumbnail" type="text" class="form-control" value="{{ old('color_thumbnail') ?? $color->thumbnail }}">
                                 </div>
+                            </div>--}}
+
+                            <div class="my-3">
+                                <label for="color_thumbnail" class="form-label">Color Thumbnail</label>
+                                <div class="input-group input-group-outline">
+                                    <input id="color_thumbnail" name="color_thumbnail" type="file" class="form-control" value="{{ old('product_thumbnail') }}">
+                                </div>
                             </div>
+
                             <div class="row justify-content-center mt-2">
                                 <div class="col-4 d-flex justify-content-center">
-                                    <img src="{{ $color->thumbnail }}" class="img-fluid" alt="">
+                                    <img src="{{ $color->thumbnail() }}" class="img-fluid" alt="">
                                 </div>
                             </div>
                         </div>

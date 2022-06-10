@@ -57,6 +57,13 @@ function getStoreThumbnail() {
     return 'storage/' . app(GeneralSettings::class)->store_thumbnail;
 }
 
+function getStoreIcon() {
+    if(app(GeneralSettings::class)->store_icon == "") {
+        return asset('img/logo.png') ;
+    }
+    return 'storage/' . app(GeneralSettings::class)->store_icon;
+}
+
 function transformCurrency($price, $from = 'TRY', $to = 'LYD')
 {
     $response = Http::withOptions(['verify' => false])->withHeaders([

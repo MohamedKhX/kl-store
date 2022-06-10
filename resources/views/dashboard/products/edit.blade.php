@@ -2,7 +2,7 @@
     <div class="container-fluid px-2 px-md-4 mt-5 pt-5">
         <div class="card card-body mx-3 mx-md-4 mt-n6 mt-5">
             <div>
-                <a href="{{ route('admin.products.index') }}" class="btn btn-primary">Back to products</a>
+                <a href="{{ route('admin.products.index') }}" class="btn btn-primary">Back to Products</a>
             </div>
             @if($errors->any())
                 <div class="alert alert-danger text-white pb-1" role="alert">
@@ -76,6 +76,21 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="my-3">
+                            <strong>Collections: </strong>
+                            <div class="d-flex flex-column justify-content-center">
+                                @foreach($collections as $collection)
+                                    <div class="form-check">
+                                        <input name="collections[]" class="form-check-input" type="checkbox" value="{{ $collection->id }}" id="{{ $collection->name }}"
+                                            {{ $product->collections->contains($collection) ? 'checked' : null }}
+                                        >
+                                        <label class="form-check-label" for="{{ $collection->name }}">
+                                            {{ $collection->name }}
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
                         <div class="form-check form-switch d-flex align-content-center">
                             <input class="form-check-input me-2" name="product_status" type="checkbox" id="product_status"
                                 {{ $product->status ? 'checked' : null }}
@@ -108,13 +123,16 @@
                     </form>
 
                     <div>
-                        <h5>Colors : </h5>
+                        <h5>Colors :</h5>
                         <div class="row d-flex">
                             @foreach($product->colors as $color)
                                 <a href="{{ route('admin.products.color.edit', [$product, $color->id]) }}" class="col-3 col-sm-2 col-lg-1">
-                                    <img src="{{ $color->thumbnail }}" class="img-fluid mt-4" alt="">
+                                    <img src="{{ $color->thumbnail() }}" class="img-fluid mt-4" alt="">
                                 </a>
                             @endforeach
+                        </div>
+                        <div>
+                            <a class="my-3 btn btn-info" href="{{ route('admin.products.color.store', $product) }}">Add a color</a>
                         </div>
                     </div>
                 </div>

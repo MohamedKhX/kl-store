@@ -23,15 +23,48 @@ class ProductColorController extends Controller
             'color_sizes'    => 'required'
         ]);
 
-        $colorSizes = explode(',', str($request->input('color_sizes'))->upper());
+        $colorSizeNames = $request->input('color_sizes');
+        $colorSizeQty   = $request->input('color_size_qty');
+        $colorSizes = [];
 
-        $productColor             = new ProductColors();
-        $productColor->product_id = $product->id;
-        $productColor->name       = $request->input('color_name');
-        $productColor->color      = $request->input('color');
-        $productColor->price      = $request->input('color_price');
-        $productColor->images     = json_encode($request->input('color_images'));
-        $productColor->sizes      = json_encode($colorSizes);
+        foreach ($colorSizeNames as $key => $sizeName) {
+            if(is_null($sizeName)) {
+                continue;
+            }
+            $colorSizes[] = [
+                'size' => $sizeName,
+                'qty'  => $colorSizeQty[$key]
+            ];
+        }
+        $colorImages = $request->input('color_images');
+
+        $images      = [];
+        foreach ($colorImages as $image) {
+            if(is_null($image)) {
+                continue;
+            }
+
+            $images[] = $image;
+        }
+
+        if($request->input('color_custom_price')) {
+            $price = $request->input('color_custom_price');
+        } else {
+            $price = $request->input('color_price');
+        }
+
+        $thumbnail = $request->file('color_thumbnail')->store('color_thumbnails', 'public');
+
+        $productColor               = new ProductColors();
+        $productColor->product_id   = $product->id;
+        $productColor->name         = $request->input('color_name');
+        $productColor->color        = $request->input('color');
+        $productColor->price        = $price;
+        $productColor->images       = json_encode($images);
+        $productColor->sizes        = json_encode($colorSizes);
+        $productColor->thumbnail    = $thumbnail;
+        $productColor->old_price    = $request->input('color_old_price');
+        $productColor->custom_price = $request->input('color_custom_price');
 
 
         $productColor->save();
@@ -56,7 +89,7 @@ class ProductColorController extends Controller
             'color_name'      => 'max:32',
             'color_price'     => 'required|int',
             'color_sizes'     => 'required',
-            'color_thumbnail' => 'required'
+            'color_thumbnail' => ''
         ]);
 
         $colorSizeNames = $request->input('color_sizes');
@@ -95,9 +128,16 @@ class ProductColorController extends Controller
         $productColor->price        = $price;
         $productColor->images       = json_encode($images);
         $productColor->sizes        = json_encode($colorSizes);
-        $productColor->thumbnail    = $request->input('color_thumbnail');
         $productColor->old_price    = $request->input('color_old_price');
         $productColor->custom_price = $request->input('color_custom_price');
+
+
+        if($request->input('color_thumbnail')) {
+            $thumbnail               = $request->file('color_thumbnail')->store('color_thumbnails', 'public');
+            $productColor->thumbnail = $thumbnail;
+        }
+
+
         $productColor->save();
 
         return redirect()->back()->with('success', 'Color Updated Successfully');

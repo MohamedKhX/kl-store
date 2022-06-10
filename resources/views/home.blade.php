@@ -75,7 +75,7 @@
                                                     <a class="btn btn-lg btn-dark" href="#"
                                                        onclick="showCategory({{ $category->id }})"
                                                        data-bs-toggle="modal" data-bs-target="#CategoryModel">
-                                                        View All
+                                                        View More
                                                     </a>
                                                 </div>
                                             </div>

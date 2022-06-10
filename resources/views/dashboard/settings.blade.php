@@ -107,6 +107,13 @@
                                             </div>
                                         </li>
                                         <li class="list-group-item border-0 px-0">
+                                            <label class="form-label">Store Logo</label>
+                                            <div class="input-group input-group-outline my-2">
+                                                <label for="store_icon" class="form-label"></label>
+                                                <input name="store_icon" id="store_icon" type="file" class="form-control" value="{{ $store_icon }}">
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item border-0 px-0">
                                             <label for="store_description" class="form-label">Store Description</label>
                                             <div class="input-group input-group-outline my-2">
                                                 <textarea name="store_description" id="store_description" cols="30" rows="4" class="form-control">{{ $store_description }}</textarea>

@@ -210,15 +210,6 @@ class DatabaseSeeder extends Seeder
         }
 
 
-        Collection::factory()->create([
-            'user_id'     => $user,
-            'name'        => 'Exclusive Collection',
-            'title'       => 'Exclusive Collection',
-            'slug'        => str('Exclusive')->lower()->slug(),
-            'description' => 'Exclusive',
-            'thumbnail'   => 'https://images.unsplash.com/photo-1588822149715-8394a8d709f0?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=60&raw_url=true&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8c2Vhc29ufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500'
-        ]);
-
 
         $productShirt = Product::factory()->create([
             'user_id'     => $user,

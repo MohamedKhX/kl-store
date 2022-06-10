@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(PageController::class)->middleware('webActive')->group(function () {
     Route::get('/', 'home')->name('home');
+    Route::get('/contact', 'contact')->name('contact');
     Route::get('/faqs', 'faqs')->name('faqs');
 });
 
@@ -91,15 +92,11 @@ Route::middleware('admin')->group(function () {
 });
 
 
-Route::resource('/products', ProductController::class);
-Route::get('/products/{product}/{color}', [ProductController::class, 'show'])->name('product-color');
-
-Route::resource('/collections', CollectionController::class);
-Route::get('/collections/{collection:slug}', [CollectionController::class, 'show'])->name('products-show');
-
+Route::get('/category/{category:slug}', [CategoryController::class, 'show'])->name('categories.show');
 
 Route::get('test', function () {
     dd(\App\Models\ProductColors::transformCurrency(200));
 });
+
 
 require __DIR__.'/auth.php';

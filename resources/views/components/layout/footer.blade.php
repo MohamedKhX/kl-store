@@ -4,8 +4,9 @@
             <div class="col-6 col-lg-2 mb-3 text-center text-sm-start">
                 <h5 class="lh-lg fw-bold text-1000">Customer Care</h5>
                 <ul class="list-unstyled mb-md-4 mb-lg-0">
-                    <li class="lh-lg"><a class="text-800 text-decoration-none" href="#!">Contact Us</a></li>
-                    <li class="lh-lg"><a class="text-800 text-decoration-none" href="#!">Payment Methods</a></li>
+                    <li class="lh-lg"><a class="text-800 text-decoration-none" href="{{ route('contact') }}">Contact Us</a></li>
+                    <li class="lh-lg"><a class="text-800 text-decoration-none" href="#!">Privacy and policy</a></li>
+                    <li class="lh-lg"><a class="text-800 text-decoration-none" href="{{ route('faqs') }}">Faqs</a></li>
                     <li class="lh-lg">
                         <a class="text-800 text-decoration-none" href=""
                            data-bs-toggle="modal" data-bs-target="#CartModel"

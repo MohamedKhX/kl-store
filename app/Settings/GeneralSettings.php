@@ -18,6 +18,7 @@ class GeneralSettings extends Settings
     public string $store_thumbnail   = '';
     public string $store_phone_number = '';
     public string $store_email = '';
+    public string $store_icon = '';
 
 
     public static function group(): string

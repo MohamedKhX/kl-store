@@ -18,6 +18,15 @@ class ProductColors extends Model
         return $this->belongsTo(Product::class);
     }
 
+    public function thumbnail()
+    {
+        if(str($this->thumbnail)->contains('thumbnails')) {
+            return url('storage/' . $this->thumbnail);
+        }
+
+        return $this->thumbnail;
+    }
+
     public function sizes(): Attribute
     {
         return Attribute::make(

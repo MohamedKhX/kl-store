@@ -39,7 +39,7 @@ class PageController extends Controller
 
     public function contact()
     {
-
+        return view('contact-us');
     }
 
     public function about()

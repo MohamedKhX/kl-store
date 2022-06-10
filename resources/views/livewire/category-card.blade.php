@@ -1,7 +1,5 @@
 <x-card.category :name="$category->name" :img="$category->thumbnail">
     <x-slot name="link">
-        <a class="stretched-link" href="#" wire:click="showCategory({{$category->id}})"
-           data-bs-toggle="modal" data-bs-target="#CategoryModel"
-        ></a>
+        <a style="cursor: pointer; outline: none;" class="stretched-link" href="{{ route('categories.show', $category->slug) }}"></a>
     </x-slot>
 </x-card.category>

@@ -76,6 +76,9 @@ class Product extends Component
     {
         $this->colorId = 1;
         $this->identifier = $id;
+
+        \App\Models\Product::find($id)->view();
+
         $this->sizeSelected = null;
         $this->unShowAlert();
 
@@ -84,7 +87,8 @@ class Product extends Component
 
     public function render($id = null)
     {
-        if(!isset($this->product)) {
+
+        if(! isset($this->product)) {
            $product = \App\Models\Product::find($this->identifier);
         }
 

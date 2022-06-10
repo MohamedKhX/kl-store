@@ -27,7 +27,8 @@ class DashboardController extends Controller
             'store_description'          => $settings->store_description,
             'phone_number'               => $settings->store_phone_number,
             'site_email'                 => $settings->store_email,
-            'store_thumbnail'            => $settings->store_thumbnail
+            'store_thumbnail'            => $settings->store_thumbnail,
+            'store_icon'                 => $settings->store_icon,
         ]);
     }
 
@@ -38,15 +39,13 @@ class DashboardController extends Controller
             'store_title'     => 'required|max:64',
             'phone_number'    => 'required|max:64',
             'site_email'      => 'required|max:64',
-            'store_thumbnail' => 'required',
+            'store_thumbnail' => '',
         ]);
-
 
         $app_active                 = $this->convertCheckBoxValueToBool($request->app_active);
         $ability_to_create_accounts = $this->convertCheckBoxValueToBool($request->ability_to_create_accounts);
         $ability_to_login           = $this->convertCheckBoxValueToBool($request->ability_to_login);
         $ability_to_order           = $this->convertCheckBoxValueToBool($request->ability_to_order);
-        $store_thumbnail            = $request->file('store_thumbnail')->store('header_thumbnail', 'public');
 
         $settings->app_active                 = $app_active;
         $settings->ability_to_create_accounts = $ability_to_create_accounts;
@@ -55,9 +54,18 @@ class DashboardController extends Controller
         $settings->site_name          = $request->input('site_name');
         $settings->store_title        = $request->input('store_title');
         $settings->store_description  = $request->input('store_description');
-        $settings->store_thumbnail    = $store_thumbnail;
         $settings->store_phone_number = $request->input('phone_number');
         $settings->store_email        = $request->input('site_email');
+
+        if($request->file('store_thumbnail')) {
+            $store_thumbnail           = $request->file('store_thumbnail')->store('header_thumbnail', 'public');
+            $settings->store_thumbnail = $store_thumbnail;
+        }
+
+        if($request->file('store_icon')) {
+            $store_icon           = $request->file('store_icon')->store('logos', 'public');
+            $settings->store_icon = $store_icon;
+        }
 
         $settings->save();
 

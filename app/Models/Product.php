@@ -10,6 +10,17 @@ class Product extends Model
 {
     use HasFactory;
 
+    public function view()
+    {
+        $this->views += 1;
+        $this->save();
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', '=', true);
+    }
+
     public function colors(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(ProductColors::class);
@@ -25,7 +36,7 @@ class Product extends Model
 
     public function oldPrice()
     {
-        return $this->colors()->first()->old_price;
+        return $this->colors()->first()->old_price ?? null;
     }
 
     public function thumbnail()

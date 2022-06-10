@@ -22,7 +22,7 @@
                         <h4>Please login in</h4>
                     </div>
                     <form method="POST" action="{{ route('login') }}">
-                        @csrf
+                      @csrf
                         <div class="form-group mt-4">
                             <label class="form-label" for="email">Email: </label>
                             <input class="form-control" id="email" name="email" type="email" placeholder="Enter your email" required>

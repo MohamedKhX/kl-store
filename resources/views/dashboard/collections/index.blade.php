@@ -248,6 +248,8 @@
         <script>
             const form = document.getElementById('deleteForm');
 
+
+
             function collectionToDelete(collection, productsCount)
             {
                 const collectionName = document.getElementById('collectionName');

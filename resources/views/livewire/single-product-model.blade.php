@@ -9,16 +9,6 @@
         </div>
     </div>
     <div class="modal-footer">
-      {{--  @if($fromWhereItOpened === 'model')
-            <button wire:click="unShowProduct"
-                    class="btn btn-primary"
-                    data-bs-target="#CollectionModel"
-                    data-bs-toggle="modal"
-                    data-bs-dismiss="modal">
-                Back to first
-            </button>
-        @endif
---}}
         <button wire:click="unShowProduct"
                 type="button"
                 class="btn btn-secondary"

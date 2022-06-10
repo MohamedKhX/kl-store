@@ -38,6 +38,22 @@
                             <input id="color_name" name="color_name" type="text" class="form-control" value="{{ old('color_name') }}">
                         </div>
 
+                        <div class="input-group input-group-outline my-3 ">
+                            <label for="color_old_price" class="form-label">Color Old Price</label>
+                            <input id="color_old_price" name="color_old_price" type="text" class="form-control" value="{{ old('color_old_price') }}">
+                        </div>
+
+                        <div>
+                            <div>
+                                <strong class="text-danger">Note: </strong>
+                                <span>Use (Custom Price) this when you don't want update the price after fetching</span>
+                            </div>
+                            <div class="input-group input-group-outline my-3 ">
+                                <label for="color_custom_price" class="form-label">Color Custom Price</label>
+                                <input id="color_custom_price" name="color_custom_price" type="text" class="form-control" value="{{ old('color_custom_price')  }}">
+                            </div>
+                        </div>
+
                         <div class="input-group input-group-outline my-3 {{ old('color_price') ? 'is-focused' : null }}">
                             <label for="color_price" class="form-label">Color Price</label>
                             <input id="color_price" name="color_price" type="text" class="form-control" value="{{ old('color_price') }}">
@@ -49,20 +65,40 @@
                                 <input id="color_img_url" name="color_images[]" type="text" class="form-control" value="{{ old('color_img_url') }}">
                                 <a onclick="createUrlField()" class="btn btn-primary h-100 mb-0">+</a>
                             </div>
+
                         </div>
 
                         <div class="my-3">
-                            <label for="color_thumbnail" class="form-label">Product Thumbnail</label>
+                            <label for="color_thumbnail" class="form-label">Color Thumbnail</label>
                             <div class="input-group input-group-outline">
                                 <input id="color_thumbnail" name="color_thumbnail" type="file" class="form-control" value="{{ old('product_thumbnail') }}">
                             </div>
                         </div>
 
-                        <div>
-                            <p>Write size after that write comma ,</p>
-                            <div class="input-group input-group-outline my-3 {{ old('color_price') ? 'is-focused' : null }}">
-                                <label for="color_sizes" class="form-label">Color Sizes</label>
-                                <input id="color_sizes" name="color_sizes" type="text" class="form-control" value="{{ old('color_price') }}">
+                        <div class="d-flex justify-content-center">
+                            <a onclick="addSizeField()" class="btn btn-secondary">Add a size</a>
+                        </div>
+                        <div id="sizeFields">
+                            <div class="row d-flex justify-content-center">
+                                <div class="col-8 col-xl-4">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="input-group input-group-outline my-3 is-focused">
+                                                <label for="color_sizes" class="form-label">Size</label>
+                                                <input id="color_sizes" name="color_sizes[]" type="text"
+                                                       class="form-control" value=""
+                                                >
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="input-group input-group-outline my-3">
+                                                <label for="color_qty" class="form-label">Qty</label>
+                                                <input id="color_qty" name="color_size_qty[]" type="text"
+                                                       class="form-control" value="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -80,6 +116,37 @@
     @push('scripts')
         <script>
             let counter = 0;
+            function addSizeField() {
+
+                const sizeFields = document.getElementById('sizeFields');
+                console.log(sizeFields);
+
+                const node = document.createElement('div');
+                node.classList.add('row', 'd-flex', 'justify-content-center');
+                node.innerHTML = `
+                           <div class="col-4">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="input-group input-group-outline my-3 is-focused">
+                                                    <label for="color_sizes" class="form-label">Size</label>
+                                                    <input id="color_sizes" name="color_sizes[]" type="text"
+                                                           class="form-control" value=""
+                                                    >
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="input-group input-group-outline my-3 is-focused">
+                                                    <label for="color_qty" class="form-label">Qty</label>
+                                                    <input id="color_qty" name="color_size_qty[]" type="text"
+                                                           class="form-control" value="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                `
+
+                sizeFields.append(node)
+            }
             function createUrlField()
             {
                 counter++;

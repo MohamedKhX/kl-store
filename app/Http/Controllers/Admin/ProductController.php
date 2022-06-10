@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Collection;
 use App\Models\Product;
 use App\Models\ProductColors;
 use App\WebScrapers\LcwikiScraper;
@@ -24,7 +25,8 @@ class ProductController extends Controller
     public function create()
     {
         return view('dashboard.products.create')->with([
-            'categories' => Category::all()
+            'categories' => Category::all(),
+            'collections' => Collection::all()
         ]);
     }
 
@@ -36,6 +38,7 @@ class ProductController extends Controller
             'product_thumbnail' => 'required|image',
             'product_url'       => 'url'
         ]);
+
 
         $status = (bool) $request->input('product_status');
         $imgPath = $request->file('product_thumbnail')->store('product_thumbnails', 'public');
@@ -52,6 +55,8 @@ class ProductController extends Controller
 
         $product->save();
 
+        $product->collections()->attach($request->input('collections'));
+
         return redirect(route('admin.products.color.create', ['product' => $product]));
     }
 
@@ -65,8 +70,9 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         return view('dashboard.products.edit')->with([
-            'product'  => $product,
-            'categories' => Category::all()
+            'product'     => $product,
+            'categories'  => Category::all(),
+            'collections' => Collection::all()
         ]);
     }
 
@@ -84,6 +90,8 @@ class ProductController extends Controller
         $product->name           = $request->input('product_name');
         $product->description    = $request->input('product_description');
         $product->status         = $status;
+
+        $product->collections()->sync($request->input('collections'));
 
         if($request->file('product_thumbnail')) {
             //Delete old image
