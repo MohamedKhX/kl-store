@@ -5,12 +5,12 @@
         <img class="img-fluid " src="{{ $img }}" alt="..." />
         <div class="card-img-overlay ps-0"> </div>
         <div class="card-body ps-0 bg-200">
-            <h5 class="fw-bold text-1000 text-truncate">{{ $name }}</h5>
-            <div class="fw-bold">
+            <h5 class="fw-bold text-1000 text-truncate {{ arRight() }}">{{ $name }}</h5>
+            <div class="fw-bold {{ arRight() }}">
                 @if($oldPrice)
                     <span class="me-2 text-danger text-decoration-line-through">{{ $oldPrice }}</span>
                 @endif
-                <span class="text-800">{{ $price }}</span>
+                <span class="text-800 ">{{ $price }}</span>
             </div>
         </div>
         {{ isset($link) ? $link : '' }}

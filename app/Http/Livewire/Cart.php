@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use Gloudemans\Shoppingcart\Exceptions\InvalidRowIDException;
 use Livewire\Component;
 
 class Cart extends Component
@@ -40,9 +41,13 @@ class Cart extends Component
 
     public function deleteItemFromCart($rowId)
     {
-        \Gloudemans\Shoppingcart\Facades\Cart::remove($rowId);
-        unset($this->qtys[$rowId]);
-        $this->emit('cartCountUpdated');
+        try {
+            \Gloudemans\Shoppingcart\Facades\Cart::remove($rowId);
+            unset($this->qtys[$rowId]);
+            $this->emit('cartCountUpdated');
+        } catch (InvalidRowIDException $exception) {
+
+        }
     }
 
     public function mount()

@@ -41,19 +41,25 @@
                     <div class="col-12 col-lg-6 p-xxl-5 pt-4">
                         <div class="pt-xxl-4">
                             <div class="d-flex align-items-center justify-content-between">
-                                <h2>{{ $product->name }}</h2>
+                                @if(ar())
+                                    <h5>{{ $color->priceWithCurrency() }}</h5>
 
-                                <h5>{{ $color->priceWithCurrency() }}</h5>
+                                    <h2>{{ $product->name }}</h2>
+                                @else
+                                    <h2>{{ $product->name }}</h2>
+
+                                    <h5>{{ $color->priceWithCurrency() }}</h5>
+                                @endif
                             </div>
                             <div>
-                                <p class="description">{{ $product->description }}</p>
+                                <p class="description {{arRight()}}">{{ $product->description }}</p>
                             </div>
                         </div>
                         <hr>
                         <div class="pt-4">
-                            <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center {{ ar() ? 'justify-content-end' : 'justify-content-between ' }}">
                                 <h3>
-                                    Color
+                                    {{ __('product.color') }}
                                 </h3>
                             </div>
                             <div class="d-flex d-sm-none justify-content-center color-images-box">
@@ -104,9 +110,9 @@
                             </div>
                         </div>
                         <div class="pt-5">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <h3>
-                                    Size
+                            <div class="d-flex align-items-center {{ ar() ? 'justify-content-end' : 'justify-content-between ' }}">
+                                <h3 class="{{arRight()}}">
+                                    {{ __('product.size') }}
                                 </h3>
                             </div>
                             @php
@@ -153,14 +159,16 @@
                             </div>
                         </div>
                         @if($showAlert === true)
-                            <div class="pt-4">
+                            <div class="pt-4 {{ arRight() }}">
                                 <div class="alert alert-{{ $alertType }} d-flex flex-column flex-sm-row justify-content-between" role="alert">
                                     {!! $alertMessage !!}
                                 </div>
                             </div>
                         @endif
                         <div class="pt-4 mt-2 p-lg-4 d-flex justify-content-center">
-                            <button wire:click="addToCart({{$product}})" class="btn btn-lg btn-dark w-100 w-md-50">Add to cart</button>
+                            <button wire:click="addToCart({{$product}})" class="btn btn-lg btn-dark w-100 w-md-50">
+                                {{ __('product.add_to_cart') }}
+                            </button>
                         </div>
                     </div>
                 </div>

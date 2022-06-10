@@ -5,7 +5,7 @@
         <img class="card-img h-100" src="{{ url('storage/' . $img) }}" alt="..." />
         <div class="card-img-overlay bg-dark-gradient rounded-0">
             <div class="p-5 p-xl-5 p-md-0">
-                <h3 class="text-light">{{ $name }}</h3>
+                <h3 class="text-light {{arRight()}}">{{ $name }}</h3>
             </div>
         </div>
         {{ $link ?? null }}

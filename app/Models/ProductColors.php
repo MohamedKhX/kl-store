@@ -36,6 +36,9 @@ class ProductColors extends Model
 
     public function priceWithCurrency($currency = 'LYD'): string
     {
+        if(ar()) {
+            return __('elements.LYD') . ' ‎ ' . $this->price;
+        }
         return $this->price . ' LYD';
     }
 

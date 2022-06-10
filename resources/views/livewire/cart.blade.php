@@ -1,5 +1,5 @@
 <div>
-    <div class="container-fluid container-lg mt-5">
+    <div class="container-fluid container-lg mt-2">
         <div class="row">
             <div class="d-none d-xl-block col-8">
                 @if(count($cartItems) <= 0)
@@ -92,41 +92,81 @@
                                     <img src="{{ $item->options->thumbnail }}" class="card-img-top" alt="...">
                                 </a>
                                 <div class="card-body">
-                                    <h5 class="card-title">{{ $item->name }}</h5>
+                                    <h5 class="card-title {{arRight()}}">{{ $item->name }}</h5>
                                 </div>
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item d-flex justify-content-between">
-                                        <div>
-                                            <strong>Price :</strong>
-                                        </div>
-                                        <span>
-                                            <strong>{{ $item->price }} LYD</strong>
-                                        </span>
+                                        @if(ar())
+                                            <span>
+                                                <strong>{{ __('elements.LYD') . '‎' }} {{ $item->price  }} </strong>
+                                            </span>
+
+                                            <div>
+                                                <strong>{{ __('cart.price') }}</strong>
+                                            </div>
+                                        @else
+                                            <div>
+                                                <strong>{{ __('cart.price') }}</strong>
+                                            </div>
+                                            <span>
+                                                <strong>{{ $item->price }} {{ __('elements.LYD') }}</strong>
+                                            </span>
+                                        @endif
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between">
-                                        <div>
-                                            <strong>Size :</strong>
-                                        </div>
-                                        <span>
-                                              <strong>{{ $item->options->size }}</strong>
-                                        </span>
+                                        @if(ar())
+                                            <span>
+                                               <strong>{{ $item->options->size }}</strong>
+                                            </span>
+                                            <div>
+                                                <strong>{{ __('cart.size') }}</strong>
+                                            </div>
+                                        @else
+                                            <div>
+                                                <strong>{{ __('cart.size') }}</strong>
+                                            </div>
+                                            <span>
+                                               <strong>{{ $item->options->size }}</strong>
+                                            </span>
+                                        @endif
+
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <strong>Quantity :</strong>
-                                        </div>
-                                        <div>
-                                            <div class="quantity buttons_added">
-                                                <input wire:click="decrement('{{ $item->rowId }}')" type="button" value="-" class="minus">
-                                                <input type="text"
-                                                       onKeyDown="return false"
-                                                       name="quantity" title="Qty"
-                                                       class="input-text qty text"
-                                                       wire:model="qtys.{{$item->rowId}}"
-                                                >
-                                                <input wire:click="increment('{{ $item->rowId }}')" type="button" value="+" class="plus">
+                                        @if(ar())
+                                            <div>
+                                                <div class="quantity buttons_added">
+                                                    <input wire:click="decrement('{{ $item->rowId }}')" type="button" value="-" class="minus">
+                                                    <input type="text"
+                                                           onKeyDown="return false"
+                                                           name="quantity" title="Qty"
+                                                           class="input-text qty text"
+                                                           wire:model="qtys.{{$item->rowId}}"
+                                                    >
+                                                    <input wire:click="increment('{{ $item->rowId }}')" type="button" value="+" class="plus">
+                                                </div>
                                             </div>
-                                        </div>
+
+                                            <div>
+                                                <strong>{{ __('cart.qty') }}</strong>
+                                            </div>
+                                        @else
+                                            <div>
+                                                <strong>{{ __('cart.qty') }}</strong>
+                                            </div>
+                                            <div>
+                                                <div class="quantity buttons_added">
+                                                    <input wire:click="decrement('{{ $item->rowId }}')" type="button" value="-" class="minus">
+                                                    <input type="text"
+                                                           onKeyDown="return false"
+                                                           name="quantity" title="Qty"
+                                                           class="input-text qty text"
+                                                           wire:model="qtys.{{$item->rowId}}"
+                                                    >
+                                                    <input wire:click="increment('{{ $item->rowId }}')" type="button" value="+" class="plus">
+                                                </div>
+                                            </div>
+                                        @endif
+
                                     </li>
                                 </ul>
                                 <div x-data="{ disabled: true }" class="card-body d-flex justify-content-center">
@@ -153,11 +193,11 @@
                     <form action="">
                         <div class="mb-3">
                             <input type="text"
-                                   class="form-control"
-                                   placeholder="Coupon code"
+                                   class="form-control {{arRight()}}"
+                                   placeholder="{{ __('cart.coupon_code')  }}"
                                    style="padding: .5rem 1rem"
                             >
-                            <button class="btn btn-dark px-2 mt-3 w-100" type="button">APPLY COUPON</button>
+                            <button class="btn btn-dark px-2 mt-3 w-100" type="button">{{ __('cart.apply_coupon') }}</button>
                         </div>
                     </form>
                 @endif
@@ -165,25 +205,40 @@
 
             <div class="col-12 col-xl-4">
                 <div class="mt-7">
-                    <h4>Cart Totals</h4>
+                    <h4 class="{{ arRight() }}">{{ __('cart.cart_totals') }}</h4>
                     <hr>
                     <div class="d-flex justify-content-between">
-                        <h5>Subtotal</h5>
-                        <h5><strong>{{ $subTotal }} LYD</strong></h5>
+                        @if(ar())
+                            <h5><strong> {{ __('elements.LYD') . '‎' }} {{ $subTotal }}</strong></h5>
+                            <h5>{{ __('cart.sub_total') }}</h5>
+                        @else
+                            <h5>{{ __('cart.sub_total') }}</h5>
+                            <h5><strong>{{ $subTotal }} {{ __('elements.LYD') }}</strong></h5>
+                        @endif
                     </div>
                     <hr>
                     <div class="d-flex justify-content-between">
-                        <h5>Shipping to Bangazi</h5>
-                        <h5><strong>30 LYD</strong></h5>
+                        @if(ar())
+                            <h5><strong> {{  __('elements.LYD') . '‎' }} 30</strong></h5>
+                            <h5>{{ __('cart.shipping_to') }} بنغازي </h5>
+                        @else
+                            <h5>{{ __('cart.shipping_to') }} Bangazi</h5>
+                            <h5><strong>30 {{ __('elements.LYD') }}</strong></h5>
+                        @endif
                     </div>
                     <hr>
                     <div class="d-flex justify-content-between">
-                        <h5>Total</h5>
-                        <h5><strong>{{ $total }} LYD</strong></h5>
+                        @if(ar())
+                            <h5><strong>{{ __('elements.LYD') . '‎' }} {{ $total }} </strong></h5>
+                            <h5>{{ __('cart.total') }}</h5>
+                        @else
+                            <h5>{{ __('cart.total') }}</h5>
+                            <h5><strong>{{ $total }} {{ __('elements.LYD') }}</strong></h5>
+                        @endif
                     </div>
                     <hr>
-                    <button class="btn btn-dark w-100" {{ count($cartItems) === 0 ? 'disabled' : null }}>PROCEED TO
-                        CHECK OUT
+                    <button class="btn btn-dark w-100" {{ count($cartItems) === 0 ? 'disabled' : null }}>
+                        {{ __('cart.proceed_to_checkout') }}
                     </button>
                 </div>
             </div>

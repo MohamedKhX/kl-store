@@ -12,11 +12,17 @@ function getSiteName()
 
 function getStoreTitle()
 {
+    if(ar()) {
+        return app(GeneralSettings::class)->store_title_ar;
+    }
     return app(GeneralSettings::class)->store_title;
 }
 
 function getStoreDescription()
 {
+    if(ar()) {
+        return app(GeneralSettings::class)->store_description_ar;
+    }
     return app(GeneralSettings::class)->store_description;
 }
 
@@ -72,4 +78,14 @@ function transformCurrency($price, $from = 'TRY', $to = 'LYD')
         ->json();
 
     return $response['new_amount'];
+}
+
+function arRight()
+{
+    return  \Illuminate\Support\Facades\Lang::getLocale() === 'ar' ? 'text-end' : null;
+}
+
+function ar()
+{
+    return  \Illuminate\Support\Facades\Lang::getLocale() === 'ar';
 }

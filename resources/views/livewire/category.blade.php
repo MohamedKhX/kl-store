@@ -20,7 +20,7 @@
                     </div>
                     <div class="col-12 d-flex justify-content-center mt-5">
                         <a class="btn btn-lg btn-dark" href="{{ route('categories.show', $category->slug) }}">
-                            View All
+                            {{ __('elements.view_all') }}
                         </a>
                     </div>
                 </div>

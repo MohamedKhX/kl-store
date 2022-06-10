@@ -34,7 +34,7 @@
             <div class="container">
                 <div class="row h-100">
                     <div class="col-lg-7 mx-auto text-center mb-6">
-                        <h5 class="fw-bold fs-3 fs-lg-5 lh-sm mb-3">Shop By Category</h5>
+                        <h5 class="fw-bold fs-3 fs-lg-5 lh-sm mb-3">{{ __('home.shop_by_category') }}</h5>
                     </div>
                     <div class="col-12">
                         <nav>
@@ -75,7 +75,7 @@
                                                     <a class="btn btn-lg btn-dark" href="#"
                                                        onclick="showCategory({{ $category->id }})"
                                                        data-bs-toggle="modal" data-bs-target="#CategoryModel">
-                                                        View More
+                                                        {{ __('elements.view_more') }}
                                                     </a>
                                                 </div>
                                             </div>
@@ -109,7 +109,9 @@
                         </div>
                     </div>
                     <div class="col-12 d-flex justify-content-center mt-5">
-                        <a class="btn btn-lg btn-dark" onclick="showCollection({{ $bestDealsCollection->id }})" href="" data-bs-toggle="modal" data-bs-target="#CollectionModel">View All</a>
+                        <a class="btn btn-lg btn-dark" onclick="showCollection({{ $bestDealsCollection->id }})" href="" data-bs-toggle="modal" data-bs-target="#CollectionModel">
+                            {{ __('elements.view_all') }}
+                        </a>
                     </div>
                 </div>
             </div>
@@ -119,7 +121,7 @@
         {{-- Strat collections Section --}}
         <section>
             <div class="container">
-                <h3 class="pb-3">Collections: </h3>
+                <h3 class="pb-3 {{ arRight() }}">{{ __('home.Collections') }} </h3>
                 <div class="row h-100 g-2 py-1 d-flex justify-content-center">
                     @foreach($collections as $collection)
                         <div class="col-md-4">
@@ -152,7 +154,9 @@
                         </div>
                     </div>
                     <div class="col-12 d-flex justify-content-center mt-5">
-                        <a class="btn btn-lg btn-dark" onclick="showCollection({{ $newArrivalsCollection->id }})" href="" data-bs-toggle="modal" data-bs-target="#CollectionModel">View All</a>
+                        <a class="btn btn-lg btn-dark" onclick="showCollection({{ $newArrivalsCollection->id }})" href="" data-bs-toggle="modal" data-bs-target="#CollectionModel">
+                            {{ __('elements.view_all') }}
+                        </a>
                     </div>
                 </div>
             </div>
@@ -174,7 +178,9 @@
                         </div>
                     </div>
                     <div class="col-12 d-flex justify-content-center mt-5">
-                        <a class="btn btn-lg btn-dark" onclick="showCollection({{ $bestSellersCollection->id }})" href="" data-bs-toggle="modal" data-bs-target="#CollectionModel">View All</a>
+                        <a class="btn btn-lg btn-dark" onclick="showCollection({{ $bestSellersCollection->id }})" href="" data-bs-toggle="modal" data-bs-target="#CollectionModel">
+                            {{ __('elements.view_all') }}
+                        </a>
                     </div>
                 </div>
             </div>
@@ -184,7 +190,7 @@
         {{-- Start Categories section --}}
         <section class="py-0" id="categories">
             <div class="container">
-                <h3 class="pb-3">Categories: </h3>
+                <h3 class="pb-3 {{ arRight() }}">{{__('home.Categories')}}  </h3>
                 <div class="row h-100 g-0 d-flex justify-content-center">
                     <div class="col-md-12 h-100">
                         <div class="row h-100 g-0 d-flex justify-content-center">

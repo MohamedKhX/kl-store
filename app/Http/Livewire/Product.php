@@ -31,6 +31,25 @@ class Product extends Component
     {
         $this->identifier = \App\Models\Product::first()->id;
         $this->colorId = 1;
+
+        $this->fillAlertMessages();
+    }
+
+    public function fillAlertMessages()
+    {
+        $addedToCart = __('cart.product_added_to_cart');
+        $openCart    = __('cart.open_cart');
+
+        $this->alertMessages = [
+            'selectSize'    => __('cart.please_select_size'),
+            'AlreadyInCart' => __('cart.this_product_in_you_cart'),
+            'AddedToCart'   => "
+                <div>{$addedToCart}</div>
+                <a data-bs-toggle='modal' data-bs-target='#CartModel' href=''>
+                    <strong>{$openCart}</strong>
+                </a>
+            ",
+        ];
     }
 
     public function showProductFromCategory($id)
