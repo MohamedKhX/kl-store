@@ -46,7 +46,9 @@
                                                 </div>
                                                 <div class="row h-100 align-items-center g-2 d-flex justify-content-center">
                                                     @foreach($products as $product)
-                                                        <livewire:product-card :product="$product"/>
+                                                        <div class="col-6 col-lg-3">
+                                                            <livewire:product-card :product="$product"/>
+                                                        </div>
                                                     @endforeach
                                                 </div>
                                                 <div class="d-flex justify-content-center mt-4">

@@ -2,15 +2,24 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Coupon;
 use Gloudemans\Shoppingcart\Exceptions\InvalidRowIDException;
+use Hamcrest\Core\IsNotTest;
+use Illuminate\Support\Facades\Date;
 use Livewire\Component;
 
 class Cart extends Component
 {
     public $cartItems;
     public $subTotal;
+    public $newSubTotal;
     public $total;
     public $qtys = [];
+    public $couponCode;
+    public $isThereDiscount = false;
+    public $shippingPrice = 30;
+    public $discount = 0;
+    public ?Coupon $coupon = null;
 
     protected $listeners = ['newItemAddedToCart', 'updateCart', 'deleteItemFromCart'];
 
@@ -24,8 +33,14 @@ class Cart extends Component
 
     public function updateCart()
     {
-        $this->subTotal = \Gloudemans\Shoppingcart\Facades\Cart::subtotal();
-        $this->total    = \Gloudemans\Shoppingcart\Facades\Cart::total();
+        $this->subTotal    = (string) \Gloudemans\Shoppingcart\Facades\Cart::subTotal();
+
+        if(! is_null($this->coupon)) {
+            $this->discount = $this->coupon->discount($this->subTotal);
+        }
+
+        $this->newSubTotal = $this->subTotal - $this->discount;
+        $this->total       = $this->newSubTotal + $this->shippingPrice;
         $this->emit('cartCountUpdated');
     }
 
@@ -91,6 +106,30 @@ class Cart extends Component
         $this->qtys[$rowId] -= 1;
         $this->updatedQtys();
 
+    }
+
+    public function applyCoupon()
+    {
+        $this->coupon = Coupon::findCoupon($this->couponCode);
+
+        if(! $this->coupon) {
+            session()->flash('couponError', __('cart.invalid_coupon'));
+            return;
+        }
+
+        if(! $this->coupon->isValidToUse()) {
+            return;
+        }
+
+        $this->discount = $this->coupon->discount($this->subTotal);
+
+        session()->flash('couponSuccess', __('cart.coupon_has_been_activated'));
+    }
+
+    public function deleteCoupon()
+    {
+        $this->discount = 0;
+        $this->coupon = null;
     }
 
 }

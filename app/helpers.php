@@ -72,12 +72,12 @@ function getStoreIcon() {
 
 function transformCurrency($price, $from = 'TRY', $to = 'LYD')
 {
+
     $response = Http::withOptions(['verify' => false])->withHeaders([
         'X-Api-Key' => 'DekERxC2A9lMEikr7KaZVw==K4AxfPvmpWuYppVZ',
     ])->get("https://api.api-ninjas.com/v1/convertcurrency?want={$to}&have={$from}&amount={$price}")
         ->json();
-
-    return $response['new_amount'];
+    return $response['new_amount'] ?? 200;
 }
 
 function arRight()

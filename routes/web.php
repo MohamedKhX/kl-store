@@ -13,8 +13,11 @@ use Illuminate\Support\Facades\Route;
 Route::controller(PageController::class)->middleware('webActive')->group(function () {
     Route::get('/', 'home')->name('home');
     Route::get('/contact', 'contact')->name('contact');
+    Route::post('/contact', 'contactStore')->name('contact-store');
     Route::get('/faqs', 'faqs')->name('faqs');
 });
+
+Route::get('/order', [\App\Http\Controllers\OrderController::class, 'index'])->name('order.index');
 
 Route::middleware('admin')->group(function () {
     Route::get('/dashboard',               [DashboardController::class, 'index'])        ->name('dashboard');
@@ -94,9 +97,7 @@ Route::middleware('admin')->group(function () {
 
 Route::get('/category/{category:slug}', [CategoryController::class, 'show'])->name('categories.show');
 
-Route::get('test', function () {
-    dd(\App\Models\ProductColors::transformCurrency(200));
-});
+
 
 
 require __DIR__.'/auth.php';

@@ -1,6 +1,8 @@
 <div>
     <div class="container-fluid container-lg mt-2">
         <div class="row">
+
+            {{-- Start Index Items for big screens --}}
             <div class="d-none d-xl-block col-8">
                 @if(count($cartItems) <= 0)
                     <h3 class="p-7 text-center">No Products in the cart!</h3>
@@ -79,7 +81,9 @@
                     </table>
                 @endif
             </div>
+            {{-- Start Index Items for big screens --}}
 
+            {{-- Start Index Cart items for small screens --}}
             <div class="col-12 my-3 d-xl-none">
                 <div class="d-flex flex-column justify-content-center">
                     @if(count($cartItems) <= 0)
@@ -186,23 +190,69 @@
                     @endif
                 </div>
             </div>
+            {{-- End index Cart items for small screens --}}
 
+            {{-- Start Coupon Section for small screens --}}
             <div class="col-12 d-xl-none">
+
+                @if(session()->has('couponError'))
+                    <div class="alert alert-danger d-flex justify-content-between {{arRight()}}" role="alert">
+                        @if(ar())
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            <span class="">
+                               {{ session()->get('couponError') }}
+                            </span>
+                        @else
+                            <span class="">
+                               {{ session()->get('couponError') }}
+                            </span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        @endif
+                    </div>
+                @endif
+                @if(session()->has('couponSuccess'))
+                    <div class="alert alert-success d-flex justify-content-between {{arRight()}}" role="alert">
+                        @if(ar())
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            <span class="">
+                               {{ session()->get('couponSuccess') }}
+                            </span>
+                        @else
+                            <span class="">
+                               {{ session()->get('couponSuccess') }}
+                            </span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        @endif
+                    </div>
+                @endif
+
                 @if(count($cartItems) === 0)
                 @else
-                    <form action="">
-                        <div class="mb-3">
-                            <input type="text"
-                                   class="form-control {{arRight()}}"
-                                   placeholder="{{ __('cart.coupon_code')  }}"
-                                   style="padding: .5rem 1rem"
-                            >
-                            <button class="btn btn-dark px-2 mt-3 w-100" type="button">{{ __('cart.apply_coupon') }}</button>
-                        </div>
-                    </form>
+                    @if(! $discount)
+                            <form wire:submit.prevent="applyCoupon">
+                                <div class="mb-3" x-data="{couponCode: ''}">
+                                    <input type="text"
+                                           class="form-control {{arRight()}}"
+                                           placeholder="{{ __('cart.coupon_code')  }}"
+                                           style="padding: .5rem 1rem"
+                                           wire:model.defer="couponCode"
+                                           x-model="couponCode"
+                                    >
+                                    <button
+                                        class="btn btn-dark px-2 mt-3 w-100"
+                                        type="submit"
+                                        :disabled="couponCode.length < 1"
+                                    >
+                                        {{ __('cart.apply_coupon') }}
+                                    </button>
+                                </div>
+                            </form>
+                    @endif
                 @endif
             </div>
+            {{-- End Coupon Section for small screens --}}
 
+            {{-- Cart Summary --}}
             <div class="col-12 col-xl-4">
                 <div class="mt-7">
                     <h4 class="{{ arRight() }}">{{ __('cart.cart_totals') }}</h4>
@@ -217,6 +267,40 @@
                         @endif
                     </div>
                     <hr>
+
+                    @if($discount)
+                        <div class="d-flex justify-content-between">
+                            @if(ar())
+                                <h5>
+                                    <strong>
+                                        {{ __('elements.LYD') . '‎' }}
+                                        -{{ $discount }}
+                                    </strong>
+                                </h5>
+                                <h5>{{ __('cart.discount') }}
+                                    <a class="ms-4" href="#" wire:click="deleteCoupon">
+                                        <strong class="text-danger">إلغاء الخصم</strong>
+                                    </a>
+                                </h5>
+                            @else
+                                <h5>{{ __('cart.discount') }}</h5>
+                                <h5><strong>-{{ $discount }} {{ __('elements.LYD') }}</strong></h5>
+                            @endif
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between">
+                            @if(ar())
+                                <h5><strong> {{ __('elements.LYD') . '‎' }} {{ $newSubTotal }}</strong></h5>
+                                <h5>{{ __('cart.new_subtotal') }}</h5>
+                            @else
+                                <h5>{{ __('cart.new_subtotal') }}</h5>
+                                <h5><strong>{{ $newSubTotal }} {{ __('elements.LYD') }}</strong></h5>
+                            @endif
+                        </div>
+                        <hr>
+                    @endif
+
+
                     <div class="d-flex justify-content-between">
                         @if(ar())
                             <h5><strong> {{  __('elements.LYD') . '‎' }} 30</strong></h5>
@@ -242,7 +326,9 @@
                     </button>
                 </div>
             </div>
+            {{-- End Cart Summary --}}
 
+            {{-- Start Coupon section for desktop --}}
             <div class="col-4 d-none d-xl-block">
                 <h4>Have a coupon?</h4>
                 <form action="">
@@ -255,6 +341,7 @@
                     </div>
                 </form>
             </div>
+            {{-- End Coupon section for desktop --}}
         </div>
     </div>
 </div>

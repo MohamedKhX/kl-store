@@ -16,5 +16,11 @@ return [
     'sub_total'                => 'المجموع الفرعي',
     'shipping_to'              => 'الشحن إلى',
     'total'                    => 'المجموع',
-    'proceed_to_checkout'      => 'إكمال عملية الشراء'
+    'proceed_to_checkout'      => 'إكمال عملية الشراء',
+    'new_subtotal'             => 'المجموع الفرعي بعد الخصم',
+    'discount'                 => 'الخصم',
+
+
+    'invalid_coupon'            => 'هذا القسيمة غير صالحة للإستعمال',
+    'coupon_has_been_activated' => 'تم تفعيل القسيمة',
 ];

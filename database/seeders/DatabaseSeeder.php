@@ -4,11 +4,13 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\Collection;
+use App\Models\Coupon;
 use App\Models\ProductColors;
 use App\Models\Product;
 use App\WebScrapers\LcwikiScraper;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Date;
 
 class DatabaseSeeder extends Seeder
 {
@@ -27,6 +29,22 @@ class DatabaseSeeder extends Seeder
             'role'  => 'admin'
         ]);
 
+
+        Coupon::factory()->create([
+            'code'      => '30LYD',
+            'type'      => 'fixed',
+            'value'     => 30,
+            'max_users' => 5,
+            'expire_at' => Date::create('2030')
+        ]);
+
+        Coupon::factory()->create([
+            'code'        => '50OFF',
+            'type'        => 'percent_off',
+            'percent_off' => 50,
+            'max_users'   => 1,
+            'expire_at'   => Date::create('2035')
+        ]);
 
         $categoryClothes = Category::factory()->create([
             'user_id'   => $user,
@@ -88,7 +106,7 @@ class DatabaseSeeder extends Seeder
 
         $clothes = [
             'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Tisort/5642651/2300495',
-            'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Gomlek/5677110/2379584',
+            'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Gomlek/5677110/2379584',/*
             'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Gomlek/5840056/2372280',
             'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Pantolon/5889619/2385446',
             'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Gomlek/5152739/1677974',
@@ -103,7 +121,7 @@ class DatabaseSeeder extends Seeder
             'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Gomlek/5840074/2376966',
             'https://www.lcwaikiki.com/tr-TR/TR/urun/XSIDE/erkek/Gomlek/5786224/2368106',
             'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Gomlek/5731208/2414786',
-            'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Gomlek/5708750/2328983'
+            'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Gomlek/5708750/2328983'*/
         ];
 
         foreach ($clothes as $clothe) {
