@@ -7,6 +7,10 @@
     </div>
     {{-- End Single Product Model --}}
 
+    {{-- Start Header-Section --}}
+    @include('homeLayout._header')
+    {{-- End Header-Section --}}
+
     <section>
         <div class="container mt-5">
             <div class="row h-100">
