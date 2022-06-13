@@ -16,17 +16,18 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable();
-            $table->string( 'name');
-            $table->string( 'email');
-            $table->string( 'phone_number');
-            $table->string( 'address');
-            $table->string( 'city');
-            $table->boolean('status')->default(false);
-            $table->boolean('approved')->default(false);
-            $table->boolean('arrived')->default(false);
-            $table->boolean('user_delete_it')->default(false);
-            $table->text(   'notes')->nullable();
-            $table->json(   'products')->nullable();
+            $table->string('name');
+            $table->string('email')->nullable();
+            $table->string('phone_number');
+            $table->string('address');
+            $table->json('city');
+            $table->text('notes')->nullable();
+            $table->text('admin_notes')->nullable();
+            $table->json('products');
+
+            // Requested [Refused, Accepted] [InComing, InLibya] [Arrived, No_Response, Not_Accepted]
+            $table->string('status')->default('Requested');
+            $table->boolean('user_deletes_it')->default(false);
             $table->timestamps();
         });
     }

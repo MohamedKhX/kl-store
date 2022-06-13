@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use App\Models\City;
 use App\Models\Collection;
 use App\Models\Coupon;
 use App\Models\ProductColors;
@@ -139,7 +140,7 @@ class DatabaseSeeder extends Seeder
                 uri: $product->url
             );
         }
-
+        $this->call(CitySeeder::class);
     }
 
     public function scrapColors($productId, $uri)

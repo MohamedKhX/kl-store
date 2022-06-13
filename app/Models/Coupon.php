@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Date;
 use phpDocumentor\Reflection\Types\This;
 
@@ -32,7 +33,7 @@ class Coupon extends Model
         }
 
         if(! $this->expire_at == null) {
-            if(! $this->expire_at->isFuture()) {
+            if($this->expire_at <= Carbon::now() ) {
                 return false;
             }
         }

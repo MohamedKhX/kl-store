@@ -48,6 +48,22 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link text-white {{ request()->routeIs('admin.coupons.index') ? 'active bg-gradient-primary' : '' }}" href="{{ route('admin.coupons.index') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">tag</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Coupons</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white {{ request()->routeIs('admin.cities.index') ? 'active bg-gradient-primary' : '' }}" href="{{ route('admin.cities.index') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">flag</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Cities</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link text-white {{ request()->routeIs('admin.orders.index') ? 'active bg-gradient-primary' : '' }}" href="{{ route('admin.orders.index') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">receipt_long</i>

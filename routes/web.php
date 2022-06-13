@@ -19,6 +19,7 @@ Route::controller(PageController::class)->middleware('webActive')->group(functio
 
 Route::get('/order', [\App\Http\Controllers\OrderController::class, 'index'])->name('order.index');
 
+
 Route::middleware('admin')->group(function () {
     Route::get('/dashboard',               [DashboardController::class, 'index'])        ->name('dashboard');
 
@@ -88,6 +89,27 @@ Route::middleware('admin')->group(function () {
        'edit'    => 'admin.orders.edit',
        'update'  => 'admin.orders.update',
        'destroy' => 'admin.orders.destroy',
+    ]);
+
+
+    Route::resource('/dashboard/coupons', \App\Http\Controllers\Admin\CouponController::class)->names([
+        'index'   => 'admin.coupons.index',
+        'show'    => 'admin.coupons.show',
+        'create'  => 'admin.coupons.create',
+        'store'   => 'admin.coupons.store',
+        'edit'    => 'admin.coupons.edit',
+        'update'  => 'admin.coupons.update',
+        'destroy' => 'admin.coupons.destroy',
+    ]);
+
+    Route::resource('/dashboard/cities', \App\Http\Controllers\Admin\CityContoller::class)->names([
+        'index'   => 'admin.cities.index',
+        'show'    => 'admin.cities.show',
+        'create'  => 'admin.cities.create',
+        'store'   => 'admin.cities.store',
+        'edit'    => 'admin.cities.edit',
+        'update'  => 'admin.cities.update',
+        'destroy' => 'admin.cities.destroy',
     ]);
 
     Route::get('/dashboard/profile',       [DashboardController::class, 'profile'])      ->name('dashboard-profile');

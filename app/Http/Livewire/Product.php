@@ -156,7 +156,8 @@ class Product extends Component
                 'options' => [
                     'size'       => $this->sizeSelected,
                     'thumbnail'  => $color->images[0],
-                    'product_id' => $product->id
+                    'product_id' => $product->id,
+                    'product_url'=> $color->url
                 ],
             ])->associate('App/Models/Product');
             $this->showAlert($this->alertMessages['AddedToCart'], 'success');

@@ -14,7 +14,7 @@
                 <livewire:cart />
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">
                     {{ __('elements.close_window') }}
                 </button>
             </div>
