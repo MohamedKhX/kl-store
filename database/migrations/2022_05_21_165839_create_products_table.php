@@ -27,6 +27,7 @@ return new class extends Migration
             $table->boolean('status')->default(true);
             $table->string('price')->nullable();
             $table->string('old_price')->nullable();
+            $table->integer('priority')->default(1)->nullable();
             $table->timestamps();
         });
     }

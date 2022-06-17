@@ -46,7 +46,7 @@
                         <div>
                             <div>
                                 <strong class="text-danger">Note: </strong>
-                                <span>Use (Custom Price) this when you don't want update the price after fetching</span>
+                                <span>Use (Custom Price) when you don't want update the price after fetching</span>
                             </div>
                             <div class="input-group input-group-outline my-3 ">
                                 <label for="color_custom_price" class="form-label">Color Custom Price</label>
@@ -60,12 +60,21 @@
                         </div>
 
                         <div id="imgFields">
-                            <div class="input-group input-group-outline my-3 {{ old('color_img_url') ? 'is-focused' : null }}">
-                                <label for="color_img_url" class="form-label">Color image</label>
-                                <input id="color_img_url" name="color_images[]" type="text" class="form-control" value="{{ old('color_img_url') }}">
-                                <a onclick="createUrlField()" class="btn btn-primary h-100 mb-0">+</a>
-                            </div>
-
+                            @if(old('color_images'))
+                                @foreach(old('color_images') as $old_image)
+                                    <div class="input-group input-group-outline my-3 is-focused">
+                                        <label for="color_img_url" class="form-label">Color image</label>
+                                        <input id="color_img_url" name="color_images[]" type="text" class="form-control" value="{{ $old_image }}">
+                                        <a onclick="createUrlField()" class="btn btn-primary h-100 mb-0">+</a>
+                                    </div>
+                                @endforeach
+                            @else
+                                <div class="input-group input-group-outline my-3 {{ old('color_img_url') ? 'is-focused' : null }}">
+                                    <label for="color_img_url" class="form-label">Color image</label>
+                                    <input id="color_img_url" name="color_images[]" type="text" class="form-control" value="{{ old('color_img_url') }}">
+                                    <a onclick="createUrlField()" class="btn btn-primary h-100 mb-0">+</a>
+                                </div>
+                            @endif
                         </div>
 
                         <div class="my-3">
@@ -79,27 +88,53 @@
                             <a onclick="addSizeField()" class="btn btn-secondary">Add a size</a>
                         </div>
                         <div id="sizeFields">
-                            <div class="row d-flex justify-content-center">
-                                <div class="col-8 col-xl-4">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="input-group input-group-outline my-3 is-focused">
-                                                <label for="color_sizes" class="form-label">Size</label>
-                                                <input id="color_sizes" name="color_sizes[]" type="text"
-                                                       class="form-control" value=""
-                                                >
+                            @if(old('color_sizes'))
+                                @foreach(old('color_sizes') as $key => $size)
+                                    <div class="row d-flex justify-content-center">
+                                        <div class="col-8 col-xl-4">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="input-group input-group-outline my-3 is-focused">
+                                                        <label for="color_sizes" class="form-label">Size</label>
+                                                        <input id="color_sizes" name="color_sizes[]" type="text"
+                                                               class="form-control" value="{{ $size }}"
+                                                        >
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="input-group input-group-outline my-3 is-focused">
+                                                        <label for="color_qty" class="form-label">Qty</label>
+                                                        <input id="color_qty" name="color_size_qty[]" type="text"
+                                                               class="form-control" value="{{ old('color_size_qty')[$key] }}">
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-6">
-                                            <div class="input-group input-group-outline my-3">
-                                                <label for="color_qty" class="form-label">Qty</label>
-                                                <input id="color_qty" name="color_size_qty[]" type="text"
-                                                       class="form-control" value="">
+                                    </div>
+                                @endforeach
+                            @else
+                                <div class="row d-flex justify-content-center">
+                                    <div class="col-8 col-xl-4">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="input-group input-group-outline my-3 is-focused">
+                                                    <label for="color_sizes" class="form-label">Size</label>
+                                                    <input id="color_sizes" name="color_sizes[]" type="text"
+                                                           class="form-control" value=""
+                                                    >
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="input-group input-group-outline my-3">
+                                                    <label for="color_qty" class="form-label">Qty</label>
+                                                    <input id="color_qty" name="color_size_qty[]" type="text"
+                                                           class="form-control" value="">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
                         </div>
 
                         <div class="input-group input-group-outline my-4 d-flex">
@@ -124,7 +159,7 @@
                 const node = document.createElement('div');
                 node.classList.add('row', 'd-flex', 'justify-content-center');
                 node.innerHTML = `
-                           <div class="col-4">
+                           <div class="col-8 col-xl-4">
                                         <div class="row">
                                             <div class="col-6">
                                                 <div class="input-group input-group-outline my-3 is-focused">

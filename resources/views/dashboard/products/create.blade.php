@@ -1,4 +1,10 @@
 <x-layout.Dashboard.main>
+
+    @php
+
+    @endphp
+
+
     <div class="container-fluid px-2 px-md-4 mt-5 pt-5">
         <div class="card card-body mx-3 mx-md-4 mt-n6 mt-5">
             @if($errors->any())
@@ -22,6 +28,12 @@
                         <div class="input-group input-group-outline my-3">
                             <textarea placeholder="Product Description... [optional]" class="form-control" name="product_description" id="product_description" cols="30" rows="10">{{ old('product_description') }}</textarea>
                         </div>
+
+                        <div class="input-group input-group-outline my-3 is-focused">
+                            <label for="product_priority" class="form-label">Product Priority</label>
+                            <input id="product_priority" name="product_priority" type="text" class="form-control" value="{{ old('product_priority') }}">
+                        </div>
+
                         <div class="my-3">
                             <label for="category_thumbnail" class="form-label">Product Thumbnail</label>
                             <div class="input-group input-group-outline">
@@ -32,7 +44,9 @@
                             <label for="categorySelector" class="ms-0">Category: </label>
                             <select name="product_category_id" class="form-control" id="categorySelector">
                                 @foreach($categories as $category)
-                                    <option value="{{ $category->id }}">
+                                    <option value="{{ $category->id }}"
+                                            {{ old('product_category_id') == $category->id ? 'selected' : null }}
+                                    >
                                         {{ $category->name }}
                                     </option>
                                 @endforeach
@@ -61,9 +75,23 @@
                         <div class="my-3">
                             <strong>Collections: </strong>
                             <div class="d-flex flex-column justify-content-center">
-                                @foreach($collections as $collection)
+                                @foreach($collections as $key => $collection)
                                     <div class="form-check">
-                                        <input name="collections[]" class="form-check-input" type="checkbox" value="{{ $collection->id }}" id="{{ $collection->name }}">
+                                        <input name="collections[]"
+                                               class="form-check-input"
+                                               type="checkbox"
+                                               value="{{ $collection->id }}"
+                                               id="{{ $collection->name }}"
+                                               @php
+                                                    if(old('collections')) {
+                                                       foreach (old('collections') as $collection_id) {
+                                                           if($collection_id == $collection->id) {
+                                                               echo 'checked';
+                                                           }
+                                                       }
+                                                    }
+                                               @endphp
+                                        >
                                         <label class="form-check-label" for="{{ $collection->name }}">
                                             {{ $collection->name }}
                                         </label>

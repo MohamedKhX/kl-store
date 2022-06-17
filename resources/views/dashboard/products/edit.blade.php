@@ -32,6 +32,12 @@
                         <div class="input-group input-group-outline my-3">
                             <textarea placeholder="Product Description... [optional]" class="form-control" name="product_description" id="product_description" cols="30" rows="10">{{ old('product_description') ?? $product->description }}</textarea>
                         </div>
+
+                        <div class="input-group input-group-outline my-3 is-focused">
+                            <label for="product_priority" class="form-label">Product Priority</label>
+                            <input id="product_priority" name="product_priority" type="text" class="form-control" value="{{ old('product_priority') ?? $product->priority }}">
+                        </div>
+
                         <div class="my-3">
                             <label for="category_thumbnail" class="form-label">Product Thumbnail</label>
                             <div class="input-group input-group-outline">
@@ -108,7 +114,7 @@
                             @method('PATCH')
 
                             <div class="input-group input-group-outline my-3 d-flex">
-                                <input type="submit" class="btn btn-primary w-50  p-1 fs-6 " value="Re Fetch data">
+                                <input type="submit" class="btn btn-primary w-75 w-md-50 p-1 fs-6 " value="Re Fetch data">
                             </div>
                         </form>
                     @endif
@@ -119,7 +125,7 @@
                         @csrf
                         @method('DELETE')
 
-                        <input type="submit" class="btn btn-danger w-50 p-1 fs-6" value="DELETE THE PRODUCT">
+                        <input type="submit" class="btn btn-danger w-75 w-md-50 p-1 fs-6" value="DELETE THE PRODUCT">
                     </form>
 
                     <div>

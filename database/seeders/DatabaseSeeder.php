@@ -107,7 +107,7 @@ class DatabaseSeeder extends Seeder
 
         $clothes = [
             'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Tisort/5642651/2300495',
-            'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Gomlek/5677110/2379584',/*
+            'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Gomlek/5677110/2379584',
             'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Gomlek/5840056/2372280',
             'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Pantolon/5889619/2385446',
             'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Gomlek/5152739/1677974',
@@ -122,7 +122,7 @@ class DatabaseSeeder extends Seeder
             'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Gomlek/5840074/2376966',
             'https://www.lcwaikiki.com/tr-TR/TR/urun/XSIDE/erkek/Gomlek/5786224/2368106',
             'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Gomlek/5731208/2414786',
-            'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Gomlek/5708750/2328983'*/
+            'https://www.lcwaikiki.com/tr-TR/TR/urun/LC-WAIKIKI/erkek/Gomlek/5708750/2328983'
         ];
 
         foreach ($clothes as $clothe) {

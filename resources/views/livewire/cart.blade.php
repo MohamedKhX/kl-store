@@ -300,7 +300,10 @@
                                         </a>
                                     </h5>
                                 @else
-                                    <h5>{{ __('cart.discount') }}</h5>
+                                    <h5>{{ __('cart.discount') }}
+                                        <a class="ms-4" href="#" wire:click="deleteCoupon">
+                                            <strong class="text-danger">UnApply</strong>
+                                        </a></h5>
                                     <h5><strong>-{{ $discount }} {{ __('elements.LYD') }}</strong></h5>
                                 @endif
                             </div>
@@ -330,8 +333,8 @@
                                     {{ $selectedCity->name }}
                                 </h5>
                             @else
-                                <h5>{{ __('cart.shipping_to') }} Bangazi</h5>
-                                <h5><strong>30 {{ __('elements.LYD') }}</strong></h5>
+                                <h5>{{ __('cart.shipping_to') }} {{ $selectedCity->name }}</h5>
+                                <h5><strong>  {{ $selectedCity->price }} {{ __('elements.LYD') }}</strong></h5>
                             @endif
                         </div>
                         <hr>

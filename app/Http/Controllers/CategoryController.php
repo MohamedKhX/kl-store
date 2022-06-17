@@ -28,11 +28,9 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         $categories = Category::all();
-        $products   = Product::where('category_id', '=', $category->id)->paginate(4);
         return view('categories.show', [
             'categories'      => $categories,
             'currentCategory' => $category,
-            'products'        => $products
         ]);
     }
 

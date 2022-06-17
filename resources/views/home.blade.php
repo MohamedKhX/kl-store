@@ -8,7 +8,9 @@
         {{-- Single Product Model --}}
         <div class="modal fade" id="singleProduct" tabindex="-1" aria-labelledby="singleProductLabel" aria-hidden="true">
             <div class="modal-dialog modal-fullscreen">
-                <livewire:single-product-model />
+                @if($products->count())
+                    <livewire:single-product-model />
+                @endif
             </div>
         </div>
         {{-- End Single Product Model --}}
@@ -177,12 +179,16 @@
                         <h5 class="fw-bold fs-3 fs-lg-5 lh-sm mb-3">Best Sellers</h5>
                     </div>
                     <div class="col-12">
-                        <div class="row d-flex justify-content-center">
-                            @foreach($bestSellersCollection->products->take(4) as $product)
-                                <div class="col-6 col-lg-3">
-                                    <livewire:product-card :product="$product"/>
-                                </div>
-                            @endforeach
+                        <div class="carousel slide" id="carouselBestDeals" data-bs-touch="false" data-bs-interval="false">
+                            <div class="carousel-inner">
+                                <x-card.careousel-product class="active" data-bs-interval="10000">
+                                    @foreach($bestSellersCollection->products->take(4) as $product)
+                                        <div class="col-6 col-lg-3">
+                                            <livewire:product-card :product="$product"/>
+                                        </div>
+                                    @endforeach
+                                </x-card.careousel-product>
+                            </div>
                         </div>
                     </div>
                     <div class="col-12 d-flex justify-content-center mt-5">

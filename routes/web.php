@@ -21,6 +21,7 @@ Route::get('/order', [\App\Http\Controllers\OrderController::class, 'index'])->n
 
 
 Route::middleware('admin')->group(function () {
+
     Route::get('/dashboard',               [DashboardController::class, 'index'])        ->name('dashboard');
 
     Route::get('/dashboard/settings',      [DashboardController::class, 'settings'])     ->name('dashboard-settings');
@@ -118,8 +119,6 @@ Route::middleware('admin')->group(function () {
 
 
 Route::get('/category/{category:slug}', [CategoryController::class, 'show'])->name('categories.show');
-
-
 
 
 require __DIR__.'/auth.php';

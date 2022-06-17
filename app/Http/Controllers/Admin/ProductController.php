@@ -10,14 +10,14 @@ use App\Models\ProductColors;
 use App\WebScrapers\LcwikiScraper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Validation\ValidationException;
 
 class ProductController extends Controller
 {
-
     public function index()
     {
         return view('dashboard.products.index')->with([
-            'products' => Product::orderBy('created_at', 'desc')->paginate(15),
+            'products' => Product::orderBy('priority', 'desc')->paginate(15),
         ]);
     }
 
@@ -36,12 +36,17 @@ class ProductController extends Controller
         $request->validate([
             'product_name'      => 'min:2|max:32',
             'product_thumbnail' => 'required|image',
-            'product_url'       => 'url'
+            'product_url'       => 'url',
+            'product_price'     => 'nullable|integer',
+            'product_old_price' => 'nullable|integer',
+            'product_priority'  => 'nullable|integer'
         ]);
 
 
-        $status = (bool) $request->input('product_status');
-        $imgPath = $request->file('product_thumbnail')->store('product_thumbnails', 'public');
+        $status   = (bool) $request->input('product_status');
+        $imgPath  = $request->file('product_thumbnail')->store('product_thumbnails', 'public');
+        $price    = $request->input('product_price');
+        $oldPrice = $request->input('product_old_price');
 
         $product                 = new Product();
         $product->category_id    = $request->input('product_category_id');
@@ -52,6 +57,9 @@ class ProductController extends Controller
         $product->description    = $request->input('product_description');
         $product->thumbnail      = $imgPath;
         $product->status         = $status;
+        $product->price          = $price;
+        $product->old_price      = $oldPrice;
+        $product->priority = $request->input('product_priority');
 
         $product->save();
 
@@ -81,6 +89,9 @@ class ProductController extends Controller
         $request->validate([
             'product_name'      => 'min:2|max:32',
             'product_thumbnail' => 'image',
+            'product_price'     => 'nullable|integer',
+            'product_old_price' => 'nullable|integer',
+            'product_priority'  => 'nullable|integer'
         ]);
 
         $status = (bool) $request->input('product_status');
@@ -90,6 +101,8 @@ class ProductController extends Controller
         $product->name           = $request->input('product_name');
         $product->description    = $request->input('product_description');
         $product->status         = $status;
+        $product->priority = $request->input('product_priority');
+
 
         $product->collections()->sync($request->input('collections'));
 
@@ -146,7 +159,10 @@ class ProductController extends Controller
     public function scrap()
     {
         return view('dashboard.products.scrap')
-            ->with(['categories' => Category::all()]);
+            ->with([
+                    'categories' => Category::all(),
+                    'collections' => Collection::all()
+                ]);
     }
 
     public function scrapStore(Request $request)
@@ -154,20 +170,35 @@ class ProductController extends Controller
         $request->validate([
             'product_name'       => 'required|max:32',
             'product_thumbnail'  => 'image',
-            'product_website'    => 'required',
-            'product_url'        => 'required'
+            'product_url'        => 'required',
+            'product_price'     => 'nullable|integer',
+            'product_old_price' => 'nullable|integer',
+            'product_priority'  => 'nullable|integer'
+
         ]);
 
         $status = (bool) $request->input('product_status');
+        $website = $this->getWebSite($request->input('product_url'));
+
+        if($website === false) {
+            throw ValidationException::withMessages(['product_url' => 'This website is not supported']);
+        }
+
+        $price    = $request->input('product_price');
+        $oldPrice = $request->input('product_old_price');
 
         $product = new Product();
-        $product->websiteScraper = $request->input('product_website');
+        $product->websiteScraper = $website;
         $product->url            = $request->input('product_url');
         $product->user_id        = $request->user()->id;
         $product->category_id    = $request->input('product_category');
         $product->name           = $request->input('product_name');
         $product->description    = $request->input('product_description');
         $product->status         = $status;
+        $product->price          = $price;
+        $product->old_price      = $oldPrice;
+        $product->priority = $request->input('product_priority');
+
 
         if($request->file('product_thumbnail')) {
             $imgPath = $request->file('product_thumbnail')->store('product_thumbnails', 'public');
@@ -176,12 +207,47 @@ class ProductController extends Controller
 
         $product->save();
 
+        $product->collections()->attach($request->input('collections'));
+
+
         $this->scrapColors(
             productId: $product->id,
             uri: $product->url
         );
 
+
+        if($price) {
+            $product->price = $price;
+            $this->updatePrice($product, $price);
+        } else {
+            $product->price = null;
+        }
+
+        if($oldPrice) {
+            $product->old_price = $oldPrice;
+            $this->updatePrice($product, $oldPrice, true);
+        } else {
+            $product->old_price = null;
+        }
+
         return redirect(route('admin.products.index'))->with('success', 'Product created successfully');
+    }
+
+    public function getWebSite(string $url)
+    {
+        if(str_contains($url ,'lcwaikiki')) {
+            return 'lcwaikiki';
+        }
+
+        if(str_contains($url, 'trendyol')) {
+            return 'trendyol';
+        }
+
+        if(str_contains($url, 'koton')) {
+            return 'koton';
+        }
+
+        return false;
     }
 
     protected function updatePrice($product ,$price, $oldPrice = false)
@@ -199,11 +265,6 @@ class ProductController extends Controller
 
     public function scrapUpdate(Product $product)
     {
-        /*
-         * Create an array of custom prices
-         * ReUpdate the new custom prices and the prices
-         * */
-
         $oldPrices = [];
 
         foreach ($product->colors as $color) {

@@ -18,7 +18,8 @@ class Product extends Model
 
     public function scopeActive($query)
     {
-        return $query->where('status', '=', true);
+        return $query->where('status', '=', true)
+            ->orderBy('priority', 'desc');
     }
 
     public function colors(): \Illuminate\Database\Eloquent\Relations\HasMany

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\ProductColors;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use function PHPUnit\Framework\isNull;
 
 class ProductColorController extends Controller
 {
@@ -19,13 +21,26 @@ class ProductColorController extends Controller
         $request->validate([
             'color'          => 'max:32',
             'color_name'     => 'max:32',
-            'color_price'    => 'required',
-            'color_sizes'    => 'required'
+            'color_price'    => 'required|integer',
+            'color_old_price' => 'nullable|integer',
+            'color_custom_price' => 'nullable|integer',
+            'color_sizes'    => 'required',
+            'color_thumbnail' => 'required|image',
         ]);
 
         $colorSizeNames = $request->input('color_sizes');
         $colorSizeQty   = $request->input('color_size_qty');
         $colorSizes = [];
+
+
+        //Validate the quantity
+        foreach ($colorSizeQty as $qty) {
+            if(is_null($qty)) continue;
+
+            if(! is_numeric($qty)) {
+                throw ValidationException::withMessages(['color_size_qty' => 'The quantity field must be a number']);
+            }
+        }
 
         foreach ($colorSizeNames as $key => $sizeName) {
             if(is_null($sizeName)) {
@@ -38,6 +53,7 @@ class ProductColorController extends Controller
         }
         $colorImages = $request->input('color_images');
 
+
         $images      = [];
         foreach ($colorImages as $image) {
             if(is_null($image)) {
@@ -45,6 +61,10 @@ class ProductColorController extends Controller
             }
 
             $images[] = $image;
+        }
+
+        if(! collect($images)->count()) {
+            throw ValidationException::withMessages(['images' => 'image fields are required at least one']);
         }
 
         if($request->input('color_custom_price')) {
@@ -87,7 +107,9 @@ class ProductColorController extends Controller
         $request->validate([
             'color'           => 'max:32',
             'color_name'      => 'max:32',
-            'color_price'     => 'required|int',
+            'color_price'    => 'required|integer',
+            'color_old_price' => 'nullable|integer',
+            'color_custom_price' => 'nullable|integer',
             'color_sizes'     => 'required',
             'color_thumbnail' => ''
         ]);
@@ -95,6 +117,16 @@ class ProductColorController extends Controller
         $colorSizeNames = $request->input('color_sizes');
         $colorSizeQty   = $request->input('color_size_qty');
         $colorSizes = [];
+
+
+        //Validate the quantity
+        foreach ($colorSizeQty as $qty) {
+            if(is_null($qty)) continue;
+
+            if(! is_numeric($qty)) {
+                throw ValidationException::withMessages(['color_size_qty' => 'The quantity field must be a number']);
+            }
+        }
 
         foreach ($colorSizeNames as $key => $sizeName) {
             if(is_null($sizeName)) {
@@ -114,6 +146,9 @@ class ProductColorController extends Controller
             }
 
             $images[] = $image;
+        }
+        if(! collect($images)->count()) {
+            throw ValidationException::withMessages(['images' => 'image fields are required at least one']);
         }
 
         if($request->input('color_custom_price')) {

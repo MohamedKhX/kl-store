@@ -1,6 +1,11 @@
 <div>
     <div class="container">
         @if($showProduct)
+            @if(auth()->user()->role === 'admin')
+                <div class="d-flex justify-content-center my-3">
+                    <a class="btn btn-sm btn-dark" href="{{ route('admin.products.edit', $product) }}">Edit this product</a>
+                </div>
+            @endif
             <div class="row animate__animated animate__fadeIn" x-data="{currentSize: @entangle('sizeSelected')}" x-init="load()">
                     <div class="col-12 col-lg-6">
                         <div class="row">
@@ -19,8 +24,32 @@
                                     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                                         <div class="carousel-inner">
                                             @foreach($color->images as $image)
-                                                <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
-                                                    <img src="{{ $image }}" class="d-block w-100" alt="...">
+                                                <div class="carousel-item position-relative {{ $loop->first ? 'active' : '' }}">
+                                                    <div class="">
+                                                        <div style="
+                                                         margin-left: auto;
+                                                         margin-right: auto;
+                                                         left: 0;
+                                                         right: 0;
+                                                         text-align: center;
+                                                         top: 40%;
+                                                         width: 4rem; height: 4rem; z-index: 100"
+                                                             class="text-light position-absolute"
+                                                             role="status"
+                                                             wire:loading.class="spinner-border"
+                                                             wire:target="reRender"
+                                                        >
+                                                            <span class="visually-hidden">Loading...</span>
+                                                        </div>
+                                                        <img
+                                                            wire:loading.class="img_filter"
+                                                            wire:target="reRender"
+                                                            src="{{ $image }}"
+                                                            class="d-block w-100"
+                                                            alt="..."
+                                                        >
+                                                    </div>
+
                                                 </div>
                                             @endforeach
                                         </div>
@@ -167,7 +196,12 @@
                         @endif
                         <div class="pt-4 mt-2 p-lg-4 d-flex justify-content-center">
                             <button wire:click="addToCart({{$product}})" class="btn btn-lg btn-dark w-100 w-md-50">
-                                {{ __('product.add_to_cart') }}
+                                <div wire:loading.class="spinner-border spinner-border-sm" wire:target="addToCart" class="" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <span>
+                                   {{ __('product.add_to_cart') }}
+                                </span>
                             </button>
                         </div>
                     </div>

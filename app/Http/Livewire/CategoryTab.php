@@ -7,20 +7,32 @@ use Livewire\WithPagination;
 
 class CategoryTab extends Component
 {
-    public    \App\Models\Category $category;
-    public    \App\Models\Category $currentCategory;
-    protected $paginationTheme = 'bootstrap';
+    use WithPagination;
+
+    public     \App\Models\Category $category;
+    public     \App\Models\Category $currentCategory;
+    protected  $paginationTheme = 'bootstrap';
+    public int $toShow = 8;
 
     public function showProduct($id)
     {
-        /*$this->emit('SingleProduct', $id);*/
+        $this->emit('SingleProduct', $id);
+    }
+
+    public function showMore()
+    {
+        $this->toShow += 6;
     }
 
     public function render()
     {
-        $products = \App\Models\Product::where('category_id', '=', $this->category->id)->paginate(4);
+        $allProducts   = \App\Models\Product::where('category_id', '=', $this->category->id)->get();
+        $products      = $allProducts->take($this->toShow);
+        $productsCount = $allProducts->count();
+
         return view('livewire.category-tab', [
-            'products' => $products
+            'products'      => $products,
+            'productsCount' => $productsCount
         ]);
     }
 }

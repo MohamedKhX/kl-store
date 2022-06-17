@@ -46,12 +46,22 @@ class CitySeeder extends Seeder
         ]);
 
         City::factory()->create([
-           'name'  => 'زوارة / الجميل',
+           'name'  => 'الجميل',
            'price' => 30
         ]);
 
         City::factory()->create([
-           'name'  => 'زلطن / رقدالين',
+           'name'  => 'زوارة',
+           'price' => 30
+        ]);
+
+        City::factory()->create([
+           'name'  => 'زلطن',
+           'price' => 35
+        ]);
+
+        City::factory()->create([
+           'name'  => 'رقدالين',
            'price' => 35
         ]);
 
@@ -61,7 +71,12 @@ class CitySeeder extends Seeder
         ]);
 
         City::factory()->create([
-           'name'  => 'بني وليد / سبها',
+           'name'  => 'بني وليد',
+           'price' => 30
+        ]);
+
+        City::factory()->create([
+           'name'  => 'سبها',
            'price' => 30
         ]);
 
@@ -86,22 +101,47 @@ class CitySeeder extends Seeder
         ]);
 
         City::factory()->create([
-           'name'  => 'توكرة / قمينس',
+           'name'  => 'توكرة',
            'price' => 30
         ]);
 
         City::factory()->create([
-           'name'  => 'اجدابيا / المرج',
+           'name'  => 'قمينس',
            'price' => 30
         ]);
 
         City::factory()->create([
-           'name'  => 'البيضاء / شحات',
+           'name'  => 'المرج',
+           'price' => 30
+        ]);
+
+        City::factory()->create([
+           'name'  => 'اجدابيا',
+           'price' => 30
+        ]);
+
+        City::factory()->create([
+           'name'  => 'البيضاء',
            'price' => 35
         ]);
 
         City::factory()->create([
-           'name'  => 'القبة / درنة / طبرؤ',
+           'name'  => 'شحات',
+           'price' => 35
+        ]);
+
+        City::factory()->create([
+           'name'  => 'القبة',
+           'price' => 40
+        ]);
+
+        City::factory()->create([
+           'name'  => 'طبرؤ',
+           'price' => 40
+        ]);
+
+        City::factory()->create([
+           'name'  => 'درنة',
            'price' => 40
         ]);
 
@@ -116,12 +156,22 @@ class CitySeeder extends Seeder
         ]);
 
         City::factory()->create([
-           'name'  => 'القربولي / الخمس',
+           'name'  => 'الخمس',
            'price' => 20
         ]);
 
         City::factory()->create([
-           'name'  => 'مصراته / زليتن',
+           'name'  => 'القربولي',
+           'price' => 20
+        ]);
+
+        City::factory()->create([
+           'name'  => 'زليتن',
+           'price' => 20
+        ]);
+
+        City::factory()->create([
+           'name'  => 'مصراته',
            'price' => 20
         ]);
 
@@ -141,27 +191,57 @@ class CitySeeder extends Seeder
         ]);
 
         City::factory()->create([
-           'name'  => 'غريان / الأصابعة',
+           'name'  => 'الأصابعة',
            'price' => 25
         ]);
 
         City::factory()->create([
-           'name'  => 'يفرن / القلعة',
+           'name'  => 'غريان',
+           'price' => 25
+        ]);
+
+        City::factory()->create([
+           'name'  => 'القلعة',
            'price' => 35
         ]);
 
         City::factory()->create([
-           'name'  => 'القواليش / ككلة',
+           'name'  => 'يفرن',
            'price' => 35
         ]);
 
         City::factory()->create([
-           'name'  => 'الريانة / الزنتان',
+           'name'  => 'ككلة',
+           'price' => 35
+        ]);
+
+        City::factory()->create([
+           'name'  => 'القواليش',
+           'price' => 35
+        ]);
+
+        City::factory()->create([
+           'name'  => 'الريانة',
            'price' => 40
         ]);
 
         City::factory()->create([
-           'name'  => 'جادو / الرجبان / الرحيبات',
+           'name'  => 'الزنتان',
+           'price' => 40
+        ]);
+
+        City::factory()->create([
+           'name'  => 'الرحيبات',
+           'price' => 50
+        ]);
+
+        City::factory()->create([
+           'name'  => 'الرجبان',
+           'price' => 50
+        ]);
+
+        City::factory()->create([
+           'name'  => 'جادو',
            'price' => 50
         ]);
     }

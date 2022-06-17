@@ -14,6 +14,7 @@ class PageController extends Controller
     public function home()
     {
         $categories = Category::all()->where('status', '=', '1');
+        $products   = Product::all();
 
         $collections           = Collection::all();
         $bestDealsCollection   = $collections->where('slug', '=', 'best-deals')->first();
@@ -31,6 +32,7 @@ class PageController extends Controller
             'newArrivalsCollection' => $newArrivalsCollection,
             'bestSellersCollection' => $bestSellersCollection,
             'collections'           => $otherCollections,
+            'products'              => $products
         ]);
     }
 

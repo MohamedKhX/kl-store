@@ -10,11 +10,14 @@
                     <div class="col-12">
                         <div class="row d-flex justify-content-center">
                             @foreach($category->products->take(8) as $product)
-                                <x-card.product :name="$product->name" :img="$product->thumbnail()" :price="$product->price()" :oldPrice="$product->oldPrice()">
-                                    <x-slot name="link">
-                                        <a class="stretched-link" href="#" wire:click="showProduct({{$product->id}})" data-bs-toggle="modal" data-bs-target="#singleProduct"></a>
-                                    </x-slot>
-                                </x-card.product>
+                                <div class="col-6 col-md-4 col-lg-3">
+                                    <x-card.product :name="$product->name" :img="$product->thumbnail()" :price="$product->price()" :oldPrice="$product->oldPrice()">
+                                        <x-slot name="link">
+                                            <a class="stretched-link" href="#" wire:click="showProduct({{$product->id}})" data-bs-toggle="modal" data-bs-target="#singleProduct"></a>
+                                        </x-slot>
+                                    </x-card.product>
+                                </div>
+
                             @endforeach
                         </div>
                     </div>

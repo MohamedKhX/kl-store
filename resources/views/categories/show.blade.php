@@ -8,7 +8,9 @@
     {{-- End Single Product Model --}}
 
     {{-- Start Header-Section --}}
+{{--
     @include('homeLayout._header')
+--}}
     {{-- End Header-Section --}}
 
     <section>
@@ -20,46 +22,30 @@
                 <div class="col-12">
                     <nav>
                         <div class="tab-content" id="nav-tabContent">
-                            <div class="tab-pane fade show active" id="nav-men">
-                                <ul class="nav nav-pills mb-5 justify-content-center" id="pills-tab-men">
+                            <div class="tab-pane fade show active" id="nav-men" role="tabpanel" aria-labelledby="nav-men-tab">
+                                <ul class="nav nav-pills mb-5 justify-content-center" id="pills-tab-men" role="tablist">
                                     @foreach($categories as $category)
                                         <li class="nav-item" role="presentation">
-                                            <a class="nav-link {{$category->id === $currentCategory->id ? 'active' : null}}"
+                                            <button class="nav-link {{ $category->id === $currentCategory->id ? 'active' : null }}"
                                                     id="pills-{{$category->slug}}-tab"
-                                                    type="button"
+                                                    data-bs-toggle="pill"
+                                                    data-bs-target="#pills-{{$category->slug}}"
+                                                    type="button" role="tab"
                                                     aria-controls="pills-{{$category->slug}}"
-                                                    aria-selected="true"
-                                                    href="{{ route('categories.show', $category->slug) }}"
-                                            >
+                                                    aria-selected="true">
                                                 {{ $category->name }}
-                                            </a>
+                                            </button>
                                         </li>
                                     @endforeach
                                 </ul>
                                 <div class="tab-content" id="pills-tabContentMen">
                                     @foreach($categories as $category)
-                                        @if($category->id === $currentCategory->id)
-                                            <div class="tab-pane fade show active"
-                                                 id="pills-{{$category->slug}}"
-                                                 role="tabpanel"
-                                                 aria-labelledby="pills-{{$category->slug}}-tab">
-                                                <div class="d-flex justify-content-center">
-                                                    <p class="text-center fs-1">
-                                                        {{ $category->description }}
-                                                    </p>
-                                                </div>
-                                                <div class="row h-100 align-items-center g-2 d-flex justify-content-center">
-                                                    @foreach($products as $product)
-                                                        <div class="col-6 col-lg-3">
-                                                            <livewire:product-card :product="$product"/>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                                <div class="d-flex justify-content-center mt-4">
-                                                    {{ $products->links() }}
-                                                </div>
-                                            </div>
-                                        @endif
+                                        <div class="tab-pane fade {{ $category->id === $currentCategory->id ? 'show active' : '' }}"
+                                             id="pills-{{$category->slug}}"
+                                             role="tabpanel"
+                                             aria-labelledby="pills-{{$category->slug}}-tab">
+                                            <livewire:category-tab :category="$category" :current-category="$currentCategory"/>
+                                        </div>
                                     @endforeach
                                 </div>
                             </div>
@@ -68,6 +54,8 @@
                 </div>
             </div>
         </div>
+
+
     </section>
     <script>
         const singleProductModel = document.getElementById('singleProduct')

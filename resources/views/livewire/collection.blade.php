@@ -8,9 +8,12 @@
                     </div>
                     <div class="col-12">
                         <div class="row d-flex justify-content-center">
-                            @foreach($collection->products as $product)
-                                <livewire:product-card :product="$product" from-wish-model="collection"/>
-                            @endforeach
+                                @foreach($collection->products as $product)
+                                <div class="col-6 col-md-4 col-lg-3">
+                                    <livewire:product-card :product="$product" from-wish-model="collection"/>
+                                </div>
+                                @endforeach
+                            </div>
                         </div>
                     </div>
                 </div>

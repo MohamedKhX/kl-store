@@ -4,15 +4,47 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Order;
+use App\Models\Product;
 use App\Settings\GeneralSettings;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        return view('dashboard.index');
+        $products = Product::all();
+        $productViews = 0;
 
+        foreach ($products as $product) {
+            $productViews += $product->views;
+        }
+
+        $orders = Order::all();
+        $ordersCount = $orders->count();
+
+        $todayOrders = Order::whereDate('created_at', Carbon::today())->get();
+        $todayOrdersCount = $todayOrders->count();
+
+        $todaySales = 0;
+
+        foreach ($todayOrders as $order) {
+            $todaySales += $order->priceWithOutShipping();
+        }
+
+        $totalSales = 0;
+        foreach ($orders as $order) {
+            $totalSales += $order->priceWithOutShipping();
+        }
+
+        return view('dashboard.index')->with([
+            'productViews'      => $productViews,
+            'ordersCount'       => $ordersCount,
+            'todayOrdersCount'  => $todayOrdersCount,
+            'todaySales'        => $todaySales,
+            'totalSales'        => $totalSales,
+        ]);
     }
 
     public function settings(GeneralSettings $settings)

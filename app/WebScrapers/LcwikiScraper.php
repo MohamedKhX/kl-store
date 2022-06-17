@@ -5,7 +5,7 @@ namespace App\WebScrapers;
 use App\WebScrapers\Contracts\ScraperInterface;
 use Goutte\Client;
 use function PHPUnit\Framework\stringContains;
-
+//Zara defacto bershka koton
 class LcwikiScraper
 {
     public function colors(string $uri)

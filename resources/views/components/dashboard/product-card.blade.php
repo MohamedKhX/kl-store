@@ -41,6 +41,7 @@
         <hr class="dark horizontal my-0">
         <div class="card-footer d-flex justify-content-between">
             <p class="font-weight-normal my-auto">{{ $product->price() }}</p>
+            <p class="font-weight-normal my-auto">{{ $product->priority }} priority</p>
             <p class="font-weight-normal my-auto">{{ $product->views }} views</p>
         </div>
     </div>

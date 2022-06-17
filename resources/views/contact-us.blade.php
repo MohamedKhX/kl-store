@@ -9,6 +9,7 @@
             @endif
 
             <div class="row d-flex justify-content-center">
+                <h2 class="text-center">Contact US</h2>
                 <div class="col-12 col-md-8 col-lg-6">
                     <form id="contactForm" method="POST">
                         @csrf

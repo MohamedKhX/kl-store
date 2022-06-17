@@ -53,7 +53,7 @@
                         <div>
                             <div>
                                 <strong class="text-danger">Note: </strong>
-                                <span>Use (Custom Price) this when you don't want update the price after fetching</span>
+                                <span>Use (Custom Price) when you don't want update the price after fetching</span>
                             </div>
                             <div class="input-group input-group-outline my-3 {{ $color->priceWithCurrency() ? 'is-focused' : null }}">
                                 <label for="color_custom_price" class="form-label">Color Custom Price</label>
@@ -83,19 +83,6 @@
                         </div>
 
                         <div class="my-3">
-                            {{--<div>
-                                <br>
-                                <span class="">
-                                    <strong class="text-danger">Note:</strong> Thumbnail only by url,
-                                    so please if you want to update the thumbnail,
-                                    take any color thumbnail url from any website and put that here
-                                </span>
-                                <div class="input-group input-group-outline my-3 {{ $color->priceWithCurrency() ? 'is-focused' : null }}">
-                                    <label for="color_thumbnail" class="form-label">Color thumbnail</label>
-                                    <input id="color_thumbnail" name="color_thumbnail" type="text" class="form-control" value="{{ old('color_thumbnail') ?? $color->thumbnail }}">
-                                </div>
-                            </div>--}}
-
                             <div class="my-3">
                                 <label for="color_thumbnail" class="form-label">Color Thumbnail</label>
                                 <div class="input-group input-group-outline">
