@@ -7,11 +7,18 @@ use App\Models\Category;
 use App\Models\Collection;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\File;
 use Illuminate\Validation\Rule;
 
 class CollectionController extends Controller
 {
+
+
+    public function __construct()
+    {
+        App::setLocale('en');
+    }
 
     public function index()
     {

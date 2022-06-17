@@ -9,11 +9,19 @@ use App\Models\Product;
 use App\Models\ProductColors;
 use App\WebScrapers\LcwikiScraper;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\File;
 use Illuminate\Validation\ValidationException;
 
 class ProductController extends Controller
 {
+
+
+    public function __construct()
+    {
+        App::setLocale('en');
+    }
+
     public function index()
     {
         return view('dashboard.products.index')->with([

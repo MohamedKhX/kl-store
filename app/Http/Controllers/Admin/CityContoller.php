@@ -5,10 +5,16 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\City;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Rule;
 
 class CityContoller extends Controller
 {
+
+    public function __construct()
+    {
+        App::setLocale('en');
+    }
 
     public function index()
     {

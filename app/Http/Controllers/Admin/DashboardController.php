@@ -9,9 +9,17 @@ use App\Models\Product;
 use App\Settings\GeneralSettings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\App;
 
 class DashboardController extends Controller
 {
+
+
+    public function __construct()
+    {
+        App::setLocale('en');
+    }
+
     public function index()
     {
         $products = Product::all();

@@ -7,11 +7,18 @@ use App\Models\Coupon;
 use Couchbase\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\App;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Unique;
 
 class CouponController extends Controller
 {
+
+
+    public function __construct()
+    {
+        App::setLocale('en');
+    }
 
     public function index()
     {

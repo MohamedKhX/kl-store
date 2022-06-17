@@ -6,11 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\ProductColors;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Validation\ValidationException;
 use function PHPUnit\Framework\isNull;
 
 class ProductColorController extends Controller
 {
+
+
+    public function __construct()
+    {
+        App::setLocale('en');
+    }
+
     public function create(Product $product)
     {
         return view('dashboard.products.create-color')->with(['product' => $product]);

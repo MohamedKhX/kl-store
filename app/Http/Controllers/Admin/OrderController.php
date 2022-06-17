@@ -5,9 +5,17 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class OrderController extends Controller
 {
+
+
+    public function __construct()
+    {
+        App::setLocale('en');
+    }
+
     public function index()
     {
         $orders = Order::all();
