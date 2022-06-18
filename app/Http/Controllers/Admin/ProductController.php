@@ -153,8 +153,7 @@ class ProductController extends Controller
         }
 
         $earnings = (int) $request->input('product_earnings');
-            //90 ! 90
-        dd($earnings, $product->earnings);
+
         if($earnings != $product->earnings) {
             if($earnings) {
                 foreach ($product->colors as $color) {
