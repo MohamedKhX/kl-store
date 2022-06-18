@@ -80,17 +80,25 @@ class Cart extends Component
                             continue;
                         }
                         if($size->qty <= 0) {
-                            \Gloudemans\Shoppingcart\Facades\Cart::remove($cartItem->rowId);
+                            if(\Gloudemans\Shoppingcart\Facades\Cart::get($cartItem->rowId)) {
+                                \Gloudemans\Shoppingcart\Facades\Cart::remove($cartItem->rowId);
+                            }
                         }
                     }
 
                     return;
                 }
 
-                \Gloudemans\Shoppingcart\Facades\Cart::remove($cartItem->rowId);
+
+                if(\Gloudemans\Shoppingcart\Facades\Cart::get($cartItem->rowId)) {
+                    \Gloudemans\Shoppingcart\Facades\Cart::remove($cartItem->rowId);
+                }
             }
 
-            \Gloudemans\Shoppingcart\Facades\Cart::remove($cartItem->rowId);
+
+            if(\Gloudemans\Shoppingcart\Facades\Cart::get($cartItem->rowId)) {
+                \Gloudemans\Shoppingcart\Facades\Cart::remove($cartItem->rowId);
+            }
         });
     }
 
