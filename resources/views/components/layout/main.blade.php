@@ -61,5 +61,14 @@
         observer.observe();
     </script>
     @livewireScripts
+
+    <script>
+        function clearActive() {
+            let colorImages = document.querySelectorAll('.color-img');
+            for (const image of colorImages) {
+                image.classList.remove('sm-img-active');
+            }
+        }
+    </script>
 </body>
 </html>
