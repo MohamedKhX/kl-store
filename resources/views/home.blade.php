@@ -70,9 +70,7 @@
                                                 </div>
                                                 <div class="row h-100 align-items-center g-2 d-flex justify-content-center">
                                                     @foreach($category->products->take(4) as $product)
-                                                        <div class="col-6 col-lg-3">
-                                                            <livewire:product-card :product="$product"/>
-                                                        </div>
+                                                        <livewire:product-card :product="$product"/>
                                                     @endforeach
                                                 </div>
                                                 <div class="col-12 d-flex justify-content-center mt-5">
@@ -107,9 +105,7 @@
                                 <div class="carousel-inner">
                                     <x-card.careousel-product class="active" data-bs-interval="10000">
                                         @foreach($bestDealsCollection->products->take(4) as $product)
-                                            <div class="col-6 col-lg-3">
-                                                <livewire:product-card :product="$product"/>
-                                            </div>
+                                            <livewire:product-card :product="$product"/>
                                         @endforeach
                                     </x-card.careousel-product>
                                 </div>
@@ -156,9 +152,7 @@
                                 <div class="carousel-item active" data-bs-interval="10000">
                                     <div class="row h-100 align-items-center g-2 d-flex justify-content-center">
                                         @foreach($newArrivalsCollection->products->take(4) as $product)
-                                            <div class="col-6 col-lg-3">
-                                                <livewire:product-card :product="$product"/>
-                                            </div>
+                                            <livewire:product-card :product="$product"/>
                                         @endforeach
                                     </div>
                                 </div>
@@ -189,9 +183,7 @@
                                 <div class="carousel-inner">
                                     <x-card.careousel-product class="active" data-bs-interval="10000">
                                         @foreach($bestSellersCollection->products->take(4) as $product)
-                                            <div class="col-6 col-lg-3">
-                                                <livewire:product-card :product="$product"/>
-                                            </div>
+                                            <livewire:product-card :product="$product"/>
                                         @endforeach
                                     </x-card.careousel-product>
                                 </div>
