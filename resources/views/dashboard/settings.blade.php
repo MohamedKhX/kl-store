@@ -86,19 +86,30 @@
                                         </li>
 
                                         <li class="list-group-item border-0 px-0">
-                                            <label class="form-label">Site Name</label>
+                                            <label class="form-label">Site Name in English</label>
                                             <div class="input-group input-group-outline my-2">
                                                 <label for="site_name" class="form-label"></label>
                                                 <input name="site_name" id="site_name" type="text" class="form-control" value="{{ $site_name }}">
                                             </div>
+
                                         </li>
+
                                         <li class="list-group-item border-0 px-0">
-                                            <label class="form-label">Store Title</label>
+                                            <label class="form-label">Store Title (en)</label>
                                             <div class="input-group input-group-outline my-2">
                                                 <label for="store_title" class="form-label"></label>
                                                 <input name="store_title" id="store_title" type="text" class="form-control" value="{{ $store_title }}">
                                             </div>
                                         </li>
+
+                                        <li class="list-group-item border-0 px-0">
+                                            <label class="form-label">Store Title (ar)</label>
+                                            <div class="input-group input-group-outline my-2">
+                                                <label for="store_title_ar" class="form-label"></label>
+                                                <input name="store_title_ar" id="store_title_ar" type="text" class="form-control" value="{{ $store_title_ar }}">
+                                            </div>
+                                        </li>
+
                                         <li class="list-group-item border-0 px-0">
                                             <label class="form-label">Store Thumbnail</label>
                                             <div class="input-group input-group-outline my-2">
@@ -114,9 +125,15 @@
                                             </div>
                                         </li>
                                         <li class="list-group-item border-0 px-0">
-                                            <label for="store_description" class="form-label">Store Description</label>
+                                            <label for="store_description" class="form-label">Store Description (en)</label>
                                             <div class="input-group input-group-outline my-2">
                                                 <textarea name="store_description" id="store_description" cols="30" rows="4" class="form-control">{{ $store_description }}</textarea>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item border-0 px-0">
+                                            <label for="store_description_ar" class="form-label">Store Description (ar)</label>
+                                            <div class="input-group input-group-outline my-2">
+                                                <textarea name="store_description_ar" id="store_description_ar" cols="30" rows="4" class="form-control">{{ $store_description_ar }}</textarea>
                                             </div>
                                         </li>
                                     </ul>

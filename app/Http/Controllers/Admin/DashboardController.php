@@ -64,7 +64,9 @@ class DashboardController extends Controller
             'ability_to_order'           => $settings->ability_to_order,
             'site_name'                  => $settings->site_name,
             'store_title'                => $settings->store_title,
+            'store_title_ar'             => $settings->store_title_ar,
             'store_description'          => $settings->store_description,
+            'store_description_ar'       => $settings->store_description_ar,
             'phone_number'               => $settings->store_phone_number,
             'site_email'                 => $settings->store_email,
             'store_thumbnail'            => $settings->store_thumbnail,
@@ -77,6 +79,7 @@ class DashboardController extends Controller
         $request->validate([
             'site_name'       => 'required|max:32',
             'store_title'     => 'required|max:64',
+            'store_title_ar'  => 'required|max:64',
             'phone_number'    => 'required|max:64',
             'site_email'      => 'required|max:64',
             'store_thumbnail' => '',
@@ -93,7 +96,9 @@ class DashboardController extends Controller
         $settings->ability_to_order   = $ability_to_order;
         $settings->site_name          = $request->input('site_name');
         $settings->store_title        = $request->input('store_title');
-        $settings->store_description  = $request->input('store_description');
+        $settings->store_title_ar        = $request->input('store_title_ar');
+        $settings->store_description     = $request->input('store_description');
+        $settings->store_description_ar  = $request->input('store_description_ar');
         $settings->store_phone_number = $request->input('phone_number');
         $settings->store_email        = $request->input('site_email');
 

@@ -2,6 +2,6 @@
 
 
 return [
-  'store_title'       => 'Arkan',
-  'store_description' => 'High Quality'
+  'store_title'       => getStoreTitle(),
+  'store_description' => getStoreDescription()
 ];
