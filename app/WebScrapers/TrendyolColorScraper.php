@@ -61,7 +61,6 @@ class TrendyolColorScraper
                 return $item;
             }, $newArray);
 
-
             return [
                 'size' => $newArray[0],
                 'qty'  => $newArray[1] == 'true' ? 10 : 0,

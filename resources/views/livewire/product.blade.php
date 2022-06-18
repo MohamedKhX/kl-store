@@ -155,11 +155,11 @@
                             <div class="mt-3 d-flex justify-content-center justify-content-md-start">
                                 @foreach($sizes1 as $size)
                                     @if($size->qty <= 0)
-                                        <div class="size-square"
+                                        {{--<div class="size-square"
                                              x-init="currentSize == '{{ $size->size }}' ? currentSize = null : null"
                                         >
                                             <span class="text-danger">{{ $size->size }}</span>
-                                        </div>
+                                        </div>--}}
                                     @else
                                         <div class="size-square {{ $sizeSelected == $size->size ? 'size-square-active' : null }}"
                                              @click="currentSize = '{{ $size->size }}'"
@@ -173,11 +173,11 @@
                             <div class="mt-3 d-flex justify-content-center justify-content-md-start">
                                 @foreach($sizes2 as $size)
                                     @if($size->qty <= 0)
-                                        <div class="size-square"
+                                       {{-- <div class="size-square"
                                              x-init="currentSize == '{{ $size->size }}' ? currentSize = null : null"
                                         >
                                             <span class="text-danger">{{ $size->size }}</span>
-                                        </div>
+                                        </div>--}}
                                     @else
                                         <div class="size-square {{ $sizeSelected == $size->size ? 'size-square-active' : null }}"
                                              @click="currentSize = '{{ $size->size }}'"
