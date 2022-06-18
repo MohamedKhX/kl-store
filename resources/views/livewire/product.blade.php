@@ -99,7 +99,7 @@
                                         @foreach($product->colors as $key => $colorItem)
                                             <div class="col-12">
                                                 <a type="button" class="{{ $loop->last ? '' : 'me-3' }}" wire:click="reRender({{ $key + 1 }})">
-                                                    <img @click="$el.classList.add('sm-img-active')" class="mt-3 img-fluid color-img {{ $key +1 === $colorId ? 'sm-img-active' : '' }}"
+                                                    <img @click="clearActive(); $el.classList.add('sm-img-active');" class="mt-3 img-fluid color-img {{ $key +1 === $colorId ? 'sm-img-active' : '' }}"
                                                          src="{{ $colorItem->thumbnail() }}"
                                                          alt="">
                                                 </a>
@@ -110,7 +110,7 @@
                                         @foreach($product->colors as $key => $colorItem)
                                             <div class="col-6">
                                                 <a type="button" class="" wire:click="reRender({{ $key + 1 }})">
-                                                    <img  @click="$el.classList.add('sm-img-active')" class="mt-3 img-fluid color-img {{ $key +1 === $colorId ? 'sm-img-active' : '' }}"
+                                                    <img  @click="clearActive(); $el.classList.add('sm-img-active');" class="mt-3 img-fluid color-img {{ $key +1 === $colorId ? 'sm-img-active' : '' }}"
                                                          src="{{ $colorItem->thumbnail() }}"
                                                          alt="">
                                                 </a>
@@ -121,7 +121,7 @@
                                         @foreach($product->colors as $key => $colorItem)
                                             <div class="col-4 d-flex justify-content-center">
                                                 <a type="button" wire:click="reRender({{ $key + 1 }})">
-                                                    <img @click=" clearActive(); $el.classList.add('sm-img-active');" class="mt-3 img-fluid color-img {{ $key +1 === $colorId ? 'sm-img-active' : '' }}"
+                                                    <img @click="clearActive(); $el.classList.add('sm-img-active');" class="mt-3 img-fluid color-img {{ $key +1 === $colorId ? 'sm-img-active' : '' }}"
                                                          src="{{ $colorItem->thumbnail() }}"
                                                          alt="">
                                                 </a>
@@ -133,7 +133,7 @@
                             <div class="d-none d-sm-flex">
                                 @foreach($product->colors as $key => $colorItem)
                                     <a type="button" class="{{ $loop->last ? '' : 'me-3' }}" wire:click="reRender({{ $key + 1 }})">
-                                        <img  @click="$el.classList.add('sm-img-active')" class="mt-3 img-fluid color-img {{ $key +1 === $colorId ? 'sm-img-active' : '' }}"
+                                        <img  @click="clearActive(); $el.classList.add('sm-img-active');" class="mt-3 img-fluid color-img {{ $key +1 === $colorId ? 'sm-img-active' : '' }}"
                                              src="{{ $colorItem->thumbnail() }}"
                                              alt="">
                                     </a>
