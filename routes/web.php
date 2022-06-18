@@ -82,6 +82,9 @@ Route::middleware('admin')->group(function () {
     Route::patch('/dashboard/products/{product}/{colorId}', [\App\Http\Controllers\Admin\ProductColorController::class, 'update'])
         ->name('admin.products.color.update');
 
+    Route::delete('/dashboard/products/{product}/{colorId}', [\App\Http\Controllers\Admin\ProductColorController::class, 'destroy'])
+        ->name('admin.products.color.destroy');
+
     Route::resource('/dashboard/orders', \App\Http\Controllers\Admin\OrderController::class)->names([
        'index'   => 'admin.orders.index',
        'show'    => 'admin.orders.show',
@@ -91,6 +94,9 @@ Route::middleware('admin')->group(function () {
        'update'  => 'admin.orders.update',
        'destroy' => 'admin.orders.destroy',
     ]);
+
+    Route::patch('/dashboard/orders/{order}', [\App\Http\Controllers\Admin\OrderController::class, 'fastUpdate'])
+        ->name('admin.orders.fast-update');
 
 
     Route::resource('/dashboard/coupons', \App\Http\Controllers\Admin\CouponController::class)->names([

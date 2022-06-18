@@ -22,7 +22,7 @@ class TrendyolColorScraper
 
         $images = array_map(function($item) {
             $item = str_replace('"', '', $item);
-            return 'https://cdn.dsmcdn.com/mnresize/128/192' . $item;
+            return 'https://cdn.dsmcdn.com/' . $item;
         }, $arrayOfImages);
         // End Images Side
 

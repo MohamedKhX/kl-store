@@ -20,11 +20,20 @@ class Order extends Model
         return Attribute::get(fn($value) => json_decode($value));
     }
 
+    public function options(): Attribute
+    {
+        return Attribute::get(fn($value) => json_decode($value));
+    }
+
     public function priceWithOutShipping(): int
     {
         $price = 0;
         foreach ($this->products as $product) {
             $price += (int) $product['subtotal'];
+        }
+
+        if($this->options) {
+            return $this->options->newSubTotal;
         }
 
         return $price;
@@ -40,12 +49,17 @@ class Order extends Model
         return count($this->products);
     }
 
-    public function totalQuantity()
+    public function totalQuantity(): int
     {
         $quantity = 0;
         foreach ($this->products as $product) {
             $quantity += (int) $product['qty'];
         }
         return $quantity;
+    }
+
+    public function shippingPrice()
+    {
+        return $this->city->price;
     }
 }

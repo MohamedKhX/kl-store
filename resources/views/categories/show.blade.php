@@ -2,7 +2,9 @@
     {{-- Single Product Model --}}
     <div class="modal fade" id="singleProduct" tabindex="-1" aria-labelledby="singleProductLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen">
-            <livewire:single-product-model />
+            @if($products->count())
+                <livewire:single-product-model />
+            @endif
         </div>
     </div>
     {{-- End Single Product Model --}}

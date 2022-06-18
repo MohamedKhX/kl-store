@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->string('websiteScraper')->nullable();
             $table->string('url')->nullable();
+            $table->json('urls')->nullable();
             $table->string('name');
             $table->text('thumbnail')->nullable();
             $table->integer('views')->default(0);
@@ -27,6 +28,7 @@ return new class extends Migration
             $table->boolean('status')->default(true);
             $table->string('price')->nullable();
             $table->string('old_price')->nullable();
+            $table->integer('earnings')->default(60);
             $table->integer('priority')->default(1)->nullable();
             $table->timestamps();
         });

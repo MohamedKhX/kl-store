@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->string('name')->unique();
-            $table->string('title')->nullable();
             $table->string('slug');
             $table->text('description')->nullable();
             $table->text('thumbnail');

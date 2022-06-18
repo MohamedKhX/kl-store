@@ -22,10 +22,6 @@
                             <label for="collection_name" class="form-label">Collection Name</label>
                             <input id="collection_name" name="collection_name" type="text" class="form-control" value="{{ old('collection_name') ?? $collection->name }}">
                         </div>
-                        <div class="input-group input-group-outline my-3 is-focused">
-                            <label for="collection_title" class="form-label">Collection Title</label>
-                            <input id="collection_title" name="collection_title" type="text" class="form-control" value="{{ old('collection_title') ?? $collection->title }}">
-                        </div>
                         <div class="input-group input-group-outline my-3">
                             <textarea placeholder="Collection Description..." class="form-control" name="collection_description" id="collection_description" cols="30" rows="10">{{ old('collection_description') ?? $collection->description }}</textarea>
                         </div>

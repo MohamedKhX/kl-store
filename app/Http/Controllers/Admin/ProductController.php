@@ -7,7 +7,9 @@ use App\Models\Category;
 use App\Models\Collection;
 use App\Models\Product;
 use App\Models\ProductColors;
+use App\WebScrapers\KotonScraper;
 use App\WebScrapers\LcwikiScraper;
+use App\WebScrapers\TrendyolScraper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\File;
@@ -15,11 +17,10 @@ use Illuminate\Validation\ValidationException;
 
 class ProductController extends Controller
 {
-
-
     public function __construct()
     {
         App::setLocale('en');
+        set_time_limit(0);
     }
 
     public function index()
@@ -29,7 +30,6 @@ class ProductController extends Controller
         ]);
     }
 
-
     public function create()
     {
         return view('dashboard.products.create')->with([
@@ -37,7 +37,6 @@ class ProductController extends Controller
             'collections' => Collection::all()
         ]);
     }
-
 
     public function store(Request $request)
     {
@@ -76,12 +75,10 @@ class ProductController extends Controller
         return redirect(route('admin.products.color.create', ['product' => $product]));
     }
 
-
     public function show(Product $product)
     {
         return view('dashboard.products.show')->with(['product' => $product]);
     }
-
 
     public function edit(Product $product)
     {
@@ -99,8 +96,14 @@ class ProductController extends Controller
             'product_thumbnail' => 'image',
             'product_price'     => 'nullable|integer',
             'product_old_price' => 'nullable|integer',
-            'product_priority'  => 'nullable|integer'
+            'product_priority'  => 'nullable|integer',
+            'product_earnings'  => 'nullable|integer'
         ]);
+
+        $urls = $request->input('url_fields');
+        if($urls) {
+            $urls = array_filter($urls);
+        }
 
         $status = (bool) $request->input('product_status');
 
@@ -109,8 +112,15 @@ class ProductController extends Controller
         $product->name           = $request->input('product_name');
         $product->description    = $request->input('product_description');
         $product->status         = $status;
-        $product->priority = $request->input('product_priority');
+        $product->priority       = $request->input('product_priority');
+        $product->urls           = json_encode($urls);
 
+
+        if($request->input('product_earnings')) {
+            if((int) $request->input('product_earnings') !== $product->earnings) {
+                $product->earnings  = $request->input('product_earnings');
+            }
+        }
 
         $product->collections()->sync($request->input('collections'));
 
@@ -141,6 +151,18 @@ class ProductController extends Controller
         } else {
             $product->old_price = null;
         }
+
+        $earnings = (int) $request->input('product_earnings');
+
+        if($earnings !== $product->earnings) {
+            if($earnings) {
+                foreach ($product->colors as $color) {
+                    $color->price = round(transformCurrency((int) $color->price, $earnings) / 5) * 5;
+                    $color->save();
+                }
+            }
+        }
+
 
         $product->save();
 
@@ -181,10 +203,11 @@ class ProductController extends Controller
             'product_url'        => 'required',
             'product_price'     => 'nullable|integer',
             'product_old_price' => 'nullable|integer',
-            'product_priority'  => 'nullable|integer'
-
+            'product_priority'  => 'nullable|integer',
+            'product_earnings'  => 'nullable|integer'
         ]);
 
+        $urls = $request->input('url_fields');
         $status = (bool) $request->input('product_status');
         $website = $this->getWebSite($request->input('product_url'));
 
@@ -199,14 +222,18 @@ class ProductController extends Controller
         $product->websiteScraper = $website;
         $product->url            = $request->input('product_url');
         $product->user_id        = $request->user()->id;
-        $product->category_id    = $request->input('product_category');
+        $product->category_id    = $request->input('product_category_id');
         $product->name           = $request->input('product_name');
         $product->description    = $request->input('product_description');
         $product->status         = $status;
         $product->price          = $price;
         $product->old_price      = $oldPrice;
-        $product->priority = $request->input('product_priority');
+        $product->priority       = $request->input('product_priority');
+        $product->urls           = json_encode($urls);
 
+        if($request->input('product_earnings')) {
+            $product->earnings       = $request->input('product_earnings');
+        }
 
         if($request->file('product_thumbnail')) {
             $imgPath = $request->file('product_thumbnail')->store('product_thumbnails', 'public');
@@ -220,7 +247,9 @@ class ProductController extends Controller
 
         $this->scrapColors(
             productId: $product->id,
-            uri: $product->url
+            uri: $product->url,
+            webScraper: $website,
+            urls: $urls
         );
 
 
@@ -288,7 +317,9 @@ class ProductController extends Controller
 
         $this->scrapColors(
             productId: $product->id,
-            uri: $product->url
+            uri: $product->url,
+            webScraper: $product->websiteScraper,
+            urls: json_decode($product->urls)
         );
 
         return redirect(route('admin.products.update-price', $product))
@@ -327,10 +358,26 @@ class ProductController extends Controller
         return redirect(route('admin.products.edit', $product->id))->with('success', 'Re fetched data successfully');
     }
 
-    public function scrapColors($productId, $uri)
+    public function scrapColors($productId, $uri, $webScraper, $urls = [])
     {
-        $scraper = new LcwikiScraper();
-        $colors = $scraper->colors($uri);
+        //lcwaikiki
+        if($webScraper == 'lcwaikiki') {
+            $scraper = new LcwikiScraper();
+        }
+
+        if($webScraper == 'koton') {
+            $scraper = new KotonScraper();
+        }
+
+        if($webScraper == 'trendyol') {
+            $scraper = new TrendyolScraper();
+        }
+
+        if($webScraper == 'trendyol') {
+            $colors = $scraper->colors($urls);
+        } else {
+            $colors = $scraper->colors($uri);
+        }
 
         foreach ($colors as $color) {
             $this->createProductColor($color, $productId);
@@ -339,7 +386,9 @@ class ProductController extends Controller
 
     public function createProductColor(array $colorInfo, $productId)
     {
-        $price = round(transformCurrency((int) $colorInfo['price']) / 5) * 5;
+        $product = Product::find($productId)->first();
+
+        $price = round(transformCurrency((int) $colorInfo['price'], $product->earnings) / 5) * 5;
 
         $productColor             = new ProductColors();
         $productColor->product_id = $productId;

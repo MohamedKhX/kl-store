@@ -70,14 +70,19 @@ function getStoreIcon() {
     return 'storage/' . app(GeneralSettings::class)->store_icon;
 }
 
-function transformCurrency($price, $from = 'TRY', $to = 'LYD')
+function transformCurrency($price, $earnings, $from = 'TRY', $to = 'LYD')
 {
 
     $response = Http::withOptions(['verify' => false])->withHeaders([
         'X-Api-Key' => 'DekERxC2A9lMEikr7KaZVw==K4AxfPvmpWuYppVZ',
     ])->get("https://api.api-ninjas.com/v1/convertcurrency?want={$to}&have={$from}&amount={$price}")
         ->json();
-    return $response['new_amount'] ?? 200;
+
+    if($response['new_amount']) {
+        return $response['new_amount'] * ($earnings / 100) + $response['new_amount'];
+    }
+
+    return 404;
 }
 
 function arRight()

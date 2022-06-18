@@ -24,6 +24,7 @@ return new class extends Migration
             $table->text('notes')->nullable();
             $table->text('admin_notes')->nullable();
             $table->json('products');
+            $table->json('options')->nullable();
 
             // Requested [Refused, Accepted] [InComing, InLibya] [Arrived, No_Response, Not_Accepted]
             $table->string('status')->default('Requested');

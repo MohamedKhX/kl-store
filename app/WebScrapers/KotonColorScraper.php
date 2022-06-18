@@ -18,14 +18,23 @@ class KotonColorScraper
            return $node->children()->attr('alt-src');
         });
 
-        $sizes = $crawler->filter('.size-items')->each(function ($node) {
+
+        $sizes = $crawler->filter('.size-items')->children()->each(function ($node)  {
             return [
-                'size'  => $node->children()->children()->text(),
-                'price' => $node->children()->children()->attr('stocklevel')
+                'size'  => $node->children()->text(),
+                'qty'   => $node->children()->attr('stocklevel')
             ];
         });
 
-        $price = explode(',' ,str_replace('₺', '', $crawler->filter('.normalPrice')->text()))[0];
+        if($crawler->filter('.normalPrice')->count()) {
+            $price = explode(',' ,str_replace('₺', '', $crawler->filter('.normalPrice')->text()))[0];
+        } else {
+            $price = explode(',' ,str_replace('₺', '', $crawler->filter('.insteadPrice')->text()))[0];
+        }
+
+
+
+
 
         return [
             'url'       => $uri,

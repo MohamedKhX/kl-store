@@ -1,11 +1,13 @@
 <div>
     <div class="container">
         @if($showProduct)
-            @if(auth()->user()->role === 'admin')
-                <div class="d-flex justify-content-center my-3">
-                    <a class="btn btn-sm btn-dark" href="{{ route('admin.products.edit', $product) }}">Edit this product</a>
-                </div>
-            @endif
+            @auth()
+                @if(auth()->user()->role === 'admin')
+                    <div class="d-flex justify-content-center my-3">
+                        <a class="btn btn-sm btn-dark" href="{{ route('admin.products.edit', $product) }}">Edit this product</a>
+                    </div>
+                @endif
+            @endauth
             <div class="row animate__animated animate__fadeIn" x-data="{currentSize: @entangle('sizeSelected')}" x-init="load()">
                     <div class="col-12 col-lg-6">
                         <div class="row">

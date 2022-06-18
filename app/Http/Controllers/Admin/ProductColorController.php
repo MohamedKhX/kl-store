@@ -185,4 +185,12 @@ class ProductColorController extends Controller
 
         return redirect()->back()->with('success', 'Color Updated Successfully');
     }
+
+    public function destroy(Product $product, $colorId)
+    {
+        $color = ProductColors::find($colorId)->first();
+        $color->delete();
+
+        return redirect(route('admin.products.edit', $product->id))->with('success', 'Color Deleted Successfully');
+    }
 }

@@ -57,7 +57,6 @@ class CollectionController extends Controller
         $collection->user_id     = auth()->user()->id;
         $collection->slug        = str($request->input('collection_name'))->slug();
         $collection->name        = $request->input('collection_name');
-        $collection->title       = $request->input('collection_title');
         $collection->description = $request->input('collection_description');
         $collection->status      = $status;
         $collection->thumbnail   = $imgPath;
@@ -93,10 +92,13 @@ class CollectionController extends Controller
 
         $collection              = Collection::find($collection->id);
         $collection->user_id     = auth()->user()->id;
-        $collection->slug        = str($request->input('collection_name'))->slug();
         $collection->name        = $request->input('collection_name');
         $collection->description = $request->input('collection_description');
         $collection->status      = $status;
+
+        if(! $collection->special) {
+            $collection->slug        = str($request->input('collection_name'))->slug();
+        }
 
         if($request->file('collection_thumbnail')) {
 
@@ -119,6 +121,10 @@ class CollectionController extends Controller
 
     public function destroy(Collection $collection)
     {
+        if($collection->special) {
+            return redirect(route('admin.collections.index'))->with('error', 'You cant delete a special collection');
+        }
+
         $imgPath = public_path('storage/' . $collection->thumbnail);
 
         if(File::exists($imgPath)) {

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\Product;
+use App\Models\ProductColors;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
@@ -45,9 +47,27 @@ class OrderController extends Controller
 
     public function show(Order $order)
     {
+        $products = [];
+        foreach ($order->products as $product) {
+            $products[] = [
+                'colorProduct' => ProductColors::find($product['id']),
+                'options'      => $product['options'],
+                'qty'          => $product['qty']
+            ];
+        }
+
         return view('dashboard.orders.show', [
             'order' => $order,
-            'products' => $order->products
+            'products' => $products
         ]);
+    }
+
+    public function fastUpdate(Order $order)
+    {
+        $order->status = \request()->input('status');
+        $order->admin_notes = \request()->input('admin_notes');
+        $order->save();
+
+        return redirect()->back()->with('success', 'Order Updated Successfully');
     }
 }

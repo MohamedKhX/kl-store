@@ -95,33 +95,36 @@
         {{-- End Shop by category Section --}}
 
         {{-- Start Best-deals-section --}}
-        <section class="py-0">
-            <div class="container">
-                <div class="row h-100">
-                    <div class="col-lg-7 mx-auto text-center mt-7 mb-5">
-                        <h5 class="fw-bold fs-3 fs-lg-5 lh-sm">Best Deals</h5>
-                    </div>
-                    <div class="col-12">
-                        <div class="carousel slide" id="carouselBestDeals" data-bs-touch="false" data-bs-interval="false">
-                            <div class="carousel-inner">
-                                <x-card.careousel-product class="active" data-bs-interval="10000">
-                                    @foreach($bestDealsCollection->products->take(4) as $product)
-                                        <div class="col-6 col-lg-3">
-                                            <livewire:product-card :product="$product"/>
-                                        </div>
-                                    @endforeach
-                                </x-card.careousel-product>
+        @if($bestDealsCollection->status)
+            <section class="py-0">
+                <div class="container">
+                    <div class="row h-100">
+                        <div class="col-lg-7 mx-auto text-center mt-7 mb-5">
+                            <h5 class="fw-bold fs-3 fs-lg-5 lh-sm">{{ $bestDealsCollection->name }}</h5>
+                        </div>
+                        <div class="col-12">
+                            <div class="carousel slide" id="carouselBestDeals" data-bs-touch="false" data-bs-interval="false">
+                                <div class="carousel-inner">
+                                    <x-card.careousel-product class="active" data-bs-interval="10000">
+                                        @foreach($bestDealsCollection->products->take(4) as $product)
+                                            <div class="col-6 col-lg-3">
+                                                <livewire:product-card :product="$product"/>
+                                            </div>
+                                        @endforeach
+                                    </x-card.careousel-product>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-12 d-flex justify-content-center mt-5">
-                        <a class="btn btn-lg btn-dark" onclick="showCollection({{ $bestDealsCollection->id }})" href="" data-bs-toggle="modal" data-bs-target="#CollectionModel">
-                            {{ __('elements.view_all') }}
-                        </a>
+                        <div class="col-12 d-flex justify-content-center mt-5">
+                            <a class="btn btn-lg btn-dark" onclick="showCollection({{ $bestDealsCollection->id }})" href="" data-bs-toggle="modal" data-bs-target="#CollectionModel">
+                                {{ __('elements.view_all') }}
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        @endif
+
         {{-- End Best-deals-section --}}
 
         {{-- Strat collections Section --}}
@@ -140,11 +143,12 @@
         {{-- End collections Section --}}
 
         {{-- Strat New Arraivels Section --}}
-        <section class="py-0">
+        @if($newArrivalsCollection->status)
+            <section class="py-0">
             <div class="container">
                 <div class="row h-100">
                     <div class="col-lg-7 mx-auto text-center mb-6">
-                        <h5 class="fs-3 fs-lg-5 lh-sm mb-3">Checkout New Arrivals</h5>
+                        <h5 class="fs-3 fs-lg-5 lh-sm mb-3">{{ $newArrivalsCollection->name }}</h5>
                     </div>
                     <div class="col-12">
                         <div class="carousel slide" id="carouselNewArrivals" data-bs-ride="carousel">
@@ -169,36 +173,40 @@
                 </div>
             </div>
         </section>
+        @endif
         {{-- End New Arraivels Section --}}
 
         {{-- Strat Best sellers Section --}}
-        <section>
-            <div class="container">
-                <div class="row h-100">
-                    <div class="col-lg-7 mx-auto text-center mb-6">
-                        <h5 class="fw-bold fs-3 fs-lg-5 lh-sm mb-3">Best Sellers</h5>
-                    </div>
-                    <div class="col-12">
-                        <div class="carousel slide" id="carouselBestDeals" data-bs-touch="false" data-bs-interval="false">
-                            <div class="carousel-inner">
-                                <x-card.careousel-product class="active" data-bs-interval="10000">
-                                    @foreach($bestSellersCollection->products->take(4) as $product)
-                                        <div class="col-6 col-lg-3">
-                                            <livewire:product-card :product="$product"/>
-                                        </div>
-                                    @endforeach
-                                </x-card.careousel-product>
+        @if($bestSellersCollection->status)
+            <section>
+                <div class="container">
+                    <div class="row h-100">
+                        <div class="col-lg-7 mx-auto text-center mb-6">
+                            <h5 class="fw-bold fs-3 fs-lg-5 lh-sm mb-3">{{ $bestSellersCollection->name }}</h5>
+                        </div>
+                        <div class="col-12">
+                            <div class="carousel slide" id="carouselBestDeals" data-bs-touch="false" data-bs-interval="false">
+                                <div class="carousel-inner">
+                                    <x-card.careousel-product class="active" data-bs-interval="10000">
+                                        @foreach($bestSellersCollection->products->take(4) as $product)
+                                            <div class="col-6 col-lg-3">
+                                                <livewire:product-card :product="$product"/>
+                                            </div>
+                                        @endforeach
+                                    </x-card.careousel-product>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-12 d-flex justify-content-center mt-5">
-                        <a class="btn btn-lg btn-dark" onclick="showCollection({{ $bestSellersCollection->id }})" href="" data-bs-toggle="modal" data-bs-target="#CollectionModel">
-                            {{ __('elements.view_all') }}
-                        </a>
+                        <div class="col-12 d-flex justify-content-center mt-5">
+                            <a class="btn btn-lg btn-dark" onclick="showCollection({{ $bestSellersCollection->id }})" href="" data-bs-toggle="modal" data-bs-target="#CollectionModel">
+                                {{ __('elements.view_all') }}
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        @endif
+
         {{-- End Best sellers Section --}}
 
         {{-- Start Categories section --}}

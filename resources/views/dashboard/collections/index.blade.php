@@ -8,6 +8,11 @@
                 <strong>Success!</strong> {{ session()->get('success') }}
             </div>
         @endif
+        @if(session()->has('error'))
+            <div class="alert alert-danger text-white" role="alert">
+                <strong>Error!</strong> {{ session()->get('error') }}
+            </div>
+        @endif
         <div class="card d-none d-md-flex">
             <div class="table-responsive">
                 <table class="table align-items-center mb-0">

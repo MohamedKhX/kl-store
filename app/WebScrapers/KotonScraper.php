@@ -15,7 +15,6 @@ class KotonScraper
             return 'https://www.koton.com' . $node->attr('href');
         });
 
-
         $results = [];
 
         foreach ($colors as $color) {

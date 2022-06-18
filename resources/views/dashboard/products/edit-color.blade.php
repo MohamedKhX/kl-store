@@ -128,6 +128,16 @@
                             <input type="submit" class="btn btn-info w-100 p-1 fs-6" value="Save">
                         </div>
                     </form>
+
+                    <div>
+                        <p><strong class="text-danger">Note:</strong> The color will be deleted for ever</p>
+                        <form method="POST" action="{{ route('admin.products.color.destroy', [$product, $color]) }}">
+                            @csrf
+                            @method('DELETE')
+
+                            <input type="submit" class="btn btn-danger w-75 p-1 fs-6" value="Delete">
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

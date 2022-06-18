@@ -82,6 +82,35 @@
                                 </div>
                             </div>
                         </div>
+
+                        @if($product->websiteScraper)
+                            <p><strong class="text-danger">Note:</strong> If you want to update this field update it then re fetch data to take the correct effect</p>
+                            <div class="input-group input-group-outline my-3 is-focused">
+                                <label for="product_earnings" class="form-label">Earnings</label>
+                                <input id="product_earnings" name="product_earnings" type="text" class="form-control" value="{{ old('product_earnings') ?? $product->earnings }}">
+                            </div>
+
+
+                            @if($product->websiteScraper == 'trendyol')
+                                <div id="colorFields">
+                                    <p><strong class="text-danger">Note: </strong> If you want update color urls update them and then re fetch to take the correct effect</p>
+                                    @forelse(json_decode($product->urls) as $url)
+                                        <div class="input-group input-group-outline my-3 is-focused">
+                                            <label for="url_fields" class="form-label">Color Url</label>
+                                            <input id="url_fields" name="url_fields[]" type="text" class="form-control" value="{{ $url }}">
+                                            <a onclick="createUrlField()" class="btn btn-primary h-100 mb-0">+</a>
+                                        </div>
+                                    @empty
+                                        <div class="input-group input-group-outline my-3 is-focused">
+                                            <label for="url_fields" class="form-label">Color Url</label>
+                                            <input id="url_fields" name="url_fields[]" type="text" class="form-control" value="">
+                                            <a onclick="createUrlField()" class="btn btn-primary h-100 mb-0">+</a>
+                                        </div>
+                                    @endforelse
+                                </div>
+                            @endif
+                        @endif
+
                         <div class="my-3">
                             <strong>Collections: </strong>
                             <div class="d-flex flex-column justify-content-center">
@@ -145,4 +174,22 @@
             </div>
         </div>
     </div>
+
+    @push('scripts')
+        <script>
+            function createUrlField()
+            {
+                const colorFields = document.getElementById('colorFields');
+
+                const node = document.createElement('div');
+                node.classList.add('input-group', 'input-group-outline', 'my-3', 'is-filled');
+                node.innerHTML = ` <label class="form-label">Color Url</label>
+                                <input name="url_fields[]" type="text" class="form-control" value="">
+                                <a onclick="createUrlField()" class="btn btn-primary h-100 mb-0">+</a>
+                     `;
+
+                colorFields.append(node);
+            }
+        </script>
+    @endpush
 </x-layout.Dashboard.main>

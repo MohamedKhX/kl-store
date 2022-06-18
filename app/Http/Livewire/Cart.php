@@ -21,7 +21,7 @@ class Cart extends Component
     public $newSubTotal;
     public $total;
     public $couponCode;
-    public $shippingPrice = 30;
+    public $shippingPrice = 0;
     public $discount = 0;
     public ?Coupon $coupon = null;
 
@@ -37,18 +37,60 @@ class Cart extends Component
         'full_name'    => 'required|min:3|max:16',
         'phone_number'  => 'required|min:10|max:20',
         'email_address' => 'nullable|email',
+        'address'       => 'required',
         'selectedCityId' => ''
     ];
 
     public function mount()
     {
+        $this->checkIfCartContentIsCorrect();
         $this->cartItems = \Gloudemans\Shoppingcart\Facades\Cart::content();
         $this->cities    = City::all();
         $this->selectedCityId = $this->cities->first();
         $this->selectedCity   = $this->cities->first();
+        $this->shippingPrice  = $this->selectedCity->price;
 
         $this->qtys = $this->cartItems->map(function($item) {
             return $item->qty;
+        });
+
+    }
+
+    protected function checkIfCartContentIsCorrect()
+    {
+        $cartItems = \Gloudemans\Shoppingcart\Facades\Cart::content();
+        $products  = \App\Models\Product::all();
+
+        $productsNotFound = \Gloudemans\Shoppingcart\Facades\Cart::search(function ($cartItem, $rowId) use($products) {
+            if(! $products->count()) {
+                \Gloudemans\Shoppingcart\Facades\Cart::destroy();
+                return;
+            }
+
+            foreach ($products as $product) {
+                if($cartItem->options['product_id'] != $product->id) {
+                    continue;
+                }
+                foreach ($product->colors as $color) {
+                    if($cartItem->id != $color->id) {
+                        continue;
+                    }
+                    foreach ($color->sizes as $size) {
+                        if($cartItem->options['size'] != $size->size) {
+                            continue;
+                        }
+                        if($size->qty <= 0) {
+                            \Gloudemans\Shoppingcart\Facades\Cart::remove($cartItem->rowId);
+                        }
+                    }
+
+                    return;
+                }
+
+                \Gloudemans\Shoppingcart\Facades\Cart::remove($cartItem->rowId);
+            }
+
+            \Gloudemans\Shoppingcart\Facades\Cart::remove($cartItem->rowId);
         });
     }
 
@@ -180,13 +222,15 @@ class Cart extends Component
         $products = $this->cartItems->toJson();
         $order->products = $products;
 
-        $order->save();
+        if($this->discount) {
+            $order->options = json_encode([
+               'discount'    => $this->discount,
+               'subTotal'    => $this->subTotal,
+               'newSubTotal' => $this->newSubTotal
+            ]);
+        }
 
-        /*
-         * Clear all products
-         * Clear all fields
-         * session a success message
-         * */
+        $order->save();
 
         \Gloudemans\Shoppingcart\Facades\Cart::destroy();
         $this->cartItems = [];
