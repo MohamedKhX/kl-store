@@ -10,7 +10,7 @@
                 @if(ar())
                     <span class="text-800 ">{{ $price }}</span>
                     @if($oldPrice)
-                        <span style="color: #ab0000" class="me-2 text-decoration-line-through">{{ $oldPrice }}</span>
+                        <span style="color: #ab0000" class="ms-2 text-decoration-line-through">{{ $oldPrice }}</span>
                     @endif
                 @else
                     @if($oldPrice)
