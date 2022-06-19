@@ -63,7 +63,7 @@
                                                  id="pills-{{$category->slug}}"
                                                  role="tabpanel"
                                                  aria-labelledby="pills-{{$category->slug}}-tab">
-                                                <livewire:category-tab :category="$category" :current-category="$currentCategory"/>
+                                                <livewire:category-tab :category="$category"/>
 
                                                 {{--  <div class="d-flex justify-content-center">
                                                       <p class="text-center fs-1">
