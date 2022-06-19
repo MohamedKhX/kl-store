@@ -63,23 +63,25 @@
                                                  id="pills-{{$category->slug}}"
                                                  role="tabpanel"
                                                  aria-labelledby="pills-{{$category->slug}}-tab">
-                                                <div class="d-flex justify-content-center">
-                                                    <p class="text-center fs-1">
-                                                        {{ $category->description }}
-                                                    </p>
-                                                </div>
-                                                <div class="row h-100 align-items-center g-2 d-flex justify-content-center">
-                                                    @foreach($category->products->take(4) as $product)
-                                                        <livewire:product-card :product="$product"/>
-                                                    @endforeach
-                                                </div>
-                                                <div class="col-12 d-flex justify-content-center mt-5">
-                                                    <a class="btn btn-lg btn-dark" href="#"
-                                                       onclick="showCategory({{ $category->id }})"
-                                                       data-bs-toggle="modal" data-bs-target="#CategoryModel">
-                                                        {{ __('elements.view_more') }}
-                                                    </a>
-                                                </div>
+                                                <livewire:category-tab :category="$category" :current-category="$currentCategory"/>
+
+                                                {{--  <div class="d-flex justify-content-center">
+                                                      <p class="text-center fs-1">
+                                                          {{ $category->description }}
+                                                      </p>
+                                                  </div>
+                                                  <div class="row h-100 align-items-center g-2 d-flex justify-content-center">
+                                                      @foreach($category->products->take(4) as $product)
+                                                          <livewire:product-card :product="$product"/>
+                                                      @endforeach
+                                                  </div>
+                                                  <div class="col-12 d-flex justify-content-center mt-5">
+                                                      <a class="btn btn-lg btn-dark" href="#"
+                                                         onclick="showCategory({{ $category->id }})"
+                                                         data-bs-toggle="modal" data-bs-target="#CategoryModel">
+                                                          {{ __('elements.view_more') }}
+                                                      </a>
+                                                  </div>--}}
                                             </div>
                                         @endforeach
                                     </div>
