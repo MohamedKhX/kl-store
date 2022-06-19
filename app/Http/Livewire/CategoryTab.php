@@ -12,7 +12,7 @@ class CategoryTab extends Component
     public     \App\Models\Category $category;
     public     \App\Models\Category $currentCategory;
     protected  $paginationTheme = 'bootstrap';
-    public int $toShow = 8;
+    public int $toShow = 2;
 
     public function mount()
     {
