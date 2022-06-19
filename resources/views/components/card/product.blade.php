@@ -1,6 +1,6 @@
 @props(['name', 'price', 'img' => 'img/gallery/flat-hill.png', 'oldPrice' => null,])
-
-<div class="col-sm-12 mb-3 mb-md-0 mt-3">
+{{-- col-sm-12  --}}
+<div class="mb-3 mb-md-0 mt-3">
     <div class="card card-span text-white">
         <img class="img-fluid " src="{{ $img }}" alt="..." />
         <div class="card-img-overlay ps-0"> </div>

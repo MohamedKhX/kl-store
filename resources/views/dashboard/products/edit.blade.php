@@ -49,7 +49,7 @@
                                 <img class="img-fluid" src="{{ $product->thumbnail() }}" alt="">
                             </div>
                         </div>
-                        <div class="input-group input-group-static mb-4">
+                       {{-- <div class="input-group input-group-static mb-4">
                             <label for="categorySelector" class="ms-0">Category: </label>
                             <select name="product_category_id" class="form-control" id="categorySelector">
                                 @foreach($categories as $category)
@@ -61,7 +61,24 @@
                                     </option>
                                 @endforeach
                             </select>
+                        </div>--}}
+
+                        <div class="my-3">
+                            <strong>Categories: </strong>
+                            <div class="d-flex flex-column justify-content-center">
+                                @foreach($categories as $category)
+                                    <div class="form-check">
+                                        <input name="categories[]" class="form-check-input" type="checkbox" value="{{ $category->id }}" id="{{ $category->name }}"
+                                            {{ $product->categories->contains($category) ? 'checked' : null }}
+                                        >
+                                        <label class="form-check-label" for="{{ $category->name }}">
+                                            {{ $category->name }}
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
+
                         <div class="row">
                             <div>
                                 <strong class="text-danger">Note:</strong>

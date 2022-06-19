@@ -29,6 +29,9 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('adminadmin'),
             'role'  => 'admin'
         ]);
+
+        Category::factory(5)->create();
+
         $this->call(CollectionSeeder::class);
         $this->call(CitySeeder::class);
     }

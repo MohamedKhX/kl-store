@@ -8,7 +8,7 @@
             <button wire:click="unShowCollection" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         @endif
     </div>
-    <div class="modal-body">
+    <div style="background-color: rgb(245, 245, 245)" class="modal-body px-1">
           <livewire:collection />
     </div>
     <div class="modal-footer">

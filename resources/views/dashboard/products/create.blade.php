@@ -1,10 +1,4 @@
 <x-layout.Dashboard.main>
-
-    @php
-
-    @endphp
-
-
     <div class="container-fluid px-2 px-md-4 mt-5 pt-5">
         <div class="card card-body mx-3 mx-md-4 mt-n6 mt-5">
             @if($errors->any())
@@ -40,7 +34,34 @@
                                 <input id="product_thumbnail" name="product_thumbnail" type="file" class="form-control" value="{{ old('product_thumbnail') }}">
                             </div>
                         </div>
-                        <div class="input-group input-group-static mb-4">
+                        <div class="my-3">
+                            <strong>Categories: </strong>
+                            <div class="d-flex flex-column justify-content-center">
+                                @foreach($categories as $key => $category)
+                                    <div class="form-check">
+                                        <input name="categories[]"
+                                               class="form-check-input"
+                                               type="checkbox"
+                                               value="{{ $category->id }}"
+                                               id="{{ $category->name }}"
+                                            @php
+                                                if(old('categories')) {
+                                                   foreach (old('categories') as $category_id) {
+                                                       if($category_id == $category->id) {
+                                                           echo 'checked';
+                                                       }
+                                                   }
+                                                }
+                                            @endphp
+                                        >
+                                        <label class="form-check-label" for="{{ $category->name }}">
+                                            {{ $category->name }}
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                 {{--       <div class="input-group input-group-static mb-4">
                             <label for="categorySelector" class="ms-0">Category: </label>
                             <select name="product_category_id" class="form-control" id="categorySelector">
                                 @foreach($categories as $category)
@@ -51,7 +72,7 @@
                                     </option>
                                 @endforeach
                             </select>
-                        </div>
+                        </div>--}}
                         <div class="row">
                             <div>
                                 <strong class="text-danger">Note:</strong>

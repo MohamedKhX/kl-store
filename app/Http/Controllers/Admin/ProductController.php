@@ -56,7 +56,6 @@ class ProductController extends Controller
         $oldPrice = $request->input('product_old_price');
 
         $product                 = new Product();
-        $product->category_id    = $request->input('product_category_id');
         $product->user_id        = $request->user()->id;
         $product->websiteScraper = $request->input('product_website_scraper');
         $product->url            = $request->input('url');
@@ -70,6 +69,7 @@ class ProductController extends Controller
 
         $product->save();
 
+        $product->categories()->attach($request->input('categories'));
         $product->collections()->attach($request->input('collections'));
 
         return redirect(route('admin.products.color.create', ['product' => $product]));
@@ -108,7 +108,6 @@ class ProductController extends Controller
         $status = (bool) $request->input('product_status');
 
         $product                 = Product::find($product->id);
-        $product->category_id    = $request->input('product_category_id');
         $product->name           = $request->input('product_name');
         $product->description    = $request->input('product_description');
         $product->status         = $status;
@@ -122,6 +121,7 @@ class ProductController extends Controller
             }
         }
 
+        $product->categories()->sync($request->input('categories'));
         $product->collections()->sync($request->input('collections'));
 
         if($request->file('product_thumbnail')) {
@@ -222,7 +222,6 @@ class ProductController extends Controller
         $product->websiteScraper = $website;
         $product->url            = $request->input('product_url');
         $product->user_id        = $request->user()->id;
-        $product->category_id    = $request->input('product_category_id');
         $product->name           = $request->input('product_name');
         $product->description    = $request->input('product_description');
         $product->status         = $status;
@@ -242,6 +241,7 @@ class ProductController extends Controller
 
         $product->save();
 
+        $product->categories()->attach($request->input('categories'));
         $product->collections()->attach($request->input('collections'));
 
 

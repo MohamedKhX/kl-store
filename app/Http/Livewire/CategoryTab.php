@@ -12,7 +12,7 @@ class CategoryTab extends Component
     public     \App\Models\Category $category;
     public     \App\Models\Category $currentCategory;
     protected  $paginationTheme = 'bootstrap';
-    public int $toShow = 2;
+    public int $toShow = 1;
 
     public function mount()
     {
@@ -31,7 +31,7 @@ class CategoryTab extends Component
 
     public function render()
     {
-        $allProducts   = \App\Models\Product::where('category_id', '=', $this->category->id)->get();
+        $allProducts   = $this->category->products;
         $products      = $allProducts->take($this->toShow);
         $productsCount = $allProducts->count();
 

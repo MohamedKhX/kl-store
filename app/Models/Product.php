@@ -18,7 +18,8 @@ class Product extends Model
 
     public function scopeActive($query)
     {
-        return $query->where('status', '=', true)
+        return $query->has('colors')
+            ->where('status', '=', true)
             ->orderBy('priority', 'desc');
     }
 
@@ -49,9 +50,9 @@ class Product extends Model
         return url('storage/' . $this->thumbnail);
     }
 
-    public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsToMany(Category::class);
     }
 
     public function collections(): \Illuminate\Database\Eloquent\Relations\BelongsToMany

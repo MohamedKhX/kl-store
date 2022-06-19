@@ -89,15 +89,21 @@ class Cart extends Component
                     return;
                 }
 
-                if(\Gloudemans\Shoppingcart\Facades\Cart::get($cartItem->rowId)) {
+
+                try {
                     \Gloudemans\Shoppingcart\Facades\Cart::remove($cartItem->rowId);
+                } catch (\Exception $exception) {
+
                 }
             }
 
 
-           /* if(\Gloudemans\Shoppingcart\Facades\Cart::get($cartItem->rowId)) {
+            try {
                 \Gloudemans\Shoppingcart\Facades\Cart::remove($cartItem->rowId);
-            }*/
+            } catch (\Exception $exception) {
+
+            }
+
         });
     }
 

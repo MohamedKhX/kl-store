@@ -101,6 +101,13 @@
                             </p>
                             <hr>
                         </div>
+                        <div class="px-6">
+                            <h6>
+                                <strong class="ms-auto">Status : </strong>
+                                <span class="text-danger">{{ $order->status }}</span>
+                            </h6>
+                            <hr>
+                        </div>
                         <div>
                             <a class="btn btn-info" href="{{ route('admin.orders.show', $order) }}">Show Products</a>
                         </div>
