@@ -26,7 +26,7 @@ class CategoryTab extends Component
 
     public function showMore()
     {
-        $this->toShow += 6;
+        $this->toShow += 2;
     }
 
     public function render()
