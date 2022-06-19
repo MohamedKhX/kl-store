@@ -14,6 +14,11 @@ class CategoryTab extends Component
     protected  $paginationTheme = 'bootstrap';
     public int $toShow = 8;
 
+    public function mount()
+    {
+        $this->currentCategory = \App\Models\Category::all()->first();
+    }
+
     public function showProduct($id)
     {
         $this->emit('SingleProduct', $id);
