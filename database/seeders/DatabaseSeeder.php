@@ -30,8 +30,6 @@ class DatabaseSeeder extends Seeder
             'role'  => 'admin'
         ]);
 
-        Category::factory(5)->create();
-
         $this->call(CollectionSeeder::class);
         $this->call(CitySeeder::class);
     }
