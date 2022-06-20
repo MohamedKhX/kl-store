@@ -16,14 +16,16 @@ class PageController extends Controller
         $categories = Category::all()->where('status', '=', '1');
         $products   = Product::all();
 
-        $collections           = Collection::active();
+        $collections           = Collection::all();
         $bestDealsCollection   = $collections->where('slug', '=', 'best-deals')->first();
         $newArrivalsCollection = $collections->where('slug', '=', 'new-arrivals')->first();
         $bestSellersCollection = $collections->where('slug', '=', 'best-sellers')->first();
-        $otherCollections      = $collections->except([
-            $bestDealsCollection->id,
-            $newArrivalsCollection->id,
-            $bestSellersCollection->id,
+
+        $activeCollections     = Collection::active();
+        $otherCollections      = $activeCollections->except([
+            $bestDealsCollection->id   ?? null,
+            $newArrivalsCollection->id ?? null,
+            $bestSellersCollection->id ?? null,
         ]);
 
         return view('home')->with([
