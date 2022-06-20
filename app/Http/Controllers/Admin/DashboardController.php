@@ -32,7 +32,7 @@ class DashboardController extends Controller
         $orders = Order::all();
         $ordersCount = $orders->count();
 
-        $todayOrders = Order::whereDate('created_at', Carbon::today())->get();
+        $todayOrders = Order::where('status', '=', 'Requested')->whereDate('created_at', Carbon::today())->get();
         $todayOrdersCount = $todayOrders->count();
 
         $todaySales = 0;
