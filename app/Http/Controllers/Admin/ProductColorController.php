@@ -188,7 +188,7 @@ class ProductColorController extends Controller
 
     public function destroy(Product $product, $colorId)
     {
-        $color = ProductColors::find($colorId)->first();
+        $color = ProductColors::find($colorId);
         dd($color);
         $color->delete();
 
