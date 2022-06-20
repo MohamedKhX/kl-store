@@ -131,7 +131,7 @@
 
                     <div>
                         <p><strong class="text-danger">Note:</strong> The color will be deleted for ever</p>
-                        <form method="POST" action="{{ route('admin.products.color.destroy', [$product, $color]) }}">
+                        <form method="POST" action="{{ route('admin.products.color.destroy', [$product, $color->id]) }}">
                             @csrf
                             @method('DELETE')
 
