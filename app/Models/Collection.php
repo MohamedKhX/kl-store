@@ -13,4 +13,9 @@ class Collection extends Model
     {
         return $this->belongsToMany(Product::class)->active();
     }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', '=', true);
+    }
 }

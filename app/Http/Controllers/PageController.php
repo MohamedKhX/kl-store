@@ -16,7 +16,7 @@ class PageController extends Controller
         $categories = Category::all()->where('status', '=', '1');
         $products   = Product::all();
 
-        $collections           = Collection::all();
+        $collections           = Collection::active();
         $bestDealsCollection   = $collections->where('slug', '=', 'best-deals')->first();
         $newArrivalsCollection = $collections->where('slug', '=', 'new-arrivals')->first();
         $bestSellersCollection = $collections->where('slug', '=', 'best-sellers')->first();
