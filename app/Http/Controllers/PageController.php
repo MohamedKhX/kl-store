@@ -21,7 +21,7 @@ class PageController extends Controller
         $newArrivalsCollection = $collections->where('slug', '=', 'new-arrivals')->first();
         $bestSellersCollection = $collections->where('slug', '=', 'best-sellers')->first();
 
-        $activeCollections     = Collection::active()->get();
+        $activeCollections     = Collection::active();
         $otherCollections      = $activeCollections->except([
             $bestDealsCollection->id   ?? null,
             $newArrivalsCollection->id ?? null,
