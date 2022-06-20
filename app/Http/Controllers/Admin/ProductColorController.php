@@ -189,6 +189,7 @@ class ProductColorController extends Controller
     public function destroy(Product $product, $colorId)
     {
         $color = ProductColors::find($colorId)->first();
+        dd($color);
         $color->delete();
 
         return redirect(route('admin.products.edit', $product->id))->with('success', 'Color Deleted Successfully');
