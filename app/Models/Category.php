@@ -13,4 +13,10 @@ class Category extends Model
     {
         return $this->belongsToMany(Product::class)->active();
     }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', '=', true)
+            ->orderBy('priority', 'desc');
+    }
 }

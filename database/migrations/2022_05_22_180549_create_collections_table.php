@@ -22,6 +22,7 @@ return new class extends Migration
             $table->text('thumbnail');
             $table->boolean('status')->default(true);
             $table->boolean('special')->default(false);
+            $table->integer('priority')->default(1)->nullable();
             $table->timestamps();
         });
     }

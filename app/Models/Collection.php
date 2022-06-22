@@ -16,6 +16,7 @@ class Collection extends Model
 
     public function scopeActive($query)
     {
-        return $query->where('status', '=', true);
+        return $query->where('status', '=', true)
+            ->orderBy('priority', 'desc');
     }
 }

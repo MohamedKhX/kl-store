@@ -13,7 +13,7 @@ class PageController extends Controller
 {
     public function home()
     {
-        $categories = Category::all()->where('status', '=', '1');
+        $categories = Category::active()->get();
         $products   = Product::all();
 
         $collections           = Collection::all();

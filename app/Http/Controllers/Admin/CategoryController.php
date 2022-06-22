@@ -37,7 +37,8 @@ class CategoryController extends Controller
             'category_name'        => 'required|max:32',
             'category_thumbnail'   => 'required|image',
             'category_description' => '',
-            'category_status'      => ''
+            'category_status'      => '',
+            'category_priority'    => 'numeric'
         ]);
 
         $status = (bool) $request->input('category_status');
@@ -51,6 +52,7 @@ class CategoryController extends Controller
         $category->description = $request->input('category_description');
         $category->status      = $status;
         $category->thumbnail   = $imgPath;
+        $category->priority    = $request->input('category_priority');
 
         $category->save();
 
@@ -75,7 +77,8 @@ class CategoryController extends Controller
            'category_name'        => 'required|max:32',
            'category_thumbnail'   => 'image',
            'category_description' => '',
-           'category_status'      => ''
+           'category_status'      => '',
+           'category_priority'    => 'numeric'
         ]);
 
         $status = (bool) $request->input('category_status');
@@ -86,6 +89,7 @@ class CategoryController extends Controller
         $category->name        = $request->input('category_name');
         $category->description = $request->input('category_description');
         $category->status      = $status;
+        $category->priority    = $request->input('category_priority');
 
         if($request->file('category_thumbnail')) {
 

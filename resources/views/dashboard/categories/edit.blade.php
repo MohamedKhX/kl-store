@@ -29,6 +29,12 @@
                         <div class="input-group input-group-outline my-3">
                             <textarea placeholder="Category Description..." class="form-control" name="category_description" id="category_description" cols="30" rows="10">{{ $category->description }}</textarea>
                         </div>
+
+                        <div class="input-group input-group-outline my-3 is-focused">
+                            <label for="category_priority" class="form-label">Priority</label>
+                            <input id="category_priority" name="category_priority" type="text" class="form-control" value="{{ $category->priority }}">
+                        </div>
+
                         <div class="my-3">
                             <label for="category_thumbnail" class="form-label">Category Thumbnail</label>
                             <div class="input-group input-group-outline">

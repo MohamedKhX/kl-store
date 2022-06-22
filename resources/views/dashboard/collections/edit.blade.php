@@ -25,6 +25,12 @@
                         <div class="input-group input-group-outline my-3">
                             <textarea placeholder="Collection Description..." class="form-control" name="collection_description" id="collection_description" cols="30" rows="10">{{ old('collection_description') ?? $collection->description }}</textarea>
                         </div>
+
+                        <div class="input-group input-group-outline my-3 is-focused">
+                            <label for="collection_priority" class="form-label">Priority</label>
+                            <input id="collection_priority" name="collection_priority" type="text" class="form-control" value="{{ $collection->priority }}">
+                        </div>
+
                         <div class="my-3">
                             <label for="collection_thumbnail" class="form-label">Collection Thumbnail</label>
                             <div class="input-group input-group-outline">

@@ -46,7 +46,8 @@ class CollectionController extends Controller
             'collection_title'     => 'max:32',
             'collection_thumbnail'   => 'required|image',
             'collection_description' => '',
-            'collection_status'      => ''
+            'collection_status'      => '',
+            'collection_priority'    => 'numeric'
         ]);
 
         $status = (bool) $request->input('collection_status');
@@ -60,6 +61,7 @@ class CollectionController extends Controller
         $collection->description = $request->input('collection_description');
         $collection->status      = $status;
         $collection->thumbnail   = $imgPath;
+        $collection->priority    = (int) $request->input('collection_priority');
 
         $collection->save();
 
@@ -85,7 +87,8 @@ class CollectionController extends Controller
             'collection_title'     => 'max:32',
             'collection_thumbnail'   => 'image',
             'collection_description' => '',
-            'collection_status'      => ''
+            'collection_status'      => '',
+            'collection_priority'    => 'numeric'
         ]);
 
         $status = (bool) $request->input('collection_status');
@@ -95,6 +98,8 @@ class CollectionController extends Controller
         $collection->name        = $request->input('collection_name');
         $collection->description = $request->input('collection_description');
         $collection->status      = $status;
+        $collection->priority    = (int) $request->input('collection_priority');
+
 
         if(! $collection->special) {
             $collection->slug        = str($request->input('collection_name'))->slug();
