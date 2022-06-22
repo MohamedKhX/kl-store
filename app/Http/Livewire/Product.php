@@ -29,7 +29,7 @@ class Product extends Component
 
     public function mount()
     {
-        $this->identifier = \App\Models\Product::first()->id;
+        $this->identifier = \App\Models\Product::active()->get()->first()->id;
         $this->colorId = 1;
 
         $this->fillAlertMessages();
@@ -157,7 +157,7 @@ class Product extends Component
                     'size'       => $this->sizeSelected,
                     'thumbnail'  => $color->images[0],
                     'product_id' => $product->id,
-                    'product_url'=> $color->url
+                    'product_url'=> $color->url,
                 ],
             ])->associate('App/Models/Product');
             $this->showAlert($this->alertMessages['AddedToCart'], 'success');

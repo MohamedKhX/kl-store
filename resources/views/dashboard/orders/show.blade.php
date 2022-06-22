@@ -181,13 +181,13 @@
                 </p>
             </div>
         </div>
-        <div class="">
+        <div class="row d-flex justify-content-center">
             @foreach($products as $product)
                 <div class="col-12 col-md-6 col-lg-4 mt-5">
                     <div class="card">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <a class="d-block blur-shadow-image">
-                                <img src="{{ $product['colorProduct']->images[0] }}" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
+                                <img src="{{ $product['thumbnail'] }}" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
                             </a>
                             <div class="colored-shadow" style="background-image: url(&quot;https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg&quot;);"></div>
                         </div>
@@ -196,15 +196,15 @@
                             </div>
                             <div>
                                 <h5 class="font-weight-normal mt-0">
-                                    <a href="javascript:;">{{ $product['colorProduct']->product->name }}</a>
+                                    <a href="javascript:;">{{ $product['name'] }}</a>
                                 </h5>
                                 <hr>
                             </div>
 
-                            @if($product['colorProduct']->url)
+                            @if($product['options']['product_url'])
                                 <div>
                                     <h6 class="font-weight-normal mt-0">
-                                        <a href="{{ $product['colorProduct']->url }}">
+                                        <a href="{{ $product['options']['product_url'] }}">
                                             <strong>
                                                 Product Url:
                                             </strong>
@@ -234,7 +234,7 @@
                         </div>
                         <hr class="dark horizontal my-0">
                         <div class="card-footer d-flex justify-content-between">
-                            <p class="font-weight-normal my-auto"><strong>{{ $product['colorProduct']->price }}</strong></p>
+                            <p class="font-weight-normal my-auto"><strong>{{ $product['price'] }} LYD</strong></p>
                             <p class="font-weight-normal my-auto">
                                 <strong>Size:</strong>
                                 <span class="text-primary">

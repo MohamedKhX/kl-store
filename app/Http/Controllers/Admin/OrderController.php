@@ -50,9 +50,11 @@ class OrderController extends Controller
         $products = [];
         foreach ($order->products as $product) {
             $products[] = [
-                'colorProduct' => ProductColors::find($product['id']),
                 'options'      => $product['options'],
-                'qty'          => $product['qty']
+                'qty'          => $product['qty'],
+                'price'        => $product['price'],
+                'thumbnail'    => $product['options']['thumbnail'],
+                'name'         => $product['name']
             ];
         }
 

@@ -14,7 +14,9 @@
                     </div>
                     <hr class="dark horizontal my-0">
                     <div class="card-footer p-3">
-                        <p class="mb-0"></p>
+                        <p class="mb-0">
+                            test
+                        </p>
                     </div>
                 </div>
             </div>
@@ -48,7 +50,9 @@
                     </div>
                     <hr class="dark horizontal my-0">
                     <div class="card-footer p-3">
-                        <p class="mb-0"></p>
+                        <p class="mb-0">
+                            <span class="text-primary">Only the requested orders</span>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -65,7 +69,9 @@
                     </div>
                     <hr class="dark horizontal my-0">
                     <div class="card-footer p-3">
-                        <p class="mb-0"></p>
+                        <p class="mb-0">
+                            <span class="text-primary">Only the arrived orders</span>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -82,7 +88,9 @@
                     </div>
                     <hr class="dark horizontal my-0">
                     <div class="card-footer p-3">
-                        <p class="mb-0"></p>
+                        <p class="mb-0">
+                            <span class="text-primary">Only the arrived orders</span>
+                        </p>
                     </div>
                 </div>
             </div>

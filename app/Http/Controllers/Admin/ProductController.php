@@ -231,7 +231,7 @@ class ProductController extends Controller
         $product->urls           = json_encode($urls);
 
         if($request->input('product_earnings')) {
-            $product->earnings       = $request->input('product_earnings');
+            $product->earnings  = $request->input('product_earnings');
         }
 
         if($request->file('product_thumbnail')) {
@@ -300,31 +300,6 @@ class ProductController extends Controller
         }
     }
 
-    public function scrapUpdate(Product $product)
-    {
-        $oldPrices = [];
-
-        foreach ($product->colors as $color) {
-
-            $oldPrices[] = [
-                'url'         => $color->url,
-                'oldPrice'    => $color->old_price,
-                'customPrice' => $color->custom_price,
-            ];
-
-            $color->delete();
-        }
-
-        $this->scrapColors(
-            productId: $product->id,
-            uri: $product->url,
-            webScraper: $product->websiteScraper,
-            urls: json_decode($product->urls)
-        );
-
-        return redirect(route('admin.products.update-price', $product))
-            ->with('oldPrices', $oldPrices);
-    }
 
     public function updatePriceAfterScrap(Product $product)
     {
@@ -358,6 +333,38 @@ class ProductController extends Controller
         return redirect(route('admin.products.edit', $product->id))->with('success', 'Re fetched data successfully');
     }
 
+
+    public function scrapUpdate(Product $product)
+    {
+        $oldPrices = [];
+
+        foreach ($product->colors as $color) {
+
+            $oldPrices[] = [
+                'url'         => $color->url,
+                'oldPrice'    => $color->old_price,
+                'customPrice' => $color->custom_price,
+            ];
+
+            $color->delete();
+        }
+
+        $this->scrapColors(
+            productId: $product->id,
+            uri: $product->url,
+            webScraper: $product->websiteScraper,
+            urls: json_decode($product->urls)
+        );
+
+        return redirect(route('admin.products.update-price', $product))
+            ->with('oldPrices', $oldPrices);
+    }
+
+    public function startScrapColors()
+    {
+
+    }
+
     public function scrapColors($productId, $uri, $webScraper, $urls = [])
     {
         //lcwaikiki
@@ -387,7 +394,6 @@ class ProductController extends Controller
     public function createProductColor(array $colorInfo, $productId)
     {
         $product = Product::find($productId)->first();
-
         $price = round(transformCurrency((int) $colorInfo['price'], $product->earnings) / 5) * 5;
 
         $productColor             = new ProductColors();

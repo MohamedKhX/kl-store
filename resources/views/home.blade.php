@@ -9,7 +9,9 @@
         <div class="modal fade" id="singleProduct" tabindex="-1" aria-labelledby="singleProductLabel" aria-hidden="true">
             <div class="modal-dialog modal-fullscreen">
                 @if($products->count())
-                    <livewire:single-product-model />
+                    @if(\App\Models\ProductColors::all()->count())
+                        <livewire:single-product-model />
+                    @endif
                 @endif
             </div>
         </div>

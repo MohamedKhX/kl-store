@@ -35,14 +35,16 @@ class DashboardController extends Controller
         $todayOrders = Order::where('status', '=', 'Requested')->whereDate('created_at', Carbon::today())->get();
         $todayOrdersCount = $todayOrders->count();
 
+        $arrivedOrdersToday = Order::where('status', '=', 'arrived')->whereDate('updated_at', Carbon::today())->get();
         $todaySales = 0;
 
-        foreach ($todayOrders as $order) {
+        foreach ($arrivedOrdersToday as $order) {
             $todaySales += $order->priceWithOutShipping();
         }
 
+        $allArrivedOrders = Order::where('status', '=', 'arrived')->whereDate('updated_at', Carbon::today())->get();
         $totalSales = 0;
-        foreach ($orders as $order) {
+        foreach ($allArrivedOrders as $order) {
             $totalSales += $order->priceWithOutShipping();
         }
 

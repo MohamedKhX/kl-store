@@ -35,7 +35,7 @@ class Cart extends Component
 
     protected array $rules = [
         'full_name'      => 'required|min:3|max:16',
-        'phone_number'   => 'required|integer|min:10|max:20',
+        'phone_number'   => 'required|numeric|digits_between:10,20',
         'email_address'  => 'nullable|email',
         'address'        => 'required',
         'selectedCityId' => ''
