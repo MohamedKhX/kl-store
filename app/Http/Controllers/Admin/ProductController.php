@@ -383,13 +383,13 @@ class ProductController extends Controller
         }
 
         foreach ($colors as $color) {
-            dd('test');
             $this->createProductColor($color, $productId);
         }
     }
 
     public function createProductColor(array $colorInfo, $productId)
     {
+        dd('testkkkkkkkkkkkk');
         $product = Product::find($productId)->first();
         $price = round(transformCurrency((int) $colorInfo['price'], $product->earnings) / 5) * 5;
 
