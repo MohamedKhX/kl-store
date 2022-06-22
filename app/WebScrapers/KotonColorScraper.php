@@ -32,10 +32,6 @@ class KotonColorScraper
             $price = explode(',' ,str_replace('₺', '', $crawler->filter('.insteadPrice')->text()))[0];
         }
 
-
-
-
-
         return [
             'url'       => $uri,
             'thumbnail' => $images[0],

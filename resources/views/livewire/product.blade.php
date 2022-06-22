@@ -83,7 +83,7 @@
                                 @endif
                             </div>
                             <div>
-                                <p class="description {{arRight()}}">{{ $product->description }}</p>
+                                <p class="description {{arRight()}}">{!! $product->description !!} </p>
                             </div>
                         </div>
                         <hr>

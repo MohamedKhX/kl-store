@@ -9,7 +9,6 @@ function getSiteName()
     return app(GeneralSettings::class)->site_name;
 }
 
-
 function getStoreTitle()
 {
     if(ar()) {
@@ -43,41 +42,41 @@ function getAbilityToLogin()
     return app(GeneralSettings::class)->ability_to_login;
 }
 
-
 function getAbilityToOrder()
 {
     return app(GeneralSettings::class)->ability_to_order;
 }
 
-
-function getPhoneNumber() {
+function getPhoneNumber()
+{
     return app(GeneralSettings::class)->store_phone_number;
 }
 
-function getStoreEmail() {
+function getStoreEmail()
+{
     return app(GeneralSettings::class)->store_email;
 }
 
-function getFilter() {
+function getFilter()
+{
     return app(GeneralSettings::class)->thumbnail_filter;
 }
 
-function getStoreThumbnail() {
+function getStoreThumbnail(): string
+{
     return 'storage/' . app(GeneralSettings::class)->store_thumbnail;
 }
 
-function getStoreIcon() {
+function getStoreIcon(): string
+{
     if(app(GeneralSettings::class)->store_icon == "") {
         return asset('img/logo.png') ;
     }
     return 'storage/' . app(GeneralSettings::class)->store_icon;
 }
 
-
-
 function transformCurrency($price, $earnings, $from = 'TRY', $to = 'LYD')
 {
-
     $response = Http::withOptions(['verify' => false])->withHeaders([
         'X-Api-Key' => 'DekERxC2A9lMEikr7KaZVw==K4AxfPvmpWuYppVZ',
     ])->get("https://api.api-ninjas.com/v1/convertcurrency?want={$to}&have={$from}&amount={$price}")
@@ -90,12 +89,12 @@ function transformCurrency($price, $earnings, $from = 'TRY', $to = 'LYD')
     return 404;
 }
 
-function arRight()
+function arRight(): ?string
 {
     return  \Illuminate\Support\Facades\Lang::getLocale() === 'ar' ? 'text-end' : null;
 }
 
-function ar()
+function ar(): bool
 {
     return  \Illuminate\Support\Facades\Lang::getLocale() === 'ar';
 }
