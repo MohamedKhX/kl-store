@@ -360,10 +360,6 @@ class ProductController extends Controller
             ->with('oldPrices', $oldPrices);
     }
 
-    public function startScrapColors()
-    {
-
-    }
 
     public function scrapColors($productId, $uri, $webScraper, $urls = [])
     {
@@ -395,6 +391,8 @@ class ProductController extends Controller
     {
         $product = Product::find($productId)->first();
         $price = round(transformCurrency((int) $colorInfo['price'], $product->earnings) / 5) * 5;
+
+        dd($price);
 
         $productColor             = new ProductColors();
         $productColor->product_id = $productId;
