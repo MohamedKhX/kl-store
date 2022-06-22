@@ -389,8 +389,8 @@ class ProductController extends Controller
 
     public function createProductColor(array $colorInfo, $productId)
     {
-        dd('testkkkkkkkkkkkk');
         $product = Product::find($productId)->first();
+        dd($product);
         $price = round(transformCurrency((int) $colorInfo['price'], $product->earnings) / 5) * 5;
 
         dd($price);
