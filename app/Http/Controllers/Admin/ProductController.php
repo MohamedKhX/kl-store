@@ -383,6 +383,7 @@ class ProductController extends Controller
         }
 
         foreach ($colors as $color) {
+            dd('test');
             $this->createProductColor($color, $productId);
         }
     }
