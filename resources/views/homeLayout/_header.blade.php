@@ -1,3 +1,11 @@
+@push('styles')
+    <style>
+        .bg-holder.overlay-light::before {
+            background: rgba(255, 255, 255, {{ getFilter() }});
+        }
+    </style>
+@endpush
+
 <section class="py-4 bg-light-gradient border-bottom border-white border-5">
     <div class="bg-holder overlay overlay-light" style="
     background-image:url({{ getStoreThumbnail() }});

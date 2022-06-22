@@ -20,10 +20,11 @@ class GeneralSettings extends Settings
     public string $store_title_ar       = 'Arkan Store';
     public string $store_description_ar = 'High Quality at cheap price';
 
-    public string $store_thumbnail   = '';
-    public string $store_phone_number = '';
-    public string $store_email = '';
-    public string $store_icon = '';
+    public string $store_thumbnail;
+    public float  $thumbnail_filter;
+    public string $store_phone_number;
+    public string $store_email;
+    public string $store_icon;
 
 
     public static function group(): string

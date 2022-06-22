@@ -118,6 +118,13 @@
                                             </div>
                                         </li>
                                         <li class="list-group-item border-0 px-0">
+                                            <label class="form-label">Thumbnail Filter</label>
+                                            <div class="input-group input-group-outline my-2">
+                                                <label for="thumbnail_filter" class="form-label"></label>
+                                                <input name="thumbnail_filter" id="thumbnail_filter" type="text" class="form-control" value="{{ $thumbnail_filter }}">
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item border-0 px-0">
                                             <label class="form-label">Store Logo</label>
                                             <div class="input-group input-group-outline my-2">
                                                 <label for="store_icon" class="form-label"></label>

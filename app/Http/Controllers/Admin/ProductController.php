@@ -392,7 +392,6 @@ class ProductController extends Controller
         $product = Product::find($productId);
         $price = round(transformCurrency((int) $colorInfo['price'], $product->earnings) / 5) * 5;
 
-
         $productColor             = new ProductColors();
         $productColor->product_id = $productId;
         $productColor->thumbnail  = $colorInfo['thumbnail'];

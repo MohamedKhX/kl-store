@@ -72,6 +72,7 @@ class DashboardController extends Controller
             'phone_number'               => $settings->store_phone_number,
             'site_email'                 => $settings->store_email,
             'store_thumbnail'            => $settings->store_thumbnail,
+            'thumbnail_filter'           => $settings->thumbnail_filter,
             'store_icon'                 => $settings->store_icon,
         ]);
     }
@@ -85,6 +86,7 @@ class DashboardController extends Controller
             'phone_number'    => 'required|max:64',
             'site_email'      => 'required|max:64',
             'store_thumbnail' => '',
+            'thumbnail_filter' => 'numeric',
         ]);
 
         $app_active                 = $this->convertCheckBoxValueToBool($request->app_active);
@@ -103,7 +105,7 @@ class DashboardController extends Controller
         $settings->store_description_ar  = $request->input('store_description_ar');
         $settings->store_phone_number = $request->input('phone_number');
         $settings->store_email        = $request->input('site_email');
-
+        $settings->thumbnail_filter   = $request->input('thumbnail_filter');
         if($request->file('store_thumbnail')) {
             $store_thumbnail           = $request->file('store_thumbnail')->store('header_thumbnail', 'public');
             $settings->store_thumbnail = $store_thumbnail;

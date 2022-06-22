@@ -58,6 +58,9 @@ function getStoreEmail() {
     return app(GeneralSettings::class)->store_email;
 }
 
+function getFilter() {
+    return app(GeneralSettings::class)->thumbnail_filter;
+}
 
 function getStoreThumbnail() {
     return 'storage/' . app(GeneralSettings::class)->store_thumbnail;
@@ -69,6 +72,8 @@ function getStoreIcon() {
     }
     return 'storage/' . app(GeneralSettings::class)->store_icon;
 }
+
+
 
 function transformCurrency($price, $earnings, $from = 'TRY', $to = 'LYD')
 {
