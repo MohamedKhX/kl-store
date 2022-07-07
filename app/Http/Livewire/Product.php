@@ -7,7 +7,6 @@ use Livewire\Component;
 
 class Product extends Component
 {
-
     public bool   $showAlert     = false;
     public string $alertMessage  = '';
     public string $alertType     = 'danger';
@@ -25,7 +24,7 @@ class Product extends Component
     public int     $colorId;
     public ?string $sizeSelected = null;
 
-    protected $listeners = ['SingleProduct', 'unShowProduct', 'showProductFromCategory'];
+    protected $listeners = ['showProduct', 'unShowProduct', 'showProductFromCategory'];
 
     public function mount()
     {
@@ -35,50 +34,10 @@ class Product extends Component
         $this->fillAlertMessages();
     }
 
-    public function fillAlertMessages()
-    {
-        $addedToCart = __('cart.product_added_to_cart');
-        $openCart    = __('cart.open_cart');
-
-        $this->alertMessages = [
-            'selectSize'    => __('cart.please_select_size'),
-            'AlreadyInCart' => __('cart.this_product_in_you_cart'),
-            'AddedToCart'   => "
-                <div>{$addedToCart}</div>
-                <a data-bs-toggle='modal' data-bs-target='#CartModel' href=''>
-                    <strong>{$openCart}</strong>
-                </a>
-            ",
-        ];
-    }
-
-    public function showProductFromCategory($id)
-    {
-        $this->colorId = 1;
-        $this->identifier = $id;
-        $this->sizeSelected = null;
-        $this->unShowAlert();
-
-        $this->showProduct = true;
-    }
-
-    protected function showAlert(string $message, string $alertType = 'danger')
-    {
-        $this->showAlert    = true;
-        $this->alertMessage = $message;
-        $this->alertType    = $alertType;
-    }
-
-    protected function unShowAlert()
-    {
-        $this->showAlert = false;
-    }
-
     public function updatedSizeSelected()
     {
         $this->unShowAlert();
     }
-
 
     public function reRender($colorId)
     {
@@ -91,38 +50,16 @@ class Product extends Component
         $this->showProduct = false;
     }
 
-    public function SingleProduct(int $id)
+    public function showProduct(int $id)
     {
-        $this->colorId = 1;
-        $this->identifier = $id;
-
-        \App\Models\Product::find($id)->view();
-
+        $this->colorId      = 1;
+        $this->identifier   = $id;
         $this->sizeSelected = null;
+        $this->showProduct  = true;
         $this->unShowAlert();
 
-        $this->showProduct = true;
+        \App\Models\Product::find($id)->view(); //Add a view to views count
     }
-
-    public function render($id = null)
-    {
-
-        if(! isset($this->product)) {
-           $product = \App\Models\Product::find($this->identifier);
-        }
-
-        if(isset($product->colors[$this->colorId - 1])) {
-            $color = $product->colors[$this->colorId - 1];
-        } else {
-            abort(404);
-        }
-
-        return view('livewire.product')->with([
-            'product' => $product,
-            'color'   => $color,
-        ]);
-    }
-
 
     public function addToCart(\App\Models\Product $product)
     {
@@ -163,5 +100,54 @@ class Product extends Component
             $this->showAlert($this->alertMessages['AddedToCart'], 'success');
             $this->emit('newItemAddedToCart');
         }
+    }
+
+    public function render($id = null)
+    {
+        if(! isset($this->product)) {
+            $product = \App\Models\Product::find($this->identifier);
+        }
+
+        if(isset($product->colors[$this->colorId - 1])) {
+            $color = $product->colors[$this->colorId - 1];
+        } else {
+            abort(404);
+        }
+
+        return view('livewire.product')->with([
+            'product' => $product,
+            'color'   => $color,
+        ]);
+    }
+
+
+
+    protected function fillAlertMessages()
+    {
+        $addedToCart = __('cart.product_added_to_cart');
+        $openCart    = __('cart.open_cart');
+
+        $this->alertMessages = [
+            'selectSize'    => __('cart.please_select_size'),
+            'AlreadyInCart' => __('cart.this_product_in_you_cart'),
+            'AddedToCart'   => "
+                <div>{$addedToCart}</div>
+                <a data-bs-toggle='modal' data-bs-target='#CartModel' href=''>
+                    <strong>{$openCart}</strong>
+                </a>
+            ",
+        ];
+    }
+
+    protected function showAlert(string $message, string $alertType = 'danger')
+    {
+        $this->showAlert    = true;
+        $this->alertMessage = $message;
+        $this->alertType    = $alertType;
+    }
+
+    protected function unShowAlert()
+    {
+        $this->showAlert = false;
     }
 }

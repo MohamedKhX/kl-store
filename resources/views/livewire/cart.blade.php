@@ -427,7 +427,7 @@
                             </div>
                         @endif
 
-                        <button type="submit" href="{{ route('order.index') }}"
+                        <button type="submit">
                                 class="btn btn-dark w-100 mt-4" {{ count($cartItems) === 0 ? 'disabled' : null }}
                         >
                             {{ __('cart.proceed_to_checkout') }}

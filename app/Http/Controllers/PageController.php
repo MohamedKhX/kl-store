@@ -77,9 +77,4 @@ class PageController extends Controller
 
         return back()->with('success', __('flashMessages.thanks_for_contact_us'));
     }
-
-    public function about()
-    {
-
-    }
 }

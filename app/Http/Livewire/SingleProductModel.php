@@ -7,7 +7,6 @@ use \Gloudemans\Shoppingcart\Facades\Cart;
 class SingleProductModel extends Component
 {
     public ?int $identifier = null;
-    public string $fromWhereItOpened = 'model';
 
     public function unShowProduct()
     {

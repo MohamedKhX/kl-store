@@ -17,24 +17,8 @@
         </div>
         {{-- End Single Product Model --}}
 
-        {{-- Start Collection Model --}}
-        <div class="modal fade" id="CollectionModel" tabindex="-1" aria-labelledby="CollectionModelLabel" aria-hidden="true">
-            <div class="modal-dialog modal-fullscreen">
-               <livewire:collection-model />
-            </div>
-        </div>
-        {{-- End Collection Model --}}
-
-        {{-- Start Category Model --}}
-        <div class="modal fade" id="CategoryModel" tabindex="-1" aria-labelledby="CategoryModelLabel" aria-hidden="true">
-            <div class="modal-dialog modal-fullscreen">
-                <livewire:category-model />
-            </div>
-        </div>
-        {{-- End Category Model --}}
-
         {{-- Strat Shop by category Section --}}
-        <section>
+        <section id="shopByCategories">
             <div class="container">
                 <div class="row h-100">
                     <div class="col-lg-7 mx-auto text-center mb-6">
@@ -66,23 +50,6 @@
                                                  role="tabpanel"
                                                  aria-labelledby="pills-{{$category->slug}}-tab">
                                                 <livewire:category-tab :category="$category"/>
-                                                {{--  <div class="d-flex justify-content-center">
-                                                      <p class="text-center fs-1">
-                                                          {{ $category->description }}
-                                                      </p>
-                                                  </div>
-                                                  <div class="row h-100 align-items-center g-2 d-flex justify-content-center">
-                                                      @foreach($category->products->take(4) as $product)
-                                                          <livewire:product-card :product="$product"/>
-                                                      @endforeach
-                                                  </div>
-                                                  <div class="col-12 d-flex justify-content-center mt-5">
-                                                      <a class="btn btn-lg btn-dark" href="#"
-                                                         onclick="showCategory({{ $category->id }})"
-                                                         data-bs-toggle="modal" data-bs-target="#CategoryModel">
-                                                          {{ __('elements.view_more') }}
-                                                      </a>
-                                                  </div>--}}
                                             </div>
                                         @endforeach
                                     </div>
@@ -97,33 +64,8 @@
 
         {{-- Start Best-deals-section --}}
         @if($bestDealsCollection->status)
-            <section class="py-0">
-                <div class="container">
-                    <div class="row h-100">
-                        <div class="col-lg-7 mx-auto text-center mt-7 mb-5">
-                            <h5 class="fw-bold fs-3 fs-lg-5 lh-sm">{{ $bestDealsCollection->name }}</h5>
-                        </div>
-                        <div class="col-12">
-                            <div class="carousel slide" id="carouselBestDeals" data-bs-touch="false" data-bs-interval="false">
-                                <div class="carousel-inner">
-                                    <x-card.careousel-product class="active" data-bs-interval="10000">
-                                        @foreach($bestDealsCollection->products->take(4) as $product)
-                                            <livewire:product-card :product="$product"/>
-                                        @endforeach
-                                    </x-card.careousel-product>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 d-flex justify-content-center mt-5">
-                            <a class="btn btn-lg btn-dark" onclick="showCollection({{ $bestDealsCollection->id }})" href="" data-bs-toggle="modal" data-bs-target="#CollectionModel">
-                                {{ __('elements.view_all') }}
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <livewire:special-collection :collection="$bestDealsCollection" />
         @endif
-
         {{-- End Best-deals-section --}}
 
         {{-- Strat collections Section --}}
@@ -131,11 +73,38 @@
             <div class="container">
                 <h3 class="pb-3 {{ arRight() }}">{{ __('home.Collections') }} </h3>
                 <div class="row h-100 g-2 py-1 d-flex justify-content-center">
-                    @foreach($collections as $collection)
-                        <div class="col-md-4">
-                            <livewire:collection-card :collection="$collection" />
-                        </div>
-                    @endforeach
+                    <div class="d-block d-md-none">
+                        <div id="collectionCarousel" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                @foreach($collections as $collection)
+                                    <div class="carousel-item">
+                                        <div class="col-md-4">
+                                            <livewire:collection-card :collection="$collection" />
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                              <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                              <span class="visually-hidden">Next</span>
+                            </button>
+                          </div>
+                    </div>
+                    <div class="d-none d-md-block">
+                        @foreach($collections as $collection)
+                            <div class="col-md-4">
+                                <x-card.collection :name="$collection->name" :img="$collection->thumbnail">
+                                    <x-slot name="link">
+                                        <a class="stretched-link" href="#" wire:click="showCollection({{$collection->id}})" data-bs-toggle="modal" data-bs-target="#CollectionModel"></a>
+                                    </x-slot>
+                                </x-card.collection>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </section>
@@ -143,63 +112,15 @@
 
         {{-- Strat New Arraivels Section --}}
         @if($newArrivalsCollection->status)
-            <section class="py-0">
-            <div class="container">
-                <div class="row h-100">
-                    <div class="col-lg-7 mx-auto text-center mb-6">
-                        <h5 class="fs-3 fs-lg-5 lh-sm mb-3">{{ $newArrivalsCollection->name }}</h5>
-                    </div>
-                    <div class="col-12">
-                        <div class="carousel slide" id="carouselNewArrivals" data-bs-ride="carousel">
-                            <div class="carousel-inner">
-                                <div class="carousel-item active" data-bs-interval="10000">
-                                    <div class="row h-100 align-items-center g-2 d-flex justify-content-center">
-                                        @foreach($newArrivalsCollection->products->take(4) as $product)
-                                            <livewire:product-card :product="$product"/>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 d-flex justify-content-center mt-5">
-                        <a class="btn btn-lg btn-dark" onclick="showCollection({{ $newArrivalsCollection->id }})" href="" data-bs-toggle="modal" data-bs-target="#CollectionModel">
-                            {{ __('elements.view_all') }}
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
+            <livewire:special-collection :collection="$newArrivalsCollection" />
         @endif
         {{-- End New Arraivels Section --}}
 
         {{-- Strat Best sellers Section --}}
         @if($bestSellersCollection->status)
-            <section>
-                <div class="container">
-                    <div class="row h-100">
-                        <div class="col-lg-7 mx-auto text-center mb-6">
-                            <h5 class="fw-bold fs-3 fs-lg-5 lh-sm mb-3">{{ $bestSellersCollection->name }}</h5>
-                        </div>
-                        <div class="col-12">
-                            <div class="carousel slide" id="carouselBestDeals" data-bs-touch="false" data-bs-interval="false">
-                                <div class="carousel-inner">
-                                    <x-card.careousel-product class="active" data-bs-interval="10000">
-                                        @foreach($bestSellersCollection->products->take(4) as $product)
-                                            <livewire:product-card :product="$product"/>
-                                        @endforeach
-                                    </x-card.careousel-product>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 d-flex justify-content-center mt-5">
-                            <a class="btn btn-lg btn-dark" onclick="showCollection({{ $bestSellersCollection->id }})" href="" data-bs-toggle="modal" data-bs-target="#CollectionModel">
-                                {{ __('elements.view_all') }}
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <div class="py-5">
+                <livewire:special-collection :collection="$bestSellersCollection" />
+            </div>
         @endif
 
         {{-- End Best sellers Section --}}
@@ -212,7 +133,11 @@
                     <div class="col-md-12 h-100">
                         <div class="row h-100 g-0 d-flex justify-content-center">
                             @foreach($categories as $category)
-                                <livewire:category-card :category="$category" />
+                                <x-card.category :name="$category->name" :img="$category->thumbnail">
+                                    <x-slot name="link">
+                                        <a style="cursor: pointer; outline: none;" class="stretched-link" href="#shopByCategories"></a>
+                                    </x-slot>
+                                </x-card.category>
                             @endforeach
                         </div>
                     </div>
@@ -223,6 +148,7 @@
 
         </section>
         {{-- End Categories section --}}
+
     </main>
     <script>
         const singleProductModel = document.getElementById('singleProduct')
@@ -235,14 +161,6 @@
             thumbnail   = document.querySelector('#thumbnail');
             smallImages = document.querySelectorAll('.sm-img');
             sizeBoxes   = document.querySelectorAll('.size-square');
-        }
-
-        function showCollection($id) {
-            Livewire.emit('showCollection', $id);
-        }
-
-        function showCategory($id) {
-            Livewire.emit('showCategory', $id);
         }
 
         function changeSize(currentBox) {

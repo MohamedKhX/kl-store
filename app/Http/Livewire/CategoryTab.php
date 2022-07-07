@@ -19,9 +19,9 @@ class CategoryTab extends Component
         $this->currentCategory = \App\Models\Category::all()->first();
     }
 
-    public function showProduct($id)
+    public function showProduct(int $id)
     {
-        $this->emit('SingleProduct', $id);
+        $this->emit('showProduct', $id);
     }
 
     public function showMore()

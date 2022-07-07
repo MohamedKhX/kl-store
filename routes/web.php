@@ -17,7 +17,6 @@ Route::controller(PageController::class)->middleware('webActive')->group(functio
     Route::get('/faqs', 'faqs')->name('faqs');
 });
 
-Route::get('/order', [\App\Http\Controllers\OrderController::class, 'index'])->name('order.index');
 
 
 Route::middleware('admin')->group(function () {
@@ -122,9 +121,6 @@ Route::middleware('admin')->group(function () {
     Route::get('/dashboard/profile',       [DashboardController::class, 'profile'])      ->name('dashboard-profile');
     Route::get('/dashboard/accounts',      [DashboardController::class, 'accounts'])     ->name('dashboard-accounts');
 });
-
-
-Route::get('/category/{category:slug}', [CategoryController::class, 'show'])->name('categories.show');
 
 
 require __DIR__.'/auth.php';

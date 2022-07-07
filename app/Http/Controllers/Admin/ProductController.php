@@ -17,6 +17,9 @@ use Illuminate\Validation\ValidationException;
 
 class ProductController extends Controller
 {
+
+    //Refactor this file
+
     public function __construct()
     {
         App::setLocale('en');

@@ -21,6 +21,8 @@
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('/css/material-dashboard.css') }}" rel="stylesheet" />
 
+    @stack('links')
+
     {{-- Aplaine JS --}}
     <script src="//unpkg.com/alpinejs" defer></script>
 

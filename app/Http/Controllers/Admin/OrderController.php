@@ -47,6 +47,9 @@ class OrderController extends Controller
 
     public function show(Order $order)
     {
+
+        //Todo: Refactor this code
+
         $products = [];
         foreach ($order->products as $product) {
             $products[] = [

@@ -55,6 +55,7 @@ class Cart extends Component
         });
     }
 
+    //Todo Refactor this
     protected function checkIfCartContentIsCorrect()
     {
         $cartItems = \Gloudemans\Shoppingcart\Facades\Cart::content();
@@ -142,18 +143,9 @@ class Cart extends Component
         }
     }
 
-
-    public function render()
-    {
-        $this->updateCart();
-        $this->cartItems = \Gloudemans\Shoppingcart\Facades\Cart::content();
-
-        return view('livewire.cart');
-    }
-
     public function showProduct($id)
     {
-        $this->emit('SingleProduct', $id);
+        $this->emit('showProduct', $id);
     }
 
     public function increment($rowId)
@@ -258,5 +250,13 @@ class Cart extends Component
         $this->discount = 0;
 
         session()->flash('orderCompleted', __('cart.order_completed'));
+    }
+
+    public function render()
+    {
+        $this->updateCart();
+        $this->cartItems = \Gloudemans\Shoppingcart\Facades\Cart::content();
+
+        return view('livewire.cart');
     }
 }

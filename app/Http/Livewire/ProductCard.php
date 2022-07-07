@@ -12,7 +12,7 @@ class ProductCard extends Component
 
     public function showProduct(int $id)
     {
-        $this->emit('SingleProduct', $id);
+        $this->emit('showProduct', $id);
     }
 
     public function render()
