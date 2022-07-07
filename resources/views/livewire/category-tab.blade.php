@@ -24,7 +24,7 @@
                     <span class="visually-hidden">Loading...</span>
                 </div>
                 <span>
-                View more
+                    {{__('elements.view_more')}}
                 </span>
             </button>
         @endif

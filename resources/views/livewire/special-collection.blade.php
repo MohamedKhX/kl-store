@@ -25,7 +25,7 @@
             </div>
             @if ($productsCount >= $toShow)
                 <div class="col-12 d-flex justify-content-center mt-5">
-                    <a class="btn btn-lg btn-dark">
+                    <a class="btn btn-lg btn-dark" wire:click="showMore">
                         {{ __('elements.view_more') }}
                     </a>
                 </div>
