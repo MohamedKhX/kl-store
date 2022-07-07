@@ -79,7 +79,11 @@
                                 @foreach($collections as $collection)
                                     <div class="carousel-item">
                                         <div class="col-md-4">
-                                            <livewire:collection-card :collection="$collection" />
+                                            <x-card.collection :name="$collection->name" :img="$collection->thumbnail">
+                                                <x-slot name="link">
+                                                    <a class="stretched-link" href="#" wire:click="showCollection({{$collection->id}})" data-bs-toggle="modal" data-bs-target="#CollectionModel"></a>
+                                                </x-slot>
+                                            </x-card.collection>
                                         </div>
                                     </div>
                                 @endforeach
