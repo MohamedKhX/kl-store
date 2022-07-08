@@ -73,42 +73,31 @@
             <div class="container">
                 <h3 class="pb-3 {{ arRight() }}">{{ __('home.Collections') }} </h3>
                 <div class="row h-100 g-2 py-1 d-flex justify-content-center">
-                    <div class="d-block d-md-none">
-                        <div id="collectionCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="">
+                        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                             <div class="carousel-inner">
                                 @foreach($collections as $collection)
-                                    <div class="carousel-item">
-                                        <div class="col-md-4">
-                                            <x-card.collection :name="$collection->name" :img="$collection->thumbnail">
-                                                <x-slot name="link">
-                                                    <a class="stretched-link" href="#" wire:click="showCollection({{$collection->id}})" data-bs-toggle="modal" data-bs-target="#CollectionModel"></a>
-                                                </x-slot>
-                                            </x-card.collection>
-                                        </div>
+                                    <div class="carousel-item {{$loop->first ? "active" : null}}">
+                                        <x-card.collection :name="$collection->name" :img="$collection->thumbnail">
+                                            <x-slot name="link">
+                                                <a class="stretched-link" href="#" wire:click="showCollection({{$collection->id}})" data-bs-toggle="modal" data-bs-target="#CollectionModel"></a>
+                                            </x-slot>
+                                        </x-card.collection>
                                     </div>
                                 @endforeach
+
                             </div>
                             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                              <span class="visually-hidden">Previous</span>
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
                             </button>
                             <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                              <span class="visually-hidden">Next</span>
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
                             </button>
-                          </div>
+                        </div>
                     </div>
-                    <div class="d-none d-md-block">
-                        @foreach($collections as $collection)
-                            <div class="col-md-4">
-                                <x-card.collection :name="$collection->name" :img="$collection->thumbnail">
-                                    <x-slot name="link">
-                                        <a class="stretched-link" href="#" wire:click="showCollection({{$collection->id}})" data-bs-toggle="modal" data-bs-target="#CollectionModel"></a>
-                                    </x-slot>
-                                </x-card.collection>
-                            </div>
-                        @endforeach
-                    </div>
+
                 </div>
             </div>
         </section>

@@ -23,11 +23,16 @@
                     </div>
                 </div>
             </div>
-            @if ($productsCount >= $toShow)
+            @if ($toShow < $productsCount)
                 <div class="col-12 d-flex justify-content-center mt-5">
-                    <a class="btn btn-lg btn-dark" wire:click="showMore">
-                        {{ __('elements.view_more') }}
-                    </a>
+                    <button class="btn btn-dark" wire:click="showMore">
+                        <div wire:loading.class="spinner-border spinner-border-sm" wire:target="showMore" class="" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <span>
+                             {{__('elements.view_more')}}
+                        </span>
+                    </button>
                 </div>
             @endif
         </div>

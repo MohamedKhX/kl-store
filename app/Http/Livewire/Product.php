@@ -32,6 +32,7 @@ class Product extends Component
         $this->colorId = 1;
 
         $this->fillAlertMessages();
+
     }
 
     public function updatedSizeSelected()

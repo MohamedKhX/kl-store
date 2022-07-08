@@ -1,8 +1,14 @@
 @props(['name', 'img' => 'img/gallery/outfit.png'])
 
-<div class="card card-span h-100 text-white">
-    <img class="card-img h-100" src="{{ url('storage/'. $img) }}" alt="..." />
-    <div class="card-img-overlay bg-dark-gradient">
+<div style="background-color: transparent" class="card card-span h-100 text-white">
+    <div class="d-flex justify-content-center">
+        <img style="border-radius: 50%; width: 15rem; height: 20rem"
+             class="card-img h-100 d-flex justify-content-center"
+             src="{{ url('storage/'. $img) }}"
+             alt="..."
+        />
+    </div>
+    <div class="">
         <div class="d-flex align-items-end justify-content-center h-100">
             {{ $link ? $link : '' }}
                 {{ $name }}

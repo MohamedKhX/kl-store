@@ -148,6 +148,9 @@
                             </div>
                             @php
                                 $sizes = collect($color->sizes);
+                                foreach ($sizes as $size) {
+                                    dump($size);
+                                }
                                 $sizes1 = $sizes->take(4);
                                 $sizes2 = $sizes->except(array_keys($sizes1->toArray()));
                             @endphp
