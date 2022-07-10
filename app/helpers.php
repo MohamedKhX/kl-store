@@ -98,3 +98,28 @@ function ar(): bool
 {
     return  \Illuminate\Support\Facades\Lang::getLocale() === 'ar';
 }
+function cmp($a, $b)
+{
+    $sizes = [
+        'XXS' => 0,
+        'XS' => 1,
+        'S' => 2,
+        'M' => 3,
+        'L' => 4,
+        'XL' => 5,
+        '2XL' => 6,
+        '3XL' => 7,
+        '4XL' => 8,
+        '5XL' => 9,
+        '6XL' => 10
+    ];
+
+    $aSize = $sizes[$a->size];
+    $bSize = $sizes[$b->size];
+
+    if ($aSize == $bSize) {
+        return 0;
+    }
+
+    return ($aSize > $bSize) ? 1 : -1;
+}

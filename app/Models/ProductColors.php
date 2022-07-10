@@ -30,7 +30,15 @@ class ProductColors extends Model
     public function sizes(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => json_decode($value),
+            get: function($value) {
+                $sizes = json_decode($value);
+
+                if(! is_numeric($sizes[0]->size)) {
+                    usort($sizes, "cmp");
+                }
+
+                return $sizes;
+            }
         );
     }
 

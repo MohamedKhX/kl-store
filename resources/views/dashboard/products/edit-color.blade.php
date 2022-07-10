@@ -169,8 +169,8 @@
                 const node = document.createElement('div');
                 node.classList.add('row', 'd-flex', 'justify-content-center');
                 node.innerHTML = `
-                           <div class="col-4">
-                                        <div class="row">
+                           <div class="col-8 col-xl-4">
+                                 <div class="row">
                                             <div class="col-6">
                                                 <div class="input-group input-group-outline my-3 is-focused">
                                                     <label for="color_sizes" class="form-label">Size</label>
@@ -187,7 +187,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                           </div>
                 `
 
                 sizeFields.append(node)

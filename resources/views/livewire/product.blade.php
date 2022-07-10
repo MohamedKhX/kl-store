@@ -56,14 +56,16 @@
                                             @endforeach
                                         </div>
 
-                                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                            <span class="visually-hidden">Previous</span>
-                                        </button>
-                                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                            <span class="visually-hidden">Next</span>
-                                        </button>
+                                        @if(count($color->images) > 1)
+                                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Previous</span>
+                                            </button>
+                                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Next</span>
+                                            </button>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -75,16 +77,14 @@
                                 @if(ar())
                                     <h5>{{ $color->priceWithCurrency() }}</h5>
 
-                                    <h2>{{ $product->name }}</h2>
+                                    <h4>{{ $product->name }}</h4>
                                 @else
-                                    <h2>{{ $product->name }}</h2>
+                                    <h4>{{ $product->name }}</h4>
 
                                     <h5>{{ $color->priceWithCurrency() }}</h5>
                                 @endif
                             </div>
-                            <div>
-                                <p class="description {{arRight()}}">{!! $product->description !!} </p>
-                            </div>
+
                         </div>
                         <hr>
                         <div class="pt-4">
@@ -147,12 +147,22 @@
                                 </h3>
                             </div>
                             @php
-                                $sizes = collect($color->sizes);
-                                foreach ($sizes as $size) {
-                                    dump($size);
+                                $allSizes = collect($color->sizes);
+                                $sizes = [];
+
+                                foreach ($allSizes as $size) {
+                                    if($size->qty > 0) {
+                                        $sizes[] = $size;
+                                    }
                                 }
+
+                                $sizes = collect($sizes);
                                 $sizes1 = $sizes->take(4);
-                                $sizes2 = $sizes->except(array_keys($sizes1->toArray()));
+                                $sizes2 = $sizes->except(array_keys($sizes1->toArray()))->take(4);
+
+                                $exceptSizes = array_merge(array_keys($sizes1->toArray()), array_keys($sizes2->toArray()));
+
+                                $sizes3 = $sizes->except($exceptSizes);
                             @endphp
 
                             <div class="mt-3 d-flex justify-content-center justify-content-md-start">
@@ -190,6 +200,23 @@
                                         </div>
                                     @endif
                                 @endforeach
+                            </div>      <div class="mt-3 d-flex justify-content-center justify-content-md-start">
+                                @foreach($sizes3 as $size)
+                                    @if($size->qty <= 0)
+                                       {{-- <div class="size-square"
+                                             x-init="currentSize == '{{ $size->size }}' ? currentSize = null : null"
+                                        >
+                                            <span class="text-danger">{{ $size->size }}</span>
+                                        </div>--}}
+                                    @else
+                                        <div class="size-square {{ $sizeSelected == $size->size ? 'size-square-active' : null }}"
+                                             @click="currentSize = '{{ $size->size }}'"
+                                             onclick="changeSize(this)"
+                                        >
+                                            {{ $size->size }}
+                                        </div>
+                                    @endif
+                                @endforeach
                             </div>
                         </div>
                         @if($showAlert === true)
@@ -200,8 +227,14 @@
                             </div>
                         @endif
                         <div class="pt-4 mt-2 p-lg-4 d-flex justify-content-center">
-                            <button wire:click="addToCart({{$product}})" class="btn btn-lg btn-dark w-100 w-md-50">
-                                <div wire:loading.class="spinner-border spinner-border-sm" wire:target="addToCart" class="" role="status">
+                            <button wire:click="addToCart({{$product}})"
+                                    class="btn btn-lg btn-dark w-100 w-md-50"
+                                    wire:loading.attr="disabled"
+                            >
+                                <div wire:loading.class="spinner-border spinner-border-sm"
+                                     wire:target="addToCart"
+                                     role="status"
+                                >
                                     <span class="visually-hidden">Loading...</span>
                                 </div>
                                 <span>
@@ -210,7 +243,22 @@
                             </button>
                         </div>
                     </div>
+
+                <div class="accordion my-4" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                {{ __('product.description') }}
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="description text-end">{!! $product->description !!} </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </div>
         @endif
     </div>
 </div>

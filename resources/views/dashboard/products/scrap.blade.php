@@ -1,4 +1,19 @@
 <x-layout.Dashboard.main>
+    @push('links')
+        <script src="https://cdn.tiny.cloud/1/rh5meoh1xys9dr39zl6kg1fys4e3lsd8il3bcfy42j7088ue/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    @endpush
+
+    @push('scripts')
+        <script>
+            tinymce.init({
+                selector: 'textarea#product_description',
+                skin: 'bootstrap',
+                plugins: 'lists, link, image, media, table',
+                toolbar: 'h1 h2 bold italic strikethrough blockquote bullist numlist backcolor | link image media | removeformat help',
+                menubar: false,
+            });
+        </script>
+    @endpush
     <div class="container-fluid px-2 px-md-4 mt-5 pt-5">
         <div class="card card-body mx-3 mx-md-4 mt-n6 mt-5">
             @if($errors->any())
@@ -19,7 +34,7 @@
                             <label for="product_name" class="form-label">Product Name</label>
                             <input id="product_name" name="product_name" type="text" class="form-control" value="{{ old('product_name') }}">
                         </div>
-                        <div class="input-group input-group-outline my-3">
+                        <div>
                             <textarea placeholder="Product Description... [optional]" class="form-control" name="product_description" id="product_description" cols="30" rows="10">{{ old('product_description') }}</textarea>
                         </div>
 
@@ -34,18 +49,6 @@
                                 <input id="product_thumbnail" name="product_thumbnail" type="file" class="form-control" value="{{ old('product_thumbnail') }}">
                             </div>
                         </div>
-                  {{--      <div class="input-group input-group-static mb-4">
-                            <label for="categorySelector" class="ms-0">Category: </label>
-                            <select name="product_category_id" class="form-control" id="categorySelector">
-                                @foreach($categories as $category)
-                                    <option value="{{ $category->id }}"
-                                        {{ old('product_category_id') == $category->id ? 'selected' : null }}
-                                    >
-                                        {{ $category->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>--}}
                         <div class="my-3">
                             <strong>Categories: </strong>
                             <div class="d-flex flex-column justify-content-center">

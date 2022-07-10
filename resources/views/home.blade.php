@@ -26,18 +26,25 @@
                     </div>
                     <div class="col-12">
                         <nav>
-                            <div class="tab-content" id="nav-tabContent">
+                            <div x-data="{active: ''}" class="tab-content" id="nav-tabContent">
                                 <div class="tab-pane fade show active" id="nav-men" role="tabpanel" aria-labelledby="nav-men-tab">
                                     <ul class="nav nav-pills mb-5 justify-content-center" id="pills-tab-men" role="tablist">
                                         @foreach($categories as $category)
                                             <li class="nav-item" role="presentation">
                                                 <button class="nav-link {{$loop->first ? 'active' : ''}}"
+                                                        @if($loop->first)
+                                                            x-init="active = $el.id"
+                                                        @changecategory.window="active = `pills-${$event.detail.category}-tab`"
+                                                        @endif
+                                                        @click="active = $el.id"
+                                                        x-bind:class="active == 'pills-{{$category->slug}}-tab' ? 'active' : null"
                                                         id="pills-{{$category->slug}}-tab"
                                                         data-bs-toggle="pill"
                                                         data-bs-target="#pills-{{$category->slug}}"
                                                         type="button" role="tab"
                                                         aria-controls="pills-{{$category->slug}}"
-                                                        aria-selected="true">
+                                                        aria-selected="true"
+                                                >
                                                     {{ $category->name }}
                                                 </button>
                                             </li>
@@ -46,6 +53,9 @@
                                     <div class="tab-content" id="pills-tabContentMen">
                                         @foreach($categories as $category)
                                             <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}"
+                                                 x-bind:class="active == 'pills-{{$category->slug}}-tab' ? 'show active' : null"
+                                                 x-show="active == 'pills-{{$category->slug}}-tab'"
+                                                 x-transition
                                                  id="pills-{{$category->slug}}"
                                                  role="tabpanel"
                                                  aria-labelledby="pills-{{$category->slug}}-tab">
@@ -128,7 +138,14 @@
                             @foreach($categories as $category)
                                 <x-card.category :name="$category->name" :img="$category->thumbnail">
                                     <x-slot name="link">
-                                        <a style="cursor: pointer; outline: none;" class="stretched-link" href="#shopByCategories"></a>
+                                        <a
+                                            style="cursor: pointer; outline: none;"
+                                            class="stretched-link"
+                                            href="#shopByCategories"
+                                            x-data
+                                            onclick="tabClear()"
+                                            @click="$dispatch('changecategory', {category: '{{$category->slug}}'});"
+                                        ></a>
                                     </x-slot>
                                 </x-card.category>
                             @endforeach
@@ -149,6 +166,7 @@
         let thumbnail   = null;
         let smallImages = null;
         let sizeBoxes   = null;
+
 
         function load() {
             thumbnail   = document.querySelector('#thumbnail');
@@ -173,6 +191,12 @@
             for (const img of smallImages) {
                 img.classList.remove('sm-img-active');
             }
+        }
+
+        function tabClear() {
+            @foreach($categories as $category)
+                document.getElementById('pills-{{$category->slug}}-tab').classList.remove('active')
+            @endforeach
         }
     </script>
 </x-layout.main>

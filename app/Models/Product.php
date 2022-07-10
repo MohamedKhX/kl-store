@@ -16,6 +16,8 @@ class Product extends Model
         $this->save();
     }
 
+
+
     public function scopeActive($query)
     {
         return $query->has('colors')
