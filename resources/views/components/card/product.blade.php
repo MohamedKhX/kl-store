@@ -1,11 +1,14 @@
-@props(['name', 'price', 'img' => 'img/gallery/flat-hill.png', 'oldPrice' => null,])
+@props(['name', 'price', 'img' => 'img/gallery/flat-hill.png', 'oldPrice' => null, 'outer_description' => null])
 {{-- col-sm-12  --}}
 <div class="mb-3 mb-md-0 mt-3">
     <div class="card card-span text-white">
         <img class="img-fluid " src="{{ $img }}" alt="..." />
         <div class="card-img-overlay ps-0"> </div>
         <div class="card-body ps-0 bg-200">
-            <h5 class="fw-bold text-1000 text-truncate {{ arRight() }}">{{ $name }}</h5>
+            <h5 class="fw-bold mb-0 text-1000 text-truncate {{ arRight() }}">{{ $name }}</h5>
+            @if($outer_description)
+                <p style="color: #5e5e5e" class="fs--1 {{arRight()}}">{{ $outer_description }}</p>
+            @endif
             <div class="fw-bold {{ arRight() }}">
                 @if(ar())
                     <span class="text-800 ">{{ $price }}</span>

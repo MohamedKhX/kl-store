@@ -18,7 +18,18 @@
         {{-- End Single Product Model --}}
 
         {{-- Strat Shop by category Section --}}
-        <section id="shopByCategories">
+        <section x-data x-init="
+            category = getCategoryFromUrl();
+
+            if(category) {
+                window.location.hash = 'shopByCategories';
+                setTimeout(tabClear, .1)
+                setTimeout(function() {
+                    $dispatch('changecategory', {category: category});
+                }, .2)
+            }
+
+        " id="shopByCategories">
             <div class="container">
                 <div class="row h-100">
                     <div class="col-lg-7 mx-auto text-center mb-6">
@@ -84,24 +95,24 @@
                 <h3 class="pb-3 {{ arRight() }}">{{ __('home.Collections') }} </h3>
                 <div class="row h-100 g-2 py-1 d-flex justify-content-center">
                     <div class="">
-                        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                        <div id="collectionsCarousel" class="carousel slide" data-bs-ride="carousel">
                             <div class="carousel-inner">
                                 @foreach($collections as $collection)
                                     <div class="carousel-item {{$loop->first ? "active" : null}}">
                                         <x-card.collection :name="$collection->name" :img="$collection->thumbnail">
                                             <x-slot name="link">
-                                                <a class="stretched-link" href="#" wire:click="showCollection({{$collection->id}})" data-bs-toggle="modal" data-bs-target="#CollectionModel"></a>
+                                                <a class="stretched-link" href="{{ route('show-collection', $collection) }}"></a>
                                             </x-slot>
                                         </x-card.collection>
                                     </div>
                                 @endforeach
 
                             </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                            <button class="carousel-control-prev" type="button" data-bs-target="#collectionsCarousel" data-bs-slide="prev">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                 <span class="visually-hidden">Previous</span>
                             </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                            <button class="carousel-control-next" type="button" data-bs-target="#collectionsCarousel" data-bs-slide="next">
                                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                 <span class="visually-hidden">Next</span>
                             </button>
@@ -163,40 +174,24 @@
     <script>
         const singleProductModel = document.getElementById('singleProduct')
 
-        let thumbnail   = null;
-        let smallImages = null;
-        let sizeBoxes   = null;
-
-
-        function load() {
-            thumbnail   = document.querySelector('#thumbnail');
-            smallImages = document.querySelectorAll('.sm-img');
-            sizeBoxes   = document.querySelectorAll('.size-square');
-        }
-
-        function changeSize(currentBox) {
-            for (const box of sizeBoxes) {
-                box.classList.remove('size-square-active');
-            }
-            currentBox.classList.add('size-square-active')
-        }
-
-        function changeImg(img, el) {
-            unActiveElements();
-            el.classList.add('sm-img-active')
-            thumbnail.src = img;
-        }
-
-        function unActiveElements() {
-            for (const img of smallImages) {
-                img.classList.remove('sm-img-active');
-            }
-        }
-
         function tabClear() {
             @foreach($categories as $category)
                 document.getElementById('pills-{{$category->slug}}-tab').classList.remove('active')
             @endforeach
+
+        }
+
+        function getCategoryFromUrl() {
+           return window.location.href.split('#category=')[1]
+        }
+
+        function checkIfThereIsCategorySelected() {
+            const category = window.location.href.split('#category=')[1];
+
+            if(category) {
+                tabClear();
+
+            }
         }
     </script>
 </x-layout.main>

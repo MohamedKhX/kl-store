@@ -2,8 +2,10 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\ProductColors;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Livewire\Component;
+use phpDocumentor\Reflection\DocBlock\Tags\Author;
 
 class Product extends Component
 {
@@ -21,15 +23,28 @@ class Product extends Component
 
     public bool    $showProduct = false;
     public string  $identifier;
-    public int     $colorId;
+    public ?int    $colorId;
     public ?string $sizeSelected = null;
+    public \App\Models\Product $product;
+    public ProductColors       $color;
+
+
+    //Admin
+    public ?string $color_priority;
+    public ?string $product_priority;
+    public ?string $outer_description;
 
     protected $listeners = ['showProduct', 'unShowProduct', 'showProductFromCategory'];
 
     public function mount()
     {
-        $this->identifier = \App\Models\Product::active()->get()->first()->id;
-        $this->colorId = 1;
+        if(isset($this->product))
+        {
+            $this->showProduct($this->product->id, $this->colorId);
+        } else {
+            $this->identifier = \App\Models\Product::active()->get()->first()->id;
+            $this->colorId = 1;
+        }
 
         $this->fillAlertMessages();
 
@@ -40,10 +55,55 @@ class Product extends Component
         $this->unShowAlert();
     }
 
-    public function reRender($colorId)
+    public function changeColor($colorId)
     {
         $this->colorId = $colorId;
+        $this->color   = $this->product->colors->where('id', '=', $colorId)->first();
         $this->unShowAlert();
+        $this->fillFastUpdateFields();
+    }
+
+    public function showProduct(int $id, ?int $colorId = null)
+    {
+        $this->colorId      = $colorId;
+        $this->identifier   = $id;
+        $this->sizeSelected = null;
+        $this->showProduct  = true;
+        $this->unShowAlert();
+
+        $this->product = \App\Models\Product::find($this->identifier);
+
+        if(! $this->product->status) {
+            return abort(404);
+        }
+
+        if(is_null($this->colorId))
+        {
+            $color = $this->product->colorsWithSizes()->first();
+            if(isset($color->id)) {
+                $this->colorId = $color->id;
+            } else {
+                abort(404);
+            }
+        }
+        else
+        {
+            $color = $this->product->colors->where('id', '=', $colorId)->first();
+        }
+
+
+        //Check if the color available in the product
+        //if not abort 404
+        if(isset($color))
+        {
+            $this->color = $color;
+        } else
+        {
+            abort(404);
+        }
+
+        $this->fillFastUpdateFields();
+        $this->product->view(); //Add a view to views count
     }
 
     public function unShowProduct()
@@ -51,26 +111,16 @@ class Product extends Component
         $this->showProduct = false;
     }
 
-    public function showProduct(int $id)
-    {
-        $this->colorId      = 1;
-        $this->identifier   = $id;
-        $this->sizeSelected = null;
-        $this->showProduct  = true;
-        $this->unShowAlert();
-
-        \App\Models\Product::find($id)->view(); //Add a view to views count
-    }
-
     public function addToCart(\App\Models\Product $product)
     {
-        if(is_null($this->sizeSelected)) {
+        if(is_null($this->sizeSelected))
+        {
             $this->showAlert($this->alertMessages['selectSize']);
         }
-        else {
+        else
+        {
             $this->unShowAlert();
-            $color = $product->colors[$this->colorId - 1];
-
+            $color = $this->color;
 
             $duplicates = Cart::search(function($cartItem, $rowId) use($color) {
                 if($cartItem->id === $color->id) {
@@ -98,30 +148,52 @@ class Product extends Component
                     'product_url'=> $color->url,
                 ],
             ])->associate('App/Models/Product');
+
             $this->showAlert($this->alertMessages['AddedToCart'], 'success');
             $this->emit('newItemAddedToCart');
         }
     }
 
-    public function render($id = null)
+    public function handleFastUpdate()
     {
-        if(! isset($this->product)) {
-            $product = \App\Models\Product::find($this->identifier);
+
+        if(is_null(auth()->user())) {
+            abort(403);
         }
 
-        if(isset($product->colors[$this->colorId - 1])) {
-            $color = $product->colors[$this->colorId - 1];
-        } else {
-            abort(404);
+        if(auth()->user()->role !== 'admin') {
+            abort(403);
         }
 
-        return view('livewire.product')->with([
-            'product' => $product,
-            'color'   => $color,
+        $this->validate([
+            'color_priority' => 'numeric',
+            'product_priority' => 'numeric'
         ]);
+
+        $this->color->priority            = $this->color_priority;
+        $this->product->priority          = $this->product_priority;
+        $this->product->outer_description = $this->outer_description;
+
+        $this->emit('reRenderProductsCard');
+
+        session()->flash('updatedProduct', 'updated');
+
+        $this->color->save();
+        $this->product->save();
+
     }
 
+    public function render()
+    {
+        return view('livewire.product');
+    }
 
+    protected function fillFastUpdateFields()
+    {
+        $this->color_priority = $this->color->priority;
+        $this->product_priority = $this->product->priority;
+        $this->outer_description = $this->product->outer_description;
+    }
 
     protected function fillAlertMessages()
     {

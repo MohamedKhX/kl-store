@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('slug');
             $table->text('description')->nullable();
             $table->text('thumbnail');
+            $table->text('background')->nullable(); //ToAdd
             $table->boolean('status')->default(true);
             $table->boolean('special')->default(false);
             $table->integer('priority')->default(1)->nullable();

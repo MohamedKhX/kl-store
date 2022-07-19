@@ -255,7 +255,7 @@ class Cart extends Component
     public function render()
     {
         $this->updateCart();
-        $this->cartItems = \Gloudemans\Shoppingcart\Facades\Cart::content();
+        $this->cartItems = \Gloudemans\Shoppingcart\Facades\Cart::content()->reverse();
 
         return view('livewire.cart');
     }

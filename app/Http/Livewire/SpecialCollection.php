@@ -12,20 +12,33 @@ class SpecialCollection extends Component
     public int   $toShow   = 4;
     public int   $showMore = 4;
     public int   $productsCount;
+    public bool  $showCollectionName = true;
+    public bool  $showByColors = false;
+
+    protected $listeners = ['reRenderProductsCard'];
+
+    public function reRenderProductsCard()
+    {
+        $this->render();
+    }
 
     public function showMore()
     {
         $this->toShow += $this->showMore;
     }
 
-    public function showProduct(int $id)
+    public function showProduct(int $id, ?int $colorId = null)
     {
-        $this->emit('showProduct', $id);
+        $this->emit('showProduct', $id, $colorId);
     }
 
     public function render()
     {
-        $products = $this->collection->products;
+        $products = $this->collection->productsWithColors();
+
+        if($this->showByColors) {
+            $products = getProductsColors($products);
+        }
 
         $this->productsCount = $products->count();
         $this->products      = $products->take($this->toShow);

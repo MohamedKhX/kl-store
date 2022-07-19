@@ -13,6 +13,17 @@ class ProductColors extends Model
 
     protected $guarded = [];
 
+    protected static function boot() {
+        parent::boot();
+
+        static::creating(function ($color) {
+            $url = explode('?', $color->url)[0];
+            $url = explode('#', $url)[0];
+
+            $color->hash = toBase62(crc32(substr($url, -10)));
+        });
+    }
+
     public function product(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Product::class);
@@ -33,7 +44,11 @@ class ProductColors extends Model
             get: function($value) {
                 $sizes = json_decode($value);
 
-                if(! is_numeric($sizes[0]->size)) {
+                if(! isset($sizes[0])) {
+                    return $sizes;
+                }
+
+                if(! checkSizeTypeNumeric($sizes[0]->size)) {
                     usort($sizes, "cmp");
                 }
 
@@ -55,10 +70,53 @@ class ProductColors extends Model
         return $this->price;
     }
 
+    public function oldPrice()
+    {
+        return $this->old_price;
+    }
+
+    public function getImages()
+    {
+        $images = $this->images;
+
+        if(! $this->excludedImages) {
+
+            return $images;
+        }
+
+        $images = array_filter(array_map(function ($img) {
+            if(in_array($img, $this->excludedImages)) {
+                return null;
+            }
+
+            return $img;
+        }, $images));
+
+        if(empty($images)) {
+            return ['No Img'];
+        }
+
+        return $images;
+    }
+
     public function images(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => json_decode($value),
+            get: function ($value) {
+               return json_decode($value, true);
+            } ,
         );
+    }
+
+    public function excludedImages(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => json_decode($value, true),
+        );
+    }
+
+    public function scopeWithSizes($query)
+    {
+        return $query->whereJsonLength('sizes', '>', 0);
     }
 }

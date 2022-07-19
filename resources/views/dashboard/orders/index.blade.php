@@ -57,39 +57,39 @@
             </div>
 
             <div x-show="show == 'All'">
-                <x-dashboard.orders-list order-name="All" :orders="$orders"/>
+                <livewire:orders-list orders-name="All"/>
             </div>
 
             <div x-show="show == 'Requested'">
-                <x-dashboard.orders-list order-name="Requested" :orders="$requestedOrders"/>
+                <livewire:orders-list orders-name="Requested"/>
             </div>
 
             <div x-show="show == 'Refused'">
-                <x-dashboard.orders-list order-name="Refused" :orders="$refusedOrders"/>
+                <livewire:orders-list orders-name="Refused"/>
             </div>
 
             <div x-show="show == 'Accepted'">
-                <x-dashboard.orders-list order-name="Accepted" :orders="$acceptedOrders"/>
+                <livewire:orders-list orders-name="Accepted"/>
             </div>
 
             <div x-show="show == 'InComing'">
-                <x-dashboard.orders-list order-name="InComing" :orders="$inComingOrders"/>
+                <livewire:orders-list orders-name="InComing"/>
             </div>
 
             <div x-show="show == 'InLibya'">
-                <x-dashboard.orders-list order-name="InLibya" :orders="$inLibyaOrders"/>
+                <livewire:orders-list orders-name="InLibya"/>
             </div>
 
             <div x-show="show == 'Arrived'">
-                <x-dashboard.orders-list order-name="Arrived" :orders="$arrivedOrders"/>
+                <livewire:orders-list orders-name="Arrived"/>
             </div>
 
             <div x-show="show == 'No Response'">
-                <x-dashboard.orders-list order-name="No Response" :orders="$notResponseOrders"/>
+                <livewire:orders-list orders-name="No Response"/>
             </div>
 
             <div x-show="show == 'Not Accepted'">
-                <x-dashboard.orders-list order-name="Not Accepted" :orders="$notAcceptedOrders"/>
+                <livewire:orders-list orders-name="Not Accepted"/>
             </div>
 
         </div>

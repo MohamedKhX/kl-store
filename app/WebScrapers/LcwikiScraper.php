@@ -5,16 +5,37 @@ namespace App\WebScrapers;
 use App\WebScrapers\Contracts\ScraperInterface;
 use Goutte\Client;
 use function PHPUnit\Framework\stringContains;
-//Zara defacto bershka koton
+
 class LcwikiScraper
 {
-    public function colors(string $uri)
+    public function colors(?string $uri = null, ?array $colorsUrls = null): array
+    {
+        if(is_null($colorsUrls))
+        {
+            $colors = $this->getColorsUrls($uri);
+        }
+        else
+        {
+            $colors = $colorsUrls;
+        }
+
+        $results = [];
+
+        foreach ($colors as $color) {
+            $colorInfo = new LcWikiColorScraper();
+            $colorInfo = $colorInfo->getColor($color);
+            $results[] = $colorInfo;
+        }
+
+        return $results;
+    }
+
+    public function getColorsUrls($uri): array
     {
         $client = new Client();
         $crawler = $client->request('GET', $uri);
 
-
-        $colors = $crawler->filter('.color-option')->each(function ($node) use($uri) {
+        return array_Filter($crawler->filter('.color-option')->each(function ($node) use($uri) {
             if(str_contains($node->attr('class'), 'disabled')) {
                 return null;
             }
@@ -22,49 +43,10 @@ class LcwikiScraper
             $nodeUrl = $node->attr('href');
 
             if(str_contains($nodeUrl, 'javascript')) {
-                return [
-                    'url'       => $uri,
-                    'thumbnail' => $node->children()->first()->children()->attr('data-bg')
-                ];
+                return $uri;
             }
-            return [
-                'url'       => $nodeUrl,
-                'thumbnail' => $node->children()->first()->children()->attr('data-bg')
-            ];
-        });
-        $colors = array_filter($colors, function($item) {
-           return $item !== null;
-        });
 
-        $colors = array_filter(
-            array_map(
-                function ($item) {
-                    if(str_contains($item['url'], 'https://')) {
-                        return [
-                            'url'       => $item['url'],
-                            'thumbnail' => $item['thumbnail']
-                        ];
-                    }
-                    return [
-                        'url'       => 'https://www.lcwaikiki.com/' . $item['url'],
-                        'thumbnail' => $item['thumbnail']
-                    ];
-        }, $colors)
-        , function($item) {
-                return isset($item);
-        }
-        );
-
-        $colors = array_values($colors);
-
-        $results = [];
-
-        foreach ($colors as $color) {
-            $colorInfo = new LcWikiColorScraper();
-            $colorInfo = $colorInfo->getColor($color['url'], $color['thumbnail']);
-            $results[] = $colorInfo;
-        }
-
-        return $results;
+            return 'https://www.lcwaikiki.com' .  $nodeUrl;
+        }));
     }
 }

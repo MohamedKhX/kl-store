@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Collection;
 use App\Models\Contact;
 use App\Models\Product;
+use App\Models\ProductColors;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -22,6 +23,7 @@ class PageController extends Controller
         $bestSellersCollection = $collections->where('slug', '=', 'best-sellers')->first();
 
         $activeCollections     = Collection::active()->get();
+
         $otherCollections      = $activeCollections->except([
             $bestDealsCollection->id   ?? null,
             $newArrivalsCollection->id ?? null,
@@ -50,13 +52,11 @@ class PageController extends Controller
 
     public function contactStore(Request $request)
     {
-
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',
             'message' => 'required|min:15'
         ]);
-
 
         $contact = new Contact;
 
@@ -76,5 +76,44 @@ class PageController extends Controller
         });
 
         return back()->with('success', __('flashMessages.thanks_for_contact_us'));
+    }
+
+    public function showProduct(Product $product, string $colorHash)
+    {
+
+        if(! $product->status) {
+            return abort(404);
+        }
+
+        $is_numeric = is_numeric($colorHash);
+        $colorId = ProductColors::where(function ($query) use($colorHash, $is_numeric) {
+            if($is_numeric) {
+                $query->where('id', '=', $colorHash);
+            } else {
+                $query->where('hash', '=', $colorHash);
+            }
+        })->first()->id;
+
+        $collections = Collection::notSpecial()->get();
+        $categories = Category::active()->get();
+
+        return view('show', [
+            'product' => $product,
+            'colorId' => $colorId,
+            'collections' => $collections,
+            'categories' => $categories,
+        ]);
+    }
+
+    public function showCollection(Collection $collection)
+    {
+        $collections = Collection::notSpecial()->get()->except([$collection->id]);
+        $categories = Category::active()->get();
+
+        return view('collection-show', [
+            'collection' => $collection,
+            'collections' => $collections,
+            'categories' => $categories,
+        ]);
     }
 }

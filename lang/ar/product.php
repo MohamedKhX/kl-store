@@ -5,5 +5,6 @@ return [
     'color'       => 'اللون',
     'size'        => 'المقاس',
     'a_product'   => 'عرض منتج',
-    'description' => ': الوصف'
+    'description' => ': الوصف',
+    'related_products' => ': منتجات أخرى'
 ];

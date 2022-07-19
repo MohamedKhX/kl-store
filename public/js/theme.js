@@ -379,6 +379,5 @@ docReady(detectorInit);
 docReady(scrollToTop);
 //# sourceMappingURL=theme.js.map
 
-const blurryImageLoad = new BlurryImageLoad();
-blurryImageLoad.load();
+
 

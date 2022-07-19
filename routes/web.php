@@ -15,8 +15,23 @@ Route::controller(PageController::class)->middleware('webActive')->group(functio
     Route::get('/contact', 'contact')->name('contact');
     Route::post('/contact', 'contactStore')->name('contact-store');
     Route::get('/faqs', 'faqs')->name('faqs');
+    Route::get('/product/{product}/{colorHash}', 'showProduct')->name('show-product');
+    Route::get('/collection/{collection:id}', 'showCollection')->name('show-collection');
 });
 
+
+Route::get('/hash', function() {
+
+
+
+
+    //https://www.lcwaikiki.com//tr-TR/TR/urun/LC-WAIKIKI/erkek/Tisort/5642651/2446279
+    //Take the last ten char
+    //then convert to number
+    //then convert it to base62
+   $toHash = crc32('56asdfsdafsdsdfdsfaf79');
+   return toBase62($toHash);
+});
 
 
 Route::middleware('admin')->group(function () {
@@ -76,10 +91,12 @@ Route::middleware('admin')->group(function () {
     Route::post('/dashboard/products/{product}/color', [\App\Http\Controllers\Admin\ProductColorController::class, 'store'])
         ->name('admin.products.color.store');
 
-    Route::get('/dashboard/products/{product}/{colorIdF}', [\App\Http\Controllers\Admin\ProductColorController::class, 'edit'])
+    Route::get('/dashboard/products/{product}/{colorId}/edit', [\App\Http\Controllers\Admin\ProductColorController::class, 'edit'])
         ->name('admin.products.color.edit');
-    Route::patch('/dashboard/products/{product}/{colorId}', [\App\Http\Controllers\Admin\ProductColorController::class, 'update'])
+    Route::patch('/dashboard/products/{product}/{colorId}/edit', [\App\Http\Controllers\Admin\ProductColorController::class, 'update'])
         ->name('admin.products.color.update');
+
+    Route::get('/dashboard/products/{product}/replicate', [\App\Http\Controllers\Admin\ProductController::class, 'replicate'])->name('dashboard.products.replicate');
 
     Route::delete('/dashboard/products/{product}/{colorId}', [\App\Http\Controllers\Admin\ProductColorController::class, 'destroy'])
         ->name('admin.products.color.destroy');

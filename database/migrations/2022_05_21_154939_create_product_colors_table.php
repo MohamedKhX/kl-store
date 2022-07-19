@@ -25,7 +25,11 @@ return new class extends Migration
             $table->string('color')->nullable();
             $table->string('thumbnail')->nullable(); //TODO delete nullable
             $table->json('images')->nullable();
+            $table->json('excludedImages')->nullable(); //ToAdd
             $table->json('sizes')->nullable();
+            $table->json('excludedSizes')->nullable(); //ToAdd
+            $table->integer('priority')->default(1)->nullable(); //ToAdd
+            $table->string('hash')->nullable(); //ToAdd
             $table->timestamps();
         });
     }

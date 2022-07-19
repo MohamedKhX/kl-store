@@ -14,14 +14,16 @@ class CategoryTab extends Component
     protected  $paginationTheme = 'bootstrap';
     public int $toShow = 4;
 
+    protected $listeners = ['reRenderProductsCard'];
+
     public function mount()
     {
         $this->currentCategory = \App\Models\Category::all()->first();
     }
 
-    public function showProduct(int $id)
+    public function showProduct(int $id, ?int $colorId)
     {
-        $this->emit('showProduct', $id);
+        $this->emit('showProduct', $id, $colorId);
     }
 
     public function showMore()
@@ -29,9 +31,16 @@ class CategoryTab extends Component
         $this->toShow += 4;
     }
 
+    public function reRenderProductsCard()
+    {
+        $this->render();
+    }
+
     public function render()
     {
         $allProducts   = $this->category->products;
+        $allProducts   = getProductsColors($allProducts);
+
         $products      = $allProducts->take($this->toShow);
         $productsCount = $allProducts->count();
 

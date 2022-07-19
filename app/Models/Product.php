@@ -12,11 +12,18 @@ class Product extends Model
 
     public function view()
     {
+        if(! is_null(auth()->user()) && auth()->user()->role == 'admin') {
+            return;
+        }
+
         $this->views += 1;
         $this->save();
     }
 
-
+    public function getFirstColor()
+    {
+        return $this->colors->first();
+    }
 
     public function scopeActive($query)
     {
@@ -28,6 +35,27 @@ class Product extends Model
     public function colors(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(ProductColors::class);
+    }
+
+    public function colorsWithSizes(): \Illuminate\Support\Collection
+    {
+        $colors = [];
+
+        foreach ($this->colors as $color) {
+
+            if(is_null($color->sizes)) {
+                continue;
+            }
+
+            foreach ($color->sizes as $size) {
+                if($size->qty >= 1) {
+                    $colors[] = $color;
+                    continue 2;
+                }
+            }
+        }
+
+        return collect($colors);
     }
 
     public function price(): string

@@ -42,17 +42,18 @@ class CollectionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'collection_name'      => 'required|max:32|unique:collections,name',
-            'collection_title'     => 'max:32',
+            'collection_name'        => 'required|max:32|unique:collections,name',
+            'collection_title'       => 'max:32',
             'collection_thumbnail'   => 'required|image',
+            'collection_background'  => 'nullable|image',
             'collection_description' => '',
             'collection_status'      => '',
             'collection_priority'    => 'numeric'
         ]);
 
-        $status = (bool) $request->input('collection_status');
-        $imgPath = $request->file('collection_thumbnail')->store('collection_thumbnails', 'public');
-
+        $status = (bool)  $request->input('collection_status');
+        $thumbnailPath  = $request->file('collection_thumbnail')->store('collection_thumbnails', 'public');
+        $backgroundPath = $request->file('collection_background')->store('collection_backgrounds', 'public');
 
         $collection              = new Collection();
         $collection->user_id     = auth()->user()->id;
@@ -60,7 +61,7 @@ class CollectionController extends Controller
         $collection->name        = $request->input('collection_name');
         $collection->description = $request->input('collection_description');
         $collection->status      = $status;
-        $collection->thumbnail   = $imgPath;
+        $collection->thumbnail   = $thumbnailPath;
         $collection->priority    = (int) $request->input('collection_priority');
 
         $collection->save();
@@ -83,9 +84,10 @@ class CollectionController extends Controller
     public function update(Request $request, Collection $collection)
     {
         $request->validate([
-            'collection_name'      => ['required', 'max:32', Rule::unique('collections', 'name')->ignore($collection->id)],
-            'collection_title'     => 'max:32',
+            'collection_name'        => ['required', 'max:32', Rule::unique('collections', 'name')->ignore($collection->id)],
+            'collection_title'       => 'max:32',
             'collection_thumbnail'   => 'image',
+            'collection_background'  => 'nullable|image',
             'collection_description' => '',
             'collection_status'      => '',
             'collection_priority'    => 'numeric'
@@ -101,12 +103,13 @@ class CollectionController extends Controller
         $collection->priority    = (int) $request->input('collection_priority');
 
 
-        if(! $collection->special) {
+        if(! $collection->special)
+        {
             $collection->slug        = str($request->input('collection_name'))->slug();
         }
 
-        if($request->file('collection_thumbnail')) {
-
+        if($request->file('collection_thumbnail'))
+        {
             //Delete old image
             $oldPath = public_path('storage/' . $collection->thumbnail);
             if(File::exists($oldPath)) {
@@ -116,6 +119,19 @@ class CollectionController extends Controller
             //store the new one
             $imgPath = $request->file('collection_thumbnail')->store('collection_thumbnails', 'public');
             $collection->thumbnail = $imgPath;
+        }
+
+        if($request->file('collection_background')) {
+
+            //Delete old image
+            $oldPath = public_path('storage/' . $collection->background);
+            if(File::exists($oldPath)) {
+                File::delete($oldPath);
+            }
+
+            //store the new one
+            $imgPath = $request->file('collection_background')->store('collection_backgrounds', 'public');
+            $collection->background = $imgPath;
         }
 
         $collection->save();

@@ -6,15 +6,13 @@
     </div>
     <div class="row h-100 align-items-center g-2 d-flex justify-content-center">
         @foreach($products as $product)
-            @if($product->colors->count())
-                <div class="col-6 col-md-4 col-lg-3">
-                    <x-card.product :name="$product->name" :img="$product->thumbnail()" :price="$product->price()" oldPrice="{{ $product->oldPrice() }}">
-                        <x-slot name="link">
-                            <div style="cursor: pointer" class="stretched-link" href="#" wire:click="showProduct({{$product->id}})" data-bs-toggle="modal" data-bs-target="#singleProduct"></div>
-                        </x-slot>
-                    </x-card.product>
-                </div>
-            @endif
+            <div class="col-6 col-md-4 col-lg-3">
+                <x-card.product :name="$product->product->name" :img="$product->images[0]" :price="$product->priceWithCurrency()" oldPrice="{{ $product->oldPrice() }}" :outer_description="$product->product->outer_description">
+                    <x-slot name="link">
+                        <div style="cursor: pointer" class="stretched-link" href="#" wire:click="showProduct({{$product->product->id}}, {{$product->id}})" data-bs-toggle="modal" data-bs-target="#singleProduct"></div>
+                    </x-slot>
+                </x-card.product>
+            </div>
         @endforeach
     </div>
     <div class="d-flex justify-content-center mt-4">

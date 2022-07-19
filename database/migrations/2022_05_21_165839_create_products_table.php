@@ -23,6 +23,7 @@ return new class extends Migration
             $table->text('thumbnail')->nullable();
             $table->integer('views')->default(0);
             $table->text('description')->nullable();
+            $table->text('outer_description')->nullable(); //ToAdd
             $table->integer('unique_views')->default(0);
             $table->boolean('status')->default(true);
             $table->string('price')->nullable();

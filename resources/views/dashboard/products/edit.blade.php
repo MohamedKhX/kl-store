@@ -49,6 +49,11 @@
                         </div>
 
                         <div class="input-group input-group-outline my-3 is-focused">
+                            <label for="product_outer_description" class="form-label">Outer Description</label>
+                            <input id="product_outer_description" name="product_outer_description" type="text" class="form-control" value="{{ old('product_outer_description') ?? $product->outer_description }}">
+                        </div>
+
+                        <div class="input-group input-group-outline my-3 is-focused">
                             <label for="product_priority" class="form-label">Product Priority</label>
                             <input id="product_priority" name="product_priority" type="text" class="form-control" value="{{ old('product_priority') ?? $product->priority }}">
                         </div>
@@ -64,19 +69,6 @@
                                 <img class="img-fluid" src="{{ $product->thumbnail() }}" alt="">
                             </div>
                         </div>
-                       {{-- <div class="input-group input-group-static mb-4">
-                            <label for="categorySelector" class="ms-0">Category: </label>
-                            <select name="product_category_id" class="form-control" id="categorySelector">
-                                @foreach($categories as $category)
-
-                                    <option
-                                        value="{{ $category->id }}" {{ $category->id === $product->category_id ? 'selected' : null }}
-                                    >
-                                        {{ $category->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>--}}
 
                         <div class="my-3">
                             <strong>Categories: </strong>
@@ -123,7 +115,9 @@
                             </div>
 
 
-                            @if($product->websiteScraper == 'trendyol')
+                            @if($product->websiteScraper == 'trendyol'
+                                || $product->websiteScraper == 'lcwaikiki-someColors'
+                                || $product->websiteScraper == 'koton-someColors')
                                 <div id="colorFields">
                                     <p><strong class="text-danger">Note: </strong> If you want update color urls update them and then re fetch to take the correct effect</p>
                                     @forelse(json_decode($product->urls) as $url)
@@ -188,6 +182,11 @@
 
                         <input type="submit" class="btn btn-danger w-75 w-md-50 p-1 fs-6" value="DELETE THE PRODUCT">
                     </form>
+
+                    <div class="mb-3">
+                        <p><strong class="text-primary">Note:</strong> The newly created product will be a custom</p>
+                        <a class="btn btn-success w-75 w-md-50 p-1 fs-6" href="{{ route('dashboard.products.replicate', $product) }}">Create New instance</a>
+                    </div>
 
                     <div>
                         <h5>Colors :</h5>

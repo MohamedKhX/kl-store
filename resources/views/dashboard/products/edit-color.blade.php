@@ -69,16 +69,23 @@
 
                         <div id="imgFields">
                             @foreach($color->images as $image)
+                                <div>
                                     <div class="input-group input-group-outline my-3 {{ $image ? 'is-focused' : null }}">
                                         <label for="color_img_url" class="form-label">Color image</label>
                                         <input id="color_img_url" name="color_images[]" type="text" class="form-control" value="{{ old('color_img_url') ?? $image }}">
                                         <a onclick="createUrlField()" class="btn btn-primary h-100 mb-0">+</a>
                                     </div>
-                                    <div class="row d-flex justify-content-center">
-                                        <div class="col-6 col-md-3">
-                                            <img src="{{ $image }}" class="img-fluid" alt="">
-                                        </div>
+                                    <div x-data="{checked: {{ in_array($image, $color->excludedImages ?? []) ? 'true' : 'false' }} }" class="mb-3 form-check">
+                                        <input :value="checked ? '{{$image}}' : null" type="text" name="color_exclude_img[]" hidden>
+                                        <input x-model="checked" type="checkbox" class="form-check-input" id="color_exclude_img{{$image}}">
+                                        <label @click="! checked" class="form-check-label" for="color_exclude_img{{$image}}">Exclude</label>
                                     </div>
+                                </div>
+                                <div class="row d-flex justify-content-center">
+                                    <div class="col-6 col-md-3">
+                                        <img src="{{ $image }}" class="img-fluid" alt="">
+                                    </div>
+                                </div>
                             @endforeach
                         </div>
 

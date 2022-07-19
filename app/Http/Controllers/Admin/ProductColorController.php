@@ -156,8 +156,20 @@ class ProductColorController extends Controller
 
             $images[] = $image;
         }
+
         if(! collect($images)->count()) {
             throw ValidationException::withMessages(['images' => 'image fields are required at least one']);
+        }
+
+
+        $colorExcludedImagesRequest = $request->input('color_exclude_img');
+        $colorExcludedImages = [];
+        foreach ($colorExcludedImagesRequest as $image) {
+            if(is_null($image)) {
+                continue;
+            }
+
+            $colorExcludedImages[] = $image;
         }
 
         if($request->input('color_custom_price')) {
@@ -174,6 +186,7 @@ class ProductColorController extends Controller
         $productColor->sizes        = json_encode($colorSizes);
         $productColor->old_price    = $request->input('color_old_price');
         $productColor->custom_price = $request->input('color_custom_price');
+        $productColor->excludedImages = json_encode($colorExcludedImages);
 
 
         if($request->input('color_thumbnail')) {

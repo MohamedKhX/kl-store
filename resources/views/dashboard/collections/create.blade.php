@@ -31,6 +31,12 @@
                                 <input id="collection_thumbnail" name="collection_thumbnail" type="file" class="form-control" value="{{ old('collection_thumbnail') }}">
                             </div>
                         </div>
+                        <div class="my-3">
+                            <label for="collection_background" class="form-label">Collection Background</label>
+                            <div class="input-group input-group-outline">
+                                <input id="collection_background" name="collection_background" type="file" class="form-control" value="{{ old('collection_background') }}">
+                            </div>
+                        </div>
                         <div class="form-check form-switch d-flex align-content-center">
                             <input class="form-check-input me-2" name="collection_status" type="checkbox" id="collection_status" checked>
                             <label class="form-check-label" for="collection_status">Collection Status</label>

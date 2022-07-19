@@ -5,5 +5,6 @@ return [
     'color'       => 'Color',
     'size'        => 'Size',
     'a_product'   => 'A Product',
-    'description' => 'Description :'
+    'description' => 'Description :',
+    'related_products' => 'Related Products:'
 ];

@@ -6,10 +6,8 @@ use Goutte\Client;
 
 class LcWikiColorScraper
 {
-    public function getColor($uri, $thumbnail): array
+    public function getColor(string $uri): array
     {
-
-
         $client = new Client();
         $crawler = $client->request('GET', $uri);
 
@@ -75,7 +73,7 @@ class LcWikiColorScraper
 
         return [
             'url'       => $uri,
-            'thumbnail' => $thumbnail,
+            'thumbnail' => $images[0],
             'images'    => $images,
             'sizes'     => $sizes,
             'price'     => $price

@@ -82,7 +82,7 @@ function transformCurrency($price, $earnings, $from = 'TRY', $to = 'LYD')
     ])->get("https://api.api-ninjas.com/v1/convertcurrency?want={$to}&have={$from}&amount={$price}")
         ->json();
 
-    if($response['new_amount']) {
+    if(isset($response['new_amount'])) {
         return $response['new_amount'] * ($earnings / 100) + $response['new_amount'];
     }
 
@@ -100,19 +100,7 @@ function ar(): bool
 }
 function cmp($a, $b)
 {
-    $sizes = [
-        'XXS' => 0,
-        'XS' => 1,
-        'S' => 2,
-        'M' => 3,
-        'L' => 4,
-        'XL' => 5,
-        '2XL' => 6,
-        '3XL' => 7,
-        '4XL' => 8,
-        '5XL' => 9,
-        '6XL' => 10
-    ];
+    $sizes = getLettersSizes();
 
     $aSize = $sizes[$a->size];
     $bSize = $sizes[$b->size];
@@ -122,4 +110,99 @@ function cmp($a, $b)
     }
 
     return ($aSize > $bSize) ? 1 : -1;
+}
+
+function checkSizeTypeNumeric($size): bool
+{
+    $sizes = getLettersSizes();
+
+    return ! array_key_exists($size, $sizes);
+}
+
+
+function getLettersSizes(): array
+{
+    return [
+        'XXS' => 0,
+        'XS' => 1,
+        'S' => 2,
+        'M' => 3,
+        'L' => 4,
+        'XL' => 5,
+        '2XL' => 6,
+        'XXL' => 6,
+        '3XL' => 7,
+        'XXXL' => 7,
+        '4XL' => 8,
+        'XXXXL' => 8,
+        '5XL' => 9,
+        '6XL' => 10
+    ];
+}
+
+function getProductsColors($products): \Illuminate\Support\Collection
+{
+    $allProducts = [];
+
+    foreach ($products as $product) {
+        foreach ($product->colorsWithSizes() as $color) {
+            $allProducts[] = $color;
+        }
+    }
+    return collect($allProducts)->sortByDesc('priority');
+}
+
+
+function toBase62 ($dec) {
+
+    // 0 is always 0
+    if ($dec == 0)
+        return "0";
+
+    // this array maps decimal keys to our base-62 radix digits
+    $values = array(
+        "0", "1", "2", "3", "4",
+        "5", "6", "7", "8", "9",
+        "A", "B", "C", "D", "E",
+        "F", "G", "H", "I", "J",
+        "K", "L", "M", "N", "O",
+        "P", "Q", "R", "S", "T",
+        "U", "V", "W", "X", "Y",
+        "Z", "a", "b", "c", "d",
+        "e", "f", "g", "h", "i",
+        "j", "k", "l", "m", "n",
+        "o", "p", "q", "r", "s",
+        "t", "u", "v", "w", "x",
+        "y", "z"
+    );
+
+    // convert negative numbers to positive.
+    $neg = $dec < 0;
+    if ($neg)
+        $dec = 0 - $dec;
+
+    // do the conversion:
+    $chars = array(); // this will store our base-62 chars
+
+    while ($dec > 0) {
+
+        $val = $dec % 62;
+
+        $chars[] = $values[$val];
+
+        $dec -= $val;
+        $dec /= 62;
+
+    }
+
+    // add zero-padding:
+    while (count($chars) < 6)
+        $chars[] = '0';
+
+    // convert to string
+    $rv = implode( '' , array_reverse($chars) );
+
+    // if input was negative:
+    return $neg ? "-$rv" : $rv;
+
 }

@@ -24,7 +24,10 @@
     @stack('links')
 
     {{-- Aplaine JS --}}
-    <script src="//unpkg.com/alpinejs" defer></script>
+    <script src="https://unpkg.com/alpinejs" defer></script>
+
+    {{-- Livewire --}}
+    @livewireStyles
 
     @stack('styles')
 </head>
@@ -305,6 +308,10 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="{{ asset('/js/material-dashboard.js') }}"></script>
+
+
+    {{-- Livewire --}}
+    @livewireScripts
 
     @stack('scripts')
 </body>

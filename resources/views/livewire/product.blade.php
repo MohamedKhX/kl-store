@@ -6,26 +6,77 @@
                     <div class="d-flex justify-content-center my-3">
                         <a class="btn btn-sm btn-dark" href="{{ route('admin.products.edit', $product) }}">Edit this product</a>
                     </div>
+                    <div>
+                        <h4>Fast Edit</h4>
+                        @if (session()->has('updatedProduct'))
+                            <div class="alert alert-success alert-dismissible " role="alert">
+                                Updated successfully
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        @endif
+
+                        @if($errors->any())
+                            <div class="alert alert-danger" role="alert">
+                                <ul class="py-0 my-0">
+                                    @foreach($errors->all() as $error)
+                                        <li>
+                                            {{ $error }}
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+                        <form class="mb-4" wire:submit.prevent="handleFastUpdate">
+                            <div class="mb-3">
+                                <label for="color_priority" class="form-label">Color Priority</label>
+                                <input wire:model.defer="color_priority" type="text" class="form-control" name="color_priority" id="color_priority" aria-describedby="emailHelp" value="{{ $color->priority }}">
+                            </div><div class="mb-3">
+                                <label for="color_priority" class="form-label">Product Priority</label>
+                                <input wire:model.defer="product_priority" type="text" class="form-control" name="product_priority" id="product_priority" aria-describedby="emailHelp" value="{{ $color->priority }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="outer_description" class="form-label">Outer Description</label>
+                                <input wire:model.defer="outer_description" type="text" class="form-control" name="outer_description" id="outer_description" value="{{ $product->outer_description }}">
+                            </div>
+                            <button type="submit" class="btn btn-dark">Update</button>
+                        </form>
+                    </div>
                 @endif
             @endauth
-            <div class="row animate__animated animate__fadeIn" x-data="{currentSize: @entangle('sizeSelected')}" x-init="load()">
+
+
+            <div x-data x-show="! window.location.href.split('#')[0].includes('/product')">
+                <a class="text-dark bold mb-3" href="{{ route('show-product', [$product, $color->id]) }}">
+                    <strong class="d-flex">
+                        <img
+                            style="margin-bottom: .2rem; margin-right: .2rem; transform: rotate(270deg)"
+                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAABD0lEQVRIie3Vu0rEQBjF8R9iKe6iCOILWPg49iIr9lrZbmGRLio2FiJeGlufwIew9NKJlW7Efi0yrCFuLpNt98BAMvN9/5OcCRnmilQfd8gwjhwZbgNjosWSwTm2cYmfyIdbwl4w26kqynAaCS7qDKPixEKpYBlfNYAX0+N5Cuuf6BUbyhE16RibhfsB1rBV1RBrcFW4TgP8A+tVDeWI2irBAU5wUVfYxSDBUYAfNhXHGkTBiduD1F8sRfgbnttCxhhOmU/CWtrQPwx1E7WJKDqWGIPBLHCa9+ARu7juAm9j8BpGZ5Uj+sbKDLxV+Q9zovIbPGBf/iW8R8I3Qu99XVEfN7odOCP5XvX+Ueeq0y/UKk6QNmPcXgAAAABJRU5ErkJggg==">
+                        <span style="">
+                            فتح في صفحة أخرى
+                        </span>
+                    </strong>
+                </a>
+            </div>
+
+                <div class="row animate__animated animate__fadeIn" x-data="{currentSize: @entangle('sizeSelected')}" x-init="load()">
                     <div class="col-12 col-lg-6">
                         <div class="row">
                             <div class="col-2 d-none d-sm-block">
                                 <div class="sm-images-box d-flex flex-column">
-                                    @foreach($color->images as $image)
+                                    @foreach($color->getImages() as $image)
                                         <img onclick="changeImg('{{ $image }}', this)" class="img-fluid sm-img {{ $loop->first ? 'sm-img-active' : '' }}" src="{{ $image }}" alt="">
                                     @endforeach
                                 </div>
                             </div>
                             <div class="col-12 col-sm-10">
                                 <div class="d-none d-sm-block">
-                                    <img src="{{ $color->images[0] }}" id="thumbnail" class="img-fluid singleProduct" alt="">
+                                    <img src="{{ array_values($color->getImages())[0] ?? null }}" id="thumbnail" class="img-fluid singleProduct" alt="">
                                 </div>
                                 <div class="d-block d-sm-none">
                                     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                                         <div class="carousel-inner">
-                                            @foreach($color->images as $image)
+                                            @foreach($color->getImages() as $image)
                                                 <div class="carousel-item position-relative {{ $loop->first ? 'active' : '' }}">
                                                     <div class="">
                                                         <div style="
@@ -39,13 +90,13 @@
                                                              class="text-light position-absolute"
                                                              role="status"
                                                              wire:loading.class="spinner-border"
-                                                             wire:target="reRender"
+                                                             wire:target="changeColor"
                                                         >
                                                             <span class="visually-hidden">Loading...</span>
                                                         </div>
                                                         <img
                                                             wire:loading.class="img_filter"
-                                                            wire:target="reRender"
+                                                            wire:target="changeColor"
                                                             src="{{ $image }}"
                                                             class="d-block w-100"
                                                             alt="..."
@@ -56,7 +107,7 @@
                                             @endforeach
                                         </div>
 
-                                        @if(count($color->images) > 1)
+                                        @if(count($color->getImages()) > 1)
                                             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
                                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                                 <span class="visually-hidden">Previous</span>
@@ -78,13 +129,16 @@
                                     <h5>{{ $color->priceWithCurrency() }}</h5>
 
                                     <h4>{{ $product->name }}</h4>
+
                                 @else
                                     <h4>{{ $product->name }}</h4>
 
                                     <h5>{{ $color->priceWithCurrency() }}</h5>
                                 @endif
                             </div>
-
+                            @if($product->outer_description)
+                                <p style="color: #5e5e5e" class="fs-1 {{arRight()}}">{{ $product->outer_description }}</p>
+                            @endif
                         </div>
                         <hr>
                         <div class="pt-4">
@@ -95,33 +149,33 @@
                             </div>
                             <div class="d-flex d-sm-none justify-content-center color-images-box">
                                 <div class="row d-flex ">
-                                    @if(count($product->colors) === 1)
-                                        @foreach($product->colors as $key => $colorItem)
+                                    @if(count($product->colorsWithSizes()) === 1)
+                                        @foreach($product->colorsWithSizes() as $colorItem)
                                             <div class="col-12">
-                                                <a type="button" class="{{ $loop->last ? '' : 'me-3' }}" wire:click="reRender({{ $key + 1 }})">
-                                                    <img @click="clearActive(); $el.classList.add('sm-img-active');" class="mt-3 img-fluid color-img {{ $key +1 === $colorId ? 'sm-img-active' : '' }}"
+                                                <a type="button" class="{{ $loop->last ? '' : 'me-3' }}" wire:click="changeColor({{ $colorItem->id }})">
+                                                    <img @click="clearActive(); $el.classList.add('sm-img-active'); changeColorLink({{$product->id}}, '{{$colorItem->id}}')" class="mt-3 img-fluid color-img {{ $colorItem->id === $colorId ? 'sm-img-active' : '' }}"
                                                          src="{{ $colorItem->thumbnail() }}"
                                                          alt="">
                                                 </a>
                                             </div>
                                         @endforeach
                                     @endif
-                                    @if(count($product->colors) === 2)
-                                        @foreach($product->colors as $key => $colorItem)
+                                    @if(count($product->colorsWithSizes()) === 2)
+                                        @foreach($product->colorsWithSizes() as $colorItem)
                                             <div class="col-6">
-                                                <a type="button" class="" wire:click="reRender({{ $key + 1 }})">
-                                                    <img  @click="clearActive(); $el.classList.add('sm-img-active');" class="mt-3 img-fluid color-img {{ $key +1 === $colorId ? 'sm-img-active' : '' }}"
+                                                <a type="button" class="" wire:click="changeColor({{ $colorItem->id }})">
+                                                    <img  @click="clearActive(); $el.classList.add('sm-img-active'); changeColorLink({{$product->id}}, '{{$colorItem->id}}')" class="mt-3 img-fluid color-img {{ $colorItem->id === $colorId ? 'sm-img-active' : '' }}"
                                                          src="{{ $colorItem->thumbnail() }}"
                                                          alt="">
                                                 </a>
                                             </div>
                                         @endforeach
                                     @endif
-                                    @if(count($product->colors) >=  3)
-                                        @foreach($product->colors as $key => $colorItem)
+                                    @if(count($product->colorsWithSizes()) >=  3)
+                                        @foreach($product->colorsWithSizes() as $colorItem)
                                             <div class="col-4 d-flex justify-content-center">
-                                                <a type="button" wire:click="reRender({{ $key + 1 }})">
-                                                    <img @click="clearActive(); $el.classList.add('sm-img-active');" class="mt-3 img-fluid color-img {{ $key +1 === $colorId ? 'sm-img-active' : '' }}"
+                                                <a type="button" wire:click="changeColor({{ $colorItem->id }})">
+                                                    <img @click="clearActive(); $el.classList.add('sm-img-active'); changeColorLink({{$product->id}}, '{{$colorItem->id}}')" class="mt-3 img-fluid color-img {{ $colorItem->id === $colorId ? 'sm-img-active' : '' }}"
                                                          src="{{ $colorItem->thumbnail() }}"
                                                          alt="">
                                                 </a>
@@ -131,9 +185,9 @@
                                 </div>
                             </div>
                             <div class="d-none d-sm-flex">
-                                @foreach($product->colors as $key => $colorItem)
-                                    <a type="button" class="{{ $loop->last ? '' : 'me-3' }}" wire:click="reRender({{ $key + 1 }})">
-                                        <img  @click="clearActive(); $el.classList.add('sm-img-active');" class="mt-3 img-fluid color-img {{ $key +1 === $colorId ? 'sm-img-active' : '' }}"
+                                @foreach($product->colorsWithSizes() as $colorItem)
+                                    <a type="button" class="{{ $loop->last ? '' : 'me-3' }}" wire:click="changeColor({{ $colorItem->id }})">
+                                        <img  @click="clearActive(); $el.classList.add('sm-img-active'); changeColorLink({{$product->id}}, '{{$colorItem->id}}')" class="mt-3 img-fluid color-img {{ $colorItem->id === $colorId ? 'sm-img-active' : '' }}"
                                              src="{{ $colorItem->thumbnail() }}"
                                              alt="">
                                     </a>

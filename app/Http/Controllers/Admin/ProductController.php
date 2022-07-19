@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Console\Commands\ProductReFetch;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Collection;
@@ -10,8 +11,10 @@ use App\Models\ProductColors;
 use App\WebScrapers\KotonScraper;
 use App\WebScrapers\LcwikiScraper;
 use App\WebScrapers\TrendyolScraper;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Validation\ValidationException;
 
@@ -64,6 +67,7 @@ class ProductController extends Controller
         $product->url            = $request->input('url');
         $product->name           = $request->input('product_name');
         $product->description    = $request->input('product_description');
+        $product->outer_description = $request->input('product_outer_description');
         $product->thumbnail      = $imgPath;
         $product->status         = $status;
         $product->price          = $price;
@@ -113,6 +117,7 @@ class ProductController extends Controller
         $product                 = Product::find($product->id);
         $product->name           = $request->input('product_name');
         $product->description    = $request->input('product_description');
+        $product->outer_description = $request->input('product_outer_description');
         $product->status         = $status;
         $product->priority       = $request->input('product_priority');
         $product->urls           = json_encode($urls);
@@ -227,6 +232,7 @@ class ProductController extends Controller
         $product->user_id        = $request->user()->id;
         $product->name           = $request->input('product_name');
         $product->description    = $request->input('product_description');
+        $product->outer_description = $request->input('product_outer_description');
         $product->status         = $status;
         $product->price          = $price;
         $product->old_price      = $oldPrice;
@@ -273,21 +279,14 @@ class ProductController extends Controller
         return redirect(route('admin.products.index'))->with('success', 'Product created successfully');
     }
 
-    public function getWebSite(string $url)
+    public function scrapUpdate(Product $product, ProductReFetch $productReFetch)
     {
-        if(str_contains($url ,'lcwaikiki')) {
-            return 'lcwaikiki';
-        }
+        Artisan::call('products:prefetch', [
+            'product' => $product->id
+        ]);
 
-        if(str_contains($url, 'trendyol')) {
-            return 'trendyol';
-        }
-
-        if(str_contains($url, 'koton')) {
-            return 'koton';
-        }
-
-        return false;
+        return redirect(route('admin.products.edit', $product))
+            ->with('success', 'Prefetched successfully');
     }
 
     protected function updatePrice($product ,$price, $oldPrice = false)
@@ -297,112 +296,35 @@ class ProductController extends Controller
                 $color->old_price = $price;
                 $color->save();
             } else {
+
+                if(! is_null($color->custom_price)) {
+                    continue;
+                }
+
                 $color->price = $price;
                 $color->save();
             }
         }
     }
 
-
-    public function updatePriceAfterScrap(Product $product)
+    public function replicate(Product $product)
     {
-        $oldPrices = session('oldPrices');
+        //Create product instance
+        $newProduct = $product->replicate();
+        $newProduct->websiteScraper = null;
+        $newProduct->url = null;
+        $newProduct->urls = null;
+        $newProduct->created_at = Carbon::now();
+        $newProduct->save();
 
-        if($product->price) {
-            $this->updatePrice($product, $product->price);
-        }
-
-        if($product->old_price) {
-            $this->updatePrice($product, $product->old_price, true);
-        }
-
+        //Create color instances
         foreach ($product->colors as $color) {
-            foreach ($oldPrices as $oldPrice) {
-                if(! $color->url === $oldPrice['url']) continue;
-
-                if(isset($oldPrice['oldPrice'])) {
-                    $color->old_price = $oldPrice['oldPrice'];
-                    $color->save();
-                }
-
-                if(isset($oldPrice['customPrice'])) {
-                    $color->custom_price = $oldPrice['customPrice'];
-                    $color->price        = $oldPrice['customPrice'];
-                    $color->save();
-                }
-            }
+            $newColor = $color->replicate();
+            $newColor->product_id = $newProduct->id;
+            $newColor->created_at = Carbon::now();
+            $newColor->save();
         }
 
-        return redirect(route('admin.products.edit', $product->id))->with('success', 'Re fetched data successfully');
-    }
-
-
-    public function scrapUpdate(Product $product)
-    {
-        $oldPrices = [];
-
-        foreach ($product->colors as $color) {
-
-            $oldPrices[] = [
-                'url'         => $color->url,
-                'oldPrice'    => $color->old_price,
-                'customPrice' => $color->custom_price,
-            ];
-
-            $color->delete();
-        }
-
-        $this->scrapColors(
-            productId: $product->id,
-            uri: $product->url,
-            webScraper: $product->websiteScraper,
-            urls: json_decode($product->urls)
-        );
-
-        return redirect(route('admin.products.update-price', $product))
-            ->with('oldPrices', $oldPrices);
-    }
-
-
-    public function scrapColors($productId, $uri, $webScraper, $urls = [])
-    {
-        //lcwaikiki
-        if($webScraper == 'lcwaikiki') {
-            $scraper = new LcwikiScraper();
-        }
-
-        if($webScraper == 'koton') {
-            $scraper = new KotonScraper();
-        }
-
-        if($webScraper == 'trendyol') {
-            $scraper = new TrendyolScraper();
-        }
-
-        if($webScraper == 'trendyol') {
-            $colors = $scraper->colors($urls);
-        } else {
-            $colors = $scraper->colors($uri);
-        }
-
-        foreach ($colors as $color) {
-            $this->createProductColor($color, $productId);
-        }
-    }
-
-    public function createProductColor(array $colorInfo, $productId)
-    {
-        $product = Product::find($productId);
-        $price = round(transformCurrency((int) $colorInfo['price'], $product->earnings) / 5) * 5;
-
-        $productColor             = new ProductColors();
-        $productColor->product_id = $productId;
-        $productColor->thumbnail  = $colorInfo['thumbnail'];
-        $productColor->price      = $price;
-        $productColor->url        = $colorInfo['url'];
-        $productColor->images     = json_encode($colorInfo['images']);
-        $productColor->sizes      = json_encode($colorInfo['sizes']);
-
-        $productColor->save();
+        return redirect(route('admin.products.edit', $newProduct))->with('success', 'The product has been successfully cloned.  Note: this is the new product!');
     }
 }

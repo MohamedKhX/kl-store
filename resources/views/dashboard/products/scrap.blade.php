@@ -34,8 +34,14 @@
                             <label for="product_name" class="form-label">Product Name</label>
                             <input id="product_name" name="product_name" type="text" class="form-control" value="{{ old('product_name') }}">
                         </div>
+
                         <div>
                             <textarea placeholder="Product Description... [optional]" class="form-control" name="product_description" id="product_description" cols="30" rows="10">{{ old('product_description') }}</textarea>
+                        </div>
+
+                        <div class="input-group input-group-outline my-3 is-focused">
+                            <label for="product_outer_description" class="form-label">Outer Description</label>
+                            <input id="product_outer_description" name="product_outer_description" type="text" class="form-control" value="{{ old('product_outer_description') }}">
                         </div>
 
                         <div class="input-group input-group-outline my-3 is-focused">
@@ -138,7 +144,7 @@
                         </div>
 
                         <div id="colorFields">
-                            <p><strong class="text-danger">Note: </strong> Use this only if you are scraping from trendual</p>
+                            <p><strong class="text-danger">Note: </strong> Use this if you want scrap specific colors (trendyol, kt, lc)</p>
                             @if(old('url_fields'))
                                 @foreach(old('url_fields') as $urlField)
                                     <div class="input-group input-group-outline my-3 is-focused">

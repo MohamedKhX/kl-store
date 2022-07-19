@@ -14,6 +14,18 @@ class Category extends Model
         return $this->belongsToMany(Product::class)->active();
     }
 
+    public function productsWithColors(): \Illuminate\Support\Collection
+    {
+        $products = [];
+        foreach ($this->products as $product) {
+            if($product->colorsWithSizes()->count()) {
+                $products[] = $product;
+            }
+        }
+
+        return collect($products);
+    }
+
     public function scopeActive($query)
     {
         return $query->where('status', '=', true)
