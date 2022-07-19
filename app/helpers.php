@@ -102,8 +102,8 @@ function cmp($a, $b)
 {
     $sizes = getLettersSizes();
 
+    dd($sizes, $a, $b);
     $aSize = $sizes[$a->size];
-    dd($b);
     $bSize = $sizes[$b->size];
 
     if ($aSize == $bSize) {
