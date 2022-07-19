@@ -170,9 +170,9 @@ class Product extends Component
             'product_priority' => 'numeric'
         ]);
 
-        $this->color->priority            = $this->color_priority;
-        $this->product->priority          = $this->product_priority;
-        $this->product->outer_description = $this->outer_description;
+        $this->color->priority            = $this->color_priority ?? null;
+        $this->product->priority          = $this->product_priority ?? null;
+        $this->product->outer_description = $this->outer_description ?? null;
 
         $this->emit('reRenderProductsCard');
 
