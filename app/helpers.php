@@ -102,9 +102,13 @@ function cmp($a, $b)
 {
     $sizes = getLettersSizes();
 
-    dd($sizes, $a, $b);
     $aSize = $sizes[$a->size];
-    $bSize = $sizes[$b->size];
+    try {
+        $bSize = $sizes[$b->size];
+
+    } catch (Exception $exception) {
+        dd($sizes, $b, $a);
+    }
 
     if ($aSize == $bSize) {
         return 0;

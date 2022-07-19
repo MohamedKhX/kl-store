@@ -48,9 +48,14 @@ class ProductColors extends Model
                     return $sizes;
                 }
 
-                if(! checkSizeTypeNumeric($sizes[0]->size)) {
-                    usort($sizes, "cmp");
+                foreach ($sizes as $size) {
+                    if(! checkSizeTypeNumeric($size->size)) {
+                        continue;
+                    }
+                    return $sizes;
                 }
+
+                usort($sizes, "cmp");
 
                 return $sizes;
             }
