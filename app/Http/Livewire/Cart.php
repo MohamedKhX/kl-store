@@ -4,10 +4,12 @@ namespace App\Http\Livewire;
 
 use App\Models\City;
 use App\Models\Coupon;
+use App\Models\ProductColors;
 use Gloudemans\Shoppingcart\Exceptions\InvalidRowIDException;
 use Hamcrest\Core\IsNotTest;
 use Illuminate\Support\Facades\Date;
 use Livewire\Component;
+use Gloudemans\Shoppingcart\Facades\Cart as CartSession;
 
 class Cart extends Component
 {
@@ -43,7 +45,7 @@ class Cart extends Component
 
     public function mount()
     {
-        $this->checkIfCartContentIsCorrect();
+        $this->checkIfThereIsEnoughQuantity();
         $this->cartItems = \Gloudemans\Shoppingcart\Facades\Cart::content();
         $this->cities    = City::all();
         $this->selectedCityId = $this->cities->first();
@@ -55,62 +57,70 @@ class Cart extends Component
         });
     }
 
-    //Todo Refactor this
-    protected function checkIfCartContentIsCorrect()
+    protected function checkIfThereIsEnoughQuantity()
     {
-        $cartItems = \Gloudemans\Shoppingcart\Facades\Cart::content();
+        $cartItems = $this->cartItems;
         $products  = \App\Models\Product::all();
+        $colors    = ProductColors::all();
 
-        $productsNotFound = \Gloudemans\Shoppingcart\Facades\Cart::search(function ($cartItem, $rowId) use($products) {
-            if(! $products->count()) {
-                \Gloudemans\Shoppingcart\Facades\Cart::destroy();
-                return;
-            }
+        if(! $products->count()) {
+            CartSession::destroy();
+            return;
+        }
 
+        if(! $colors->count()) {
+            CartSession::destroy();
+            return;
+        }
+
+        CartSession::search(function ($cartItem, $rowId) use($products, $colors) {
             foreach ($products as $product) {
+
                 if($cartItem->options['product_id'] != $product->id) {
                     continue;
                 }
-                foreach ($product->colors as $color) {
-                    if($cartItem->id != $color->id) {
+
+                if($product->status) {
+                    continue;
+                }
+
+                try {CartSession::remove($cartItem->rowId);} catch (\Exception $exception) {}
+
+            }
+
+            foreach ($colors as $color) {
+                if($cartItem->id != $color->id) {
+                    continue;
+                }
+
+                foreach ($color->sizes as $size) {
+                    if($cartItem->options['size'] != $size->size) {
                         continue;
                     }
-                    foreach ($color->sizes as $size) {
-                        if($cartItem->options['size'] != $size->size) {
-                            continue;
-                        }
-                        if($size->qty <= 0) {
-                            if(\Gloudemans\Shoppingcart\Facades\Cart::get($cartItem->rowId)) {
-                                \Gloudemans\Shoppingcart\Facades\Cart::remove($cartItem->rowId);
-                            }
-                        }
+
+                    if($cartItem->qty > $size->qty) {
+                        $this->qtys[$cartItem->rowId] = 1;
+                        $this->updatedQtys();
+                    }
+
+                    if($size->qty <= 0) {
+                        try {CartSession::remove($cartItem->rowId);} catch (\Exception $exception) {}
                     }
 
                     return;
                 }
 
-
-                try {
-                    \Gloudemans\Shoppingcart\Facades\Cart::remove($cartItem->rowId);
-                } catch (\Exception $exception) {
-
-                }
+                try {CartSession::remove($cartItem->rowId);} catch (\Exception $exception) {}
             }
 
-
-            try {
-                \Gloudemans\Shoppingcart\Facades\Cart::remove($cartItem->rowId);
-            } catch (\Exception $exception) {
-
-            }
-
+            try {CartSession::remove($cartItem->rowId);} catch (\Exception $exception) {}
         });
     }
 
     public function updatedQtys()
     {
         foreach ($this->qtys as $rowId => $qty) {
-            \Gloudemans\Shoppingcart\Facades\Cart::update($rowId, $qty);
+            CartSession::update($rowId, $qty);
         }
         $this->updateCart();
     }
@@ -148,8 +158,22 @@ class Cart extends Component
         $this->emit('showProduct', $id);
     }
 
-    public function increment($rowId)
+    public function increment($rowId, $colorId, $size)
     {
+        $colorSize = collect(ProductColors::find($colorId)->sizes)->first(function ($item) use($size) {
+            if($item->size == $size) {
+                return $item;
+            }
+            return null;
+        });
+
+        $colorSizeQuantity = $colorSize->qty;
+
+        if($this->qtys[$rowId] >= $colorSizeQuantity) {
+            session()->flash('error', __('cart.we_dont_have_enough_quantity'));
+            return;
+        }
+
         if($this->qtys[$rowId] >= 5) {
            return;
         }
@@ -157,7 +181,7 @@ class Cart extends Component
         $this->updatedQtys();
     }
 
-    public function decrement($rowId)
+    public function decrement($rowId, $colorId, $size)
     {
         if ($this->qtys[$rowId] <= 1) {
             return;
@@ -228,9 +252,10 @@ class Cart extends Component
 
         if($this->discount) {
             $order->options = json_encode([
-               'discount'    => $this->discount,
-               'subTotal'    => $this->subTotal,
-               'newSubTotal' => $this->newSubTotal
+                'discount'    => $this->discount,
+                'subTotal'    => $this->subTotal,
+                'newSubTotal' => $this->newSubTotal,
+                'coupon_id'   => $this->coupon->id
             ]);
         }
 

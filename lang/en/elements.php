@@ -9,5 +9,6 @@ return [
     'name'          => 'name',
     'email_address' => 'emaill address',
     'message'       => 'message',
-    'submit'        => 'submit'
+    'submit'        => 'submit',
+    'language'      => 'Language'
 ];

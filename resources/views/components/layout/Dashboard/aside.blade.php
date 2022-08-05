@@ -75,6 +75,14 @@
                 <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
             </li>
             <li class="nav-item">
+                <a class="nav-link text-white {{ request()->routeIs('dashboard-contacts') ? 'active bg-gradient-primary' : '' }}" href="{{ route('dashboard-contacts') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">email</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Emails</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link text-white" href="{{ route('home') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">login</i>
@@ -82,22 +90,6 @@
                     <span class="nav-link-text ms-1">Return to store</span>
                 </a>
             </li>
-            {{--<li class="nav-item">
-                <a class="nav-link text-white {{ request()->routeIs('dashboard-profile') ? 'active bg-gradient-primary' : '' }}" href="{{ route('dashboard-profile') }}">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">person</i>
-                    </div>
-                    <span class="nav-link-text ms-1">My Profile</span>
-                </a>
-            </li>--}}
-       {{--     <li class="nav-item">
-                <a class="nav-link text-white {{ request()->routeIs('dashboard-accounts') ? 'active bg-gradient-primary' : '' }}" href="{{ route('dashboard-accounts') }}">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">assignment</i>
-                    </div>
-                    <span class="nav-link-text ms-1">All Accounts</span>
-                </a>
-            </li>--}}
             <li class="nav-item">
                 <a style="cursor: pointer" class="nav-link text-white"  onclick="logout()">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">

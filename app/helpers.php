@@ -89,6 +89,11 @@ function transformCurrency($price, $earnings, $from = 'TRY', $to = 'LYD')
     return 404;
 }
 
+function getStoreMetaPhoto()
+{
+    return url('storage/', app(GeneralSettings::class)->store_meta_photo);
+}
+
 function arRight(): ?string
 {
     return  \Illuminate\Support\Facades\Lang::getLocale() === 'ar' ? 'text-end' : null;

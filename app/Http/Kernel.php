@@ -5,6 +5,7 @@ namespace App\Http;
 use App\Http\Middleware\CanUserLogin;
 use App\Http\Middleware\CanUserRegister;
 use App\Http\Middleware\IsSiteActive;
+use App\Http\Middleware\Localization;
 use App\Http\Middleware\MustBeAdmin;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -71,5 +72,6 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'Localization' => Localization::class
     ];
 }

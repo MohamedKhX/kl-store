@@ -24,6 +24,9 @@ return [
     'proceed_to_checkout'      => 'إكمال عملية الشراء',
     'new_subtotal'             => 'المجموع الفرعي بعد الخصم',
     'discount'                 => 'الخصم',
+    'no_products_in_cart'      => 'لا توجد منتجات في السلة',
+    'we_dont_have_enough_quantity' => 'ليس لدينا كمية كافية',
+    'sorry'                    => 'نأسف!',
 
 
     'full_name'                => 'إسم الكامل',

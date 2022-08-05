@@ -2,15 +2,32 @@
     <div class="card-body text-center mt-2 p-3">
         <div class="">
             <div>
+                <div>
+                    <h6>
+                        <strong class="">Name :</strong>
+                        <a href="{{ route('admin.orders.show', $order) }}" class="text-primary">{{ $order->name }}</a>
+                    </h6>
+                    <h6>
+                        <strong class="">Phone Number :</strong>
+                        <span class="text-primary">{{ $order->phone_number }}</span>
+                    </h6>
+                </div>
+                @if($order->archived)
+                    <a style="cursor: pointer;"
+                       class="text-secondary"
+                       wire:click="unArchive"
+                    >
+                        UnArchive
+                    </a>
+                @else
+                    <a style="cursor: pointer;"
+                       class="text-secondary"
+                       wire:click="archive"
+                    >
+                        Archive
+                    </a>
+                @endif
 
-                <h6>
-                    <strong class="">Name :</strong>
-                    <a href="{{ route('admin.orders.show', $order) }}" class="text-primary">{{ $order->name }}</a>
-                </h6>
-                <h6>
-                    <strong class="">Phone Number :</strong>
-                    <span class="text-primary">{{ $order->phone_number }}</span>
-                </h6>
                 <hr>
             </div>
             <div class="px-6">
@@ -20,7 +37,6 @@
                         <label for="status" class="text-center">
                             Status
                         </label>
-
                         <select wire:model="status" name="status" class="form-control text-center" id="status">
                             <option value="Requested">
                                 Requested
@@ -55,11 +71,8 @@
                 </h7>
             </div>
             @if(session()->has('success'))
-                <div class="alert alert-success fade show" role="alert">
-                    <div class="d-flex justify-content-between">
-                        <p class="text-center text-white bold p-0 mb-0">{!! session()->get('success') !!}</p>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                <div class="text-center text-primary fs-6 pt-4">
+                    {!! session()->get('success')  !!}
                 </div>
             @endif
         </div>

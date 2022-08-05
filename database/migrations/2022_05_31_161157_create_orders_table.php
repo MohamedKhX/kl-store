@@ -28,7 +28,7 @@ return new class extends Migration
 
             // Requested [Refused, Accepted] [InComing, InLibya] [Arrived, No_Response, Not_Accepted]
             $table->string('status')->default('Requested');
-            $table->boolean('user_deletes_it')->default(false);
+            $table->boolean('archived')->default(false);
             $table->timestamps();
         });
     }

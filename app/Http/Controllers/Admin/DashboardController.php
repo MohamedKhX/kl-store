@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Contact;
 use App\Models\Order;
 use App\Models\Product;
 use App\Settings\GeneralSettings;
@@ -42,7 +43,7 @@ class DashboardController extends Controller
             $todaySales += $order->priceWithOutShipping();
         }
 
-        $allArrivedOrders = Order::where('status', '=', 'arrived')->whereDate('updated_at', Carbon::today())->get();
+        $allArrivedOrders = Order::where('status', '=', 'arrived')->get();
         $totalSales = 0;
         foreach ($allArrivedOrders as $order) {
             $totalSales += $order->priceWithOutShipping();
@@ -74,6 +75,7 @@ class DashboardController extends Controller
             'store_thumbnail'            => $settings->store_thumbnail,
             'thumbnail_filter'           => $settings->thumbnail_filter,
             'store_icon'                 => $settings->store_icon,
+            'store_meta_photo'           => $settings->store_meta_photo
         ]);
     }
 
@@ -87,6 +89,7 @@ class DashboardController extends Controller
             'site_email'      => 'required|max:64',
             'store_thumbnail' => '',
             'thumbnail_filter' => 'numeric',
+            'store_meta_photo' => 'nullable|image'
         ]);
 
         $app_active                 = $this->convertCheckBoxValueToBool($request->app_active);
@@ -106,9 +109,15 @@ class DashboardController extends Controller
         $settings->store_phone_number = $request->input('phone_number');
         $settings->store_email        = $request->input('site_email');
         $settings->thumbnail_filter   = $request->input('thumbnail_filter');
+
         if($request->file('store_thumbnail')) {
             $store_thumbnail           = $request->file('store_thumbnail')->store('header_thumbnail', 'public');
             $settings->store_thumbnail = $store_thumbnail;
+        }
+
+        if($request->file('store_meta_photo')) {
+            $store_meta_photo  = $request->file('store_meta_photo')->store('meta_photos', 'public');
+            $settings->store_meta_photo = $store_meta_photo;
         }
 
         if($request->file('store_icon')) {
@@ -129,6 +138,20 @@ class DashboardController extends Controller
     public function accounts()
     {
         return view('dashboard.accounts');
+    }
+
+    public function contacts()
+    {
+        return view('dashboard.contacts', [
+            'contacts' => Contact::all()
+        ]);
+    }
+
+    public function deleteContact(Contact $contact)
+    {
+        $contact->delete();
+
+        return redirect()->back()->with('success', 'Contact Deleted');
     }
 
     protected function convertCheckBoxValueToBool(?string $value): bool

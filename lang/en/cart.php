@@ -24,7 +24,9 @@ return [
     'proceed_to_checkout'      => 'Proceed to checkout',
     'new_subtotal'             => 'New Subtotal',
     'discount'                 => 'Discount',
-
+    'no_products_in_cart'      => 'No Products in the cart',
+    'we_dont_have_enough_quantity' => 'we dont have enough quantity',
+    'sorry'                    => 'Sorry!',
 
     'full_name'                => 'full name',
     'email_address'            => 'email addrsss',

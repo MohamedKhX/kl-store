@@ -45,8 +45,8 @@ class ProductReFetch extends Command
             return;
         }
 
-        if(! $product->websiteScraper) {
-            $this->error('Product id ' . $productId . ' is Custom product');
+        if(! $product->fetchable) {
+            $this->error('Product id ' . $productId . ' This product is not fetchable');
         }
 
         $this->info('Start Fetching Product ID ' . $productId);
@@ -87,24 +87,20 @@ class ProductReFetch extends Command
 
     protected function getWebSite(string $url): bool|string
     {
-        if(str_contains($url ,'lcwaikiki')) {
+        if (str_contains($url, 'lcwaikiki')) {
             return 'lcwaikiki-allColors';
         }
 
-        if($url == 'lc') {
+        if ($url == 'lc') {
             return 'lcwaikiki-someColors';
         }
 
-        if(str_contains($url, 'koton')) {
+        if (str_contains($url, 'koton')) {
             return 'koton-allColors';
         }
 
-        if($url == 'kt') {
+        if ($url == 'kt') {
             return 'koton-someColors';
-        }
-
-        if(str_contains($url, 'trendyol')) {
-            return 'trendyol';
         }
 
         return false;

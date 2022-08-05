@@ -10,6 +10,16 @@ class Order extends Model
 {
     use HasFactory;
 
+    public function scopeGetOrders($query)
+    {
+        return $query->where('archived', '=', false)->orderBy('created_at', 'DESC');
+    }
+
+    public function scopeGetArchivedOrders($query)
+    {
+        return $query->where('archived', '=', true);
+    }
+
     public function products(): Attribute
     {
         return Attribute::get(fn($value) => collect(json_decode($value, true)));

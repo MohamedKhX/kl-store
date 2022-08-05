@@ -9,5 +9,6 @@ return [
     'name'          => 'الإسم',
     'email_address' => 'عنوان البريد الالكترونى',
     'message'       => 'الرسالة',
-    'submit'        => 'إرسال'
+    'submit'        => 'إرسال',
+    'language'      => 'اللغة'
 ];

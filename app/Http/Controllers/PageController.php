@@ -7,8 +7,10 @@ use App\Models\Collection;
 use App\Models\Contact;
 use App\Models\Product;
 use App\Models\ProductColors;
+use App\Settings\GeneralSettings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Spatie\LaravelSettings\Settings;
 
 class PageController extends Controller
 {
@@ -53,10 +55,11 @@ class PageController extends Controller
     public function contactStore(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
+            'name'    => 'required',
+            'email'   => 'required|email',
             'message' => 'required|min:15'
         ]);
+
 
         $contact = new Contact;
 
@@ -115,5 +118,20 @@ class PageController extends Controller
             'collections' => $collections,
             'categories' => $categories,
         ]);
+    }
+
+    public function privacy(GeneralSettings $settings)
+    {
+        return view('privacy-policy', [
+            'privacy_description' => $settings->privacy_description
+        ]);
+    }
+
+    public function savePrivacyDescription(GeneralSettings $settings)
+    {
+        $settings->privacy_description = \request()->input('privacy_description');
+        $settings->save();
+
+        return redirect(route('privacy'));
     }
 }

@@ -32,7 +32,7 @@ class ProductController extends Controller
     public function index()
     {
         return view('dashboard.products.index')->with([
-            'products' => Product::orderBy('priority', 'desc')->paginate(15),
+            'products' => Product::orderBy('updated_at', 'desc')->paginate(15),
         ]);
     }
 
@@ -121,6 +121,8 @@ class ProductController extends Controller
         $product->status         = $status;
         $product->priority       = $request->input('product_priority');
         $product->urls           = json_encode($urls);
+        $product->fetchable      = (bool) $request->input('product_fetchable');
+
 
 
         if($request->input('product_earnings')) {
@@ -238,6 +240,7 @@ class ProductController extends Controller
         $product->old_price      = $oldPrice;
         $product->priority       = $request->input('product_priority');
         $product->urls           = json_encode($urls);
+        $product->fetchable      = (bool) $request->input('product_fetchable');
 
         if($request->input('product_earnings')) {
             $product->earnings  = $request->input('product_earnings');
@@ -254,12 +257,9 @@ class ProductController extends Controller
         $product->collections()->attach($request->input('collections'));
 
 
-        $this->scrapColors(
-            productId: $product->id,
-            uri: $product->url,
-            webScraper: $website,
-            urls: $urls
-        );
+        Artisan::call('products:prefetch', [
+            'product' => $product->id
+        ]);
 
 
         if($price) {
@@ -279,8 +279,38 @@ class ProductController extends Controller
         return redirect(route('admin.products.index'))->with('success', 'Product created successfully');
     }
 
+    protected function getWebSite(string $url): bool|string
+    {
+        if(str_contains($url ,'lcwaikiki')) {
+            return 'lcwaikiki-allColors';
+        }
+
+        if($url == 'lc') {
+            return 'lcwaikiki-someColors';
+        }
+
+        if(str_contains($url, 'koton')) {
+            return 'koton-allColors';
+        }
+
+        if($url == 'kt') {
+            return 'koton-someColors';
+        }
+
+        if(str_contains($url, 'trendyol')) {
+            return 'trendyol';
+        }
+
+        return false;
+    }
+
     public function scrapUpdate(Product $product, ProductReFetch $productReFetch)
     {
+        if(! $product->fetchable) {
+            return redirect(route('admin.products.edit', $product))
+                ->with('error', 'This Product is UnFetchable');
+        }
+
         Artisan::call('products:prefetch', [
             'product' => $product->id
         ]);

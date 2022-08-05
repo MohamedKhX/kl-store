@@ -166,6 +166,10 @@
                             <input class="form-check-input me-2" name="product_status" type="checkbox" id="product_status" checked>
                             <label class="form-check-label" for="product_status">Product Status</label>
                         </div>
+                        <div class="form-check form-switch d-flex align-content-center">
+                            <input class="form-check-input me-2" name="product_fetchable" type="checkbox" id="product_fetchable" checked>
+                            <label class="form-check-label" for="product_fetchable">Fetchable</label>
+                        </div>
                         <div class="input-group input-group-outline my-4 d-flex">
                             <input type="submit" class="btn btn-lg btn-info w-100 p-1 fs-6" value="Create">
                         </div>

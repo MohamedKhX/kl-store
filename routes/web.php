@@ -10,28 +10,25 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Route;
 
 
-Route::controller(PageController::class)->middleware('webActive')->group(function () {
+Route::controller(PageController::class)->middleware(['webActive', 'Localization'])->group(function () {
     Route::get('/', 'home')->name('home');
     Route::get('/contact', 'contact')->name('contact');
     Route::post('/contact', 'contactStore')->name('contact-store');
     Route::get('/faqs', 'faqs')->name('faqs');
     Route::get('/product/{product}/{colorHash}', 'showProduct')->name('show-product');
     Route::get('/collection/{collection:id}', 'showCollection')->name('show-collection');
+    Route::get('/privacy', 'privacy')->name('privacy');
+
+    Route::post('/privacy', 'savePrivacyDescription')->name('save-privacy-description')->middleware('admin');
 });
 
+Route::get('language/{locale}', function ($locale) {
+    app()->setLocale($locale);
+    session()->put('locale', $locale);
 
-Route::get('/hash', function() {
+    return redirect()->back();
+})->name('language-switcher');
 
-
-
-
-    //https://www.lcwaikiki.com//tr-TR/TR/urun/LC-WAIKIKI/erkek/Tisort/5642651/2446279
-    //Take the last ten char
-    //then convert to number
-    //then convert it to base62
-   $toHash = crc32('56asdfsdafsdsdfdsfaf79');
-   return toBase62($toHash);
-});
 
 
 Route::middleware('admin')->group(function () {
@@ -135,8 +132,10 @@ Route::middleware('admin')->group(function () {
         'destroy' => 'admin.cities.destroy',
     ]);
 
-    Route::get('/dashboard/profile',       [DashboardController::class, 'profile'])      ->name('dashboard-profile');
-    Route::get('/dashboard/accounts',      [DashboardController::class, 'accounts'])     ->name('dashboard-accounts');
+    Route::get('/dashboard/contacts',     [DashboardController::class, 'contacts'])->name('dashboard-contacts');
+    Route::get('/dashboard/contacts/{contact}/delete',  [DashboardController::class, 'deleteContact'])->name('dashboard-contacts.delete');
+    Route::get('/dashboard/profile',       [DashboardController::class, 'profile']) ->name('dashboard-profile');
+    Route::get('/dashboard/accounts',      [DashboardController::class, 'accounts'])->name('dashboard-accounts');
 });
 
 

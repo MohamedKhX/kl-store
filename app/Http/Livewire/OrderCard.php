@@ -24,6 +24,27 @@ class OrderCard extends Component
         session()->flash('success', "Status Changed successfully <strong>($this->status)</strong>");
     }
 
+    public function archive()
+    {
+        $this->order->archived = true;
+        $this->order->save();
+
+        $this->emit('loadOrders');
+
+        session()->flash('success', "<strong>Archived successfully</strong>");
+
+    }
+
+    public function unArchive()
+    {
+        $this->order->archived = false;
+        $this->order->save();
+
+        $this->emit('loadOrders');
+
+        session()->flash('success', "<strong>UnArchived successfully</strong>");
+    }
+
     public function render()
     {
         return view('livewire.order-card');

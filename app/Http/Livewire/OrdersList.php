@@ -9,21 +9,31 @@ class OrdersList extends Component
 {
     public $ordersName;
     public $orders = [];
+    public $archived = false;
 
     protected $listeners = ['loadOrders'];
 
+
+    public function mount()
+    {
+        $this->loadOrders();
+    }
     public function loadOrders()
     {
+        if($this->archived) {
+            $this->orders = Order::getArchivedOrders()->get();
+            return;
+        }
+
         if($this->ordersName == 'All') {
-            $this->orders = Order::all();
+            $this->orders = Order::getOrders()->get()->sortByDesc('created_at');
         } else {
-            $this->orders = Order::where('status', '=', $this->ordersName)->get();
+            $this->orders = Order::getOrders()->where('status', '=', $this->ordersName)->get();
         }
     }
 
     public function render()
     {
-        $this->loadOrders();
         return view('livewire.orders-list');
     }
 }

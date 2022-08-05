@@ -4,52 +4,52 @@
             <div class="nav-wrapper position-relative end-0">
                 <ul class="nav nav-pills nav-fill flex-column p-1" role="tablist">
                     <li @click="show = 'All'" class="nav-item">
-                        <a class="nav-link mb-0 px-0 py-1 active" data-bs-toggle="tab" href="#profile-tabs-simple" role="tab" aria-controls="profile" aria-selected="true">
+                        <a class="nav-link mb-0 px-0 py-1 active" data-bs-toggle="tab" href="" role="tab" aria-controls="profile" aria-selected="true">
                             All
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a @click="show = 'Requested'" class="nav-link mb-0 px-0 py-1 active" data-bs-toggle="tab" href="#profile-tabs-simple" role="tab" aria-controls="profile" aria-selected="true">
+                        <a @click="show = 'Requested'" class="nav-link mb-0 px-0 py-1 active" data-bs-toggle="tab" href="" role="tab" aria-controls="profile" aria-selected="true">
                             Requested
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a @click="show = 'Refused'" class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#dashboard-tabs-simple" role="tab" aria-controls="dashboard" aria-selected="false">
+                        <a @click="show = 'Refused'" class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="" role="tab" aria-controls="dashboard" aria-selected="false">
                             Refused
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a @click="show = 'Accepted'" class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#dashboard-tabs-simple" role="tab" aria-controls="dashboard" aria-selected="false">
+                        <a @click="show = 'Accepted'" class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="" role="tab" aria-controls="dashboard" aria-selected="false">
                             Accepted
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a @click="show = 'InComing'" class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#dashboard-tabs-simple" role="tab" aria-controls="dashboard" aria-selected="false">
+                        <a @click="show = 'InComing'" class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="" role="tab" aria-controls="dashboard" aria-selected="false">
                             InComing
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a @click="show = 'InLibya'"  class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#dashboard-tabs-simple" role="tab" aria-controls="dashboard" aria-selected="false">
+                        <a @click="show = 'InLibya'"  class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="" role="tab" aria-controls="dashboard" aria-selected="false">
                             InLibya
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a @click="show = 'Arrived'" class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#dashboard-tabs-simple" role="tab" aria-controls="dashboard" aria-selected="false">
+                        <a @click="show = 'Arrived'" class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="" role="tab" aria-controls="dashboard" aria-selected="false">
                             Arrived
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a @click="show = 'No Response'" class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#dashboard-tabs-simple" role="tab" aria-controls="dashboard" aria-selected="false">
+                        <a @click="show = 'No Response'" class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="" role="tab" aria-controls="dashboard" aria-selected="false">
                             No Response
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a @click="show = 'Not Accepted'" class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#dashboard-tabs-simple" role="tab" aria-controls="dashboard" aria-selected="false">
+                        <a @click="show = 'Not Accepted'" class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="" role="tab" aria-controls="dashboard" aria-selected="false">
                             Not Accepted
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#dashboard-tabs-simple" role="tab" aria-controls="dashboard" aria-selected="false">
+                        <a @click="show = 'Archived'" class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="" role="tab" aria-controls="dashboard" aria-selected="false">
                             Archived
                         </a>
                     </li>
@@ -90,6 +90,10 @@
 
             <div x-show="show == 'Not Accepted'">
                 <livewire:orders-list orders-name="Not Accepted"/>
+            </div>
+
+            <div x-show="show == 'Archived'">
+                <livewire:orders-list orders-name="Archived" archived="true"/>
             </div>
 
         </div>

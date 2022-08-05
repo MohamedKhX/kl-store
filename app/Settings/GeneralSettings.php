@@ -25,6 +25,9 @@ class GeneralSettings extends Settings
     public string $store_phone_number;
     public string $store_email;
     public string $store_icon;
+    public string $store_meta_photo;
+
+    public string $privacy_description;
 
     public static function group(): string
     {

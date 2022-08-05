@@ -143,6 +143,14 @@
                                                 <textarea name="store_description_ar" id="store_description_ar" cols="30" rows="4" class="form-control">{{ $store_description_ar }}</textarea>
                                             </div>
                                         </li>
+
+                                        <li class="list-group-item border-0 px-0">
+                                            <label class="form-label">Store Meta Photo</label>
+                                            <div class="input-group input-group-outline my-2">
+                                                <label for="store_meta_photo" class="form-label"></label>
+                                                <input name="store_meta_photo" id="store_meta_photo" type="file" class="form-control" value="{{ $store_meta_photo }}">
+                                            </div>
+                                        </li>
                                     </ul>
                                     <div class="d-flex justify-content-center mt-3">
                                         <input type="submit" class="btn btn-primary w-100 fs-6 py-2" value="Save">

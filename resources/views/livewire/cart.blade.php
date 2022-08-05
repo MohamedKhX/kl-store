@@ -1,10 +1,17 @@
 <div>
     <div class="container-fluid container-lg mt-2">
+        @if(session()->has('error'))
+            <div class="alert alert-warning alert-dismissible fade show {{arRight()}}" role="alert">
+                <strong>{{ __('cart.sorry') }}</strong> {!! session()->get('error') !!}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
         <div class="row">
             {{-- Start Index Items for big screens --}}
             <div class="d-none d-xl-block col-xl-12 col-xxl-8">
                 @if(count($cartItems) <= 0)
-                    <h3 class="p-7 text-center">No Products in the cart!</h3>
+                    <h3 class="p-7 text-center">{{ __('cart.no_products_in_cart') }}</h3>
                 @else
                     <table class="table align-middle">
                         <thead>
@@ -50,14 +57,14 @@
                                         <div class="col-12">
                                             <div class="d-flex justify-content-between">
                                                 <div class="quantity buttons_added">
-                                                    <input wire:click="decrement('{{ $item->rowId }}')" type="button" value="-" class="minus">
+                                                    <input wire:click="decrement('{{ $item->rowId }}', {{$item->id}}, '{{$item->options->size}}')" type="button" value="-" class="minus">
                                                     <input type="text"
                                                            onKeyDown="return false"
                                                            name="quantity" title="Qty"
                                                            class="input-text qty text"
                                                            wire:model="qtys.{{$item->rowId}}"
                                                     >
-                                                    <input wire:click="increment('{{ $item->rowId }}')" type="button" value="+" class="plus">
+                                                    <input wire:click="increment('{{ $item->rowId }}', {{$item->id}}, '{{$item->options->size}}')" type="button" value="+" class="plus">
                                                 </div>
                                             </div>
                                         </div>
@@ -86,7 +93,7 @@
             <div class="col-12 my-3 d-xl-none">
                 <div class="row d-flex justify-content-center">
                     @if(count($cartItems) <= 0)
-                        <h3 class="p-3 text-center">No Products in the cart!</h3>
+                        <h3 class="p-3 text-center">{{ __('cart.no_products_in_cart') }}</h3>
                     @else
                         @foreach($cartItems as $item)
                             <div class="d-flex justify-content-between my-3">
@@ -104,7 +111,7 @@
                                     <div class="px-0 mb-2">
                                         <div class="px-2 py-1 d-flex justify-content-between">
                                             <div class="quantity buttons_added mt-2">
-                                                <input wire:click="decrement('{{ $item->rowId }}')" type="button" value="-" class="minus p-2 py-0"
+                                                <input wire:click="decrement('{{ $item->rowId }}', {{$item->id}}, '{{$item->options->size}}')" type="button" value="-" class="minus p-2 py-0"
                                                        style="height: 30px !important;"
                                                 >
                                                 <input type="text"
@@ -114,7 +121,7 @@
                                                        wire:model="qtys.{{$item->rowId}}"
                                                        style="height: 30px !important;"
                                                 >
-                                                <input wire:click="increment('{{ $item->rowId }}')" type="button" value="+" class="plus p-2 py-0"
+                                                <input wire:click="increment('{{ $item->rowId }}', {{$item->id}}, '{{$item->options->size}}')" type="button" value="+" class="plus p-2 py-0"
                                                     style="height: 30px !important;"
                                                 >
                                             </div>

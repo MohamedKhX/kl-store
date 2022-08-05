@@ -30,6 +30,7 @@ return new class extends Migration
             $table->string('old_price')->nullable();
             $table->integer('earnings')->default(60);
             $table->integer('priority')->default(1)->nullable();
+            $table->boolean('fetchable')->default(false);
             $table->timestamps();
         });
     }

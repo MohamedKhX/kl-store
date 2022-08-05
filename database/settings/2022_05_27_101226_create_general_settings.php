@@ -25,5 +25,8 @@ class CreateGeneralSettings extends SettingsMigration
         $this->migrator->add('general.store_phone_number', '0910000000');
         $this->migrator->add('general.store_email', 'arkan@gmail.com');
         $this->migrator->add('general.store_icon', '');
+        $this->migrator->add('general.store_meta_photo', '');
+
+        $this->migrator->add('general.privacy_description', '');
     }
 }

@@ -57,7 +57,8 @@ class OrderController extends Controller
                 'qty'          => $product['qty'],
                 'price'        => $product['price'],
                 'thumbnail'    => $product['options']['thumbnail'],
-                'name'         => $product['name']
+                'name'         => $product['name'],
+                'rowId'        => $product['rowId']
             ];
         }
 

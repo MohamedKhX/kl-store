@@ -17,7 +17,20 @@
     <div class="container-fluid px-2 px-md-4 mt-5 pt-5">
         <div class="card card-body mx-3 mx-md-4 mt-n6 mt-5">
             <div>
-                <a href="{{ route('admin.products.index') }}" class="btn btn-primary">Back to Products</a>
+                @php
+                    $pageQuery = str((parse_url(url()->previous())['query'] ?? ''))->substr(5);
+
+                    $products     = \App\Models\Product::orderBy('updated_at', 'desc')->get();
+                    $productCount = $products->count();
+                    $productPos   = $products->filter(function ($item) use($product) {
+                       if($item->id == $product->id) {
+                           return $item;
+                       }
+                    })->keys()->first();
+
+                    $productPos = (int) ceil($productPos / 15);
+                @endphp
+                <a href="{{ route('admin.products.index', "page={$pageQuery}") }}" class="btn btn-primary">Back to Products</a>
             </div>
             @if($errors->any())
                 <div class="alert alert-danger text-white pb-1" role="alert">
@@ -31,6 +44,11 @@
             @if(session()->has('success'))
                 <div class="alert alert-success text-white" role="alert">
                     <strong>Success!</strong> {{ session()->get('success') }}
+                </div>
+            @endif
+            @if(session()->has('error'))
+                <div class="alert alert-danger text-white" role="alert">
+                    <strong>Error!</strong> {{ session()->get('error') }}
                 </div>
             @endif
             <div class="row d-flex justify-content-center">
@@ -158,6 +176,17 @@
                             >
                             <label class="form-check-label" for="product_status">Product Status</label>
                         </div>
+
+                        @if($product->websiteScraper)
+                            <div class="form-check form-switch d-flex align-content-center">
+                                <input class="form-check-input me-2" name="product_fetchable" type="checkbox" id="product_fetchable"
+                                    {{ $product->fetchable ? 'checked' : null }}
+                                >
+                                <label class="form-check-label" for="product_fetchable">Fetchable</label>
+                            </div>
+                        @endif
+
+
                         <div class="input-group input-group-outline my-4 d-flex">
                             <input type="submit" class="btn btn-lg btn-info w-100 p-1 fs-6" value="Update">
                         </div>
