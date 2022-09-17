@@ -1,7 +1,7 @@
 @push('styles')
     <style>
         .bg-holder.overlay-light::before {
-            background: rgba(255, 255, 255, {{ getFilter() }});
+            background: rgba(0, 0, 0, {{ getFilter() }});
         }
     </style>
 @endpush
@@ -18,8 +18,8 @@
         <div class="row flex-center">
             <div class="col-12 mb-9">
                 <div class="d-flex align-items-center flex-column text-center">
-                    <h1 class="mt-11 fw-bold">{{ __('header.store_title') }}</h1>
-                    <h1 class="fs-4 fs-lg-8 fw-bold fs-md-6 fw-normal ">{{ __('header.store_description') }}</h1>
+                    <h1 class="mt-11 text-white fw-bold">{{ __('header.store_title') }}</h1>
+                    <h1 class="text-white fs-4 fs-lg-8 fw-bold fs-md-6 fw-normal ">{{ __('header.store_description') }}</h1>
                 </div>
             </div>
         </div>

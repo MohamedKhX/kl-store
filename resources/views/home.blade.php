@@ -1,4 +1,12 @@
 <x-layout.main>
+    @push('styles')
+        <style>
+            .bg-holder.overlay-light::before {
+                background: rgba(0, 0, 0, .6);
+            }
+        </style>
+    @endpush
+
     <main class="main" id="top">
 
         {{-- Start Header-Section --}}

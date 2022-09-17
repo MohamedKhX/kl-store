@@ -53,7 +53,10 @@ class CollectionController extends Controller
 
         $status = (bool)  $request->input('collection_status');
         $thumbnailPath  = $request->file('collection_thumbnail')->store('collection_thumbnails', 'public');
-        $backgroundPath = $request->file('collection_background')->store('collection_backgrounds', 'public');
+
+        $backgroundPath = $request->file('collection_background');
+
+        $backgroundPath?->store('collection_backgrounds', 'public');
 
         $collection              = new Collection();
         $collection->user_id     = auth()->user()->id;

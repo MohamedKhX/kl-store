@@ -101,14 +101,14 @@ class DashboardController extends Controller
         $settings->ability_to_create_accounts = $ability_to_create_accounts;
         $settings->ability_to_login   = $ability_to_login;
         $settings->ability_to_order   = $ability_to_order;
-        $settings->site_name          = $request->input('site_name');
-        $settings->store_title        = $request->input('store_title');
-        $settings->store_title_ar        = $request->input('store_title_ar');
-        $settings->store_description     = $request->input('store_description');
-        $settings->store_description_ar  = $request->input('store_description_ar');
-        $settings->store_phone_number = $request->input('phone_number');
-        $settings->store_email        = $request->input('site_email');
-        $settings->thumbnail_filter   = $request->input('thumbnail_filter');
+        $settings->site_name          = $request->input('site_name') ?? '';
+        $settings->store_title        = $request->input('store_title') ?? '';
+        $settings->store_title_ar        = $request->input('store_title_ar') ?? '';
+        $settings->store_description     = $request->input('store_description') ?? '';
+        $settings->store_description_ar  = $request->input('store_description_ar') ?? '';
+        $settings->store_phone_number = $request->input('phone_number') ?? '';
+        $settings->store_email        = $request->input('site_email') ?? '';
+        $settings->thumbnail_filter   = $request->input('thumbnail_filter') ?? '';
 
         if($request->file('store_thumbnail')) {
             $store_thumbnail           = $request->file('store_thumbnail')->store('header_thumbnail', 'public');
